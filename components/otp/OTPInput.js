@@ -25,12 +25,12 @@
  * CONTENTS, OR TO MANUFACTURE, USE, OR SELL ANYTHING THAT IT MAY DESCRIBE,    *
  * IN WHOLE OR IN PART.                                                        *
  *                                                                             *
- * File: \App.js                                                               *
+ * File: \components\otp\OTPInput.js                                           *
  * Project: kbxwallet                                                          *
- * Created Date: Thursday, November 3rd 2022, 12:51:23 pm                      *
+ * Created Date: Sunday, November 6th 2022, 1:21:41 am                         *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 5th 2022, 3:08:28 pm                                *
+ * Last Modified: November 6th 2022, 1:21:41 am                                *
  * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -41,27 +41,3 @@
  * --------------------------------------------------------------------------- *
  */
 
-// import { StatusBar } from 'expo-status-bar';
-
-import { StyleSheet, View, Text } from 'react-native';
-import LoginScreen from './screens/LoginScreen';
-import Walletimg from './assets/walletimg';
-export default function App() {
-  
-  return (
-    <View style={styles.inputContainer}>
-      <Walletimg />
-      <Text>Login</Text>
-      <LoginScreen/>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  inputContainer: {
-    flex: 1,
-    backgroundColor: '#011627',
-    flexDirection: 'row-reverse',
-},
-
-});

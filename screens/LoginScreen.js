@@ -25,12 +25,12 @@
  * CONTENTS, OR TO MANUFACTURE, USE, OR SELL ANYTHING THAT IT MAY DESCRIBE,    *
  * IN WHOLE OR IN PART.                                                        *
  *                                                                             *
- * File: \App.js                                                               *
+ * File: \screens\LoginScreen.js                                               *
  * Project: kbxwallet                                                          *
- * Created Date: Thursday, November 3rd 2022, 12:51:23 pm                      *
+ * Created Date: Thursday, November 3rd 2022, 1:57:12 pm                       *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 5th 2022, 3:08:28 pm                                *
+ * Last Modified: November 5th 2022, 4:40:19 pm                                *
  * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -41,27 +41,70 @@
  * --------------------------------------------------------------------------- *
  */
 
-// import { StatusBar } from 'expo-status-bar';
+import React from 'react';
+import { TextInput, View, StyleSheet, Text } from 'react-native'
+import PrimaryButton from '../components/ui/PrimaryButton';
 
-import { StyleSheet, View, Text } from 'react-native';
-import LoginScreen from './screens/LoginScreen';
-import Walletimg from './assets/walletimg';
-export default function App() {
+export default function LoginScreen() {
   
-  return (
-    <View style={styles.inputContainer}>
-      <Walletimg />
-      <Text>Login</Text>
-      <LoginScreen/>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  inputContainer: {
-    flex: 1,
-    backgroundColor: '#011627',
-    flexDirection: 'row-reverse',
-},
-
-});
+    return (
+        <View style={styles.inputContainer}>
+            <Text style={styles.loginText}>Login</Text>
+            <View style={styles.numberInput}>
+                <Text style = {{color: 'white'}}>Mobile Number</Text>
+                <TextInput maxLength={10} 
+                    keyboardType="number-pad" 
+                    placeholder='Enter mobile Number' 
+                    placeholderTextColor="#79868F" 
+                    style={styles.loginTextInput}/>
+            </View>
+            <View style={styles.numberInput}>
+                <Text style = {styles.passwordText}>Password</Text>
+                <TextInput  
+                    placeholder='Enter Password' 
+                    placeholderTextColor="#79868F" 
+                    style={styles.loginTextInput}/>
+            </View>
+            <View style={styles.loginButton}>
+                <PrimaryButton>Login</PrimaryButton>
+            </View>
+        </View>
+    );
+  }
+  
+  const styles = StyleSheet.create({
+    inputContainer: {
+        flex: 1,
+        marginTop: 85,
+        padding: 16,
+        backgroundColor: '#011627'
+    },
+    numberInput: {
+        height: 50,
+        width: 350,
+        fontSize: 32,
+        borderBottomColor: '#ddb52f',
+        borderBottomWidth: 2,
+        color: '#ddb52f',
+        marginVertical: 8,
+        fontWeight: 'bold',
+        marginTop: 90,
+        marginBottom: -10,
+    },
+    passwordText: {
+        color: 'white',
+        marginBottom: 0,
+    },
+    loginText: {
+        textDecorationStyle: 'Gilroy-Bold',
+        fontSize: 32,
+        lineHeight: 48,
+        color: '#60D675',
+    },
+    loginTextInput: {
+        // textAlign: 'center',
+    },
+    loginButton: {
+        marginTop: 30
+    }
+  });
