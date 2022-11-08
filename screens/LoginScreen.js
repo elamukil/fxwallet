@@ -30,8 +30,8 @@
  * Created Date: Thursday, November 3rd 2022, 1:57:12 pm                       *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 8th 2022, 4:07:14 pm                                *
- * Modified By: Tamil Elamukil                                                 *
+ * Last Modified: November 8th 2022, 4:57:41 pm                                *
+ * Modified By: Kumaragurubaran Kanagaraj                                      *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -79,36 +79,15 @@ export default function LoginScreen({ navigation, code }) {
                     onChangeText={newText => setPhoneNumber(newText)} 
                     style={styles.loginTextInput}/>
             </View>
-            <View>
-                    <Text style = {{color: 'white', position: 'absolute', marginTop:70}}>Password</Text>
-            </View>
-            <View style={styles.numberInput1}>
-                {/* <Text style = {styles.passwordText}>Password</Text> */}
-                <TextInput  
-                    secureTextEntry={true}
-                    placeholder='Enter Password' 
-                    placeholderTextColor="#79868F" 
-                    style={styles.loginTextInput}
-                    ></TextInput>
-            </View>
-            <View style={styles.alternateLogin}>
-                <CheckBox disabled={false}
-                value={toggleCheckBox}
-                onValueChange={(newValue) => setToggleCheckBox(newValue)} style={{borderRadius: 3}}/>
-                <Text style={{color: 'white', marginRight: 140}}>Remember Me</Text>
-                <Pressable  onPress={() => navigation.navigate('otp',{phoneNumber: phoneNumber})} style={({ pressed }) => [
+            <View style={styles.loginButton}>
+                <PrimaryButton onPress={() => navigation.navigate('otp',{phoneNumber: phoneNumber})} style={({ pressed }) => [
                     {
                     opacity: pressed
                         ? 0.2
                         : 1,
                     },
                     styles.button,
-                ]}>
-                    <Text style={{color: 'white', overflow: 'hidden'}}>OTP Login?</Text>
-                </Pressable>
-            </View>
-            <View style={styles.loginButton}>
-                <PrimaryButton>Login</PrimaryButton>
+                ]}>Login</PrimaryButton>
             </View>
             <View style={{alignItems: 'center', marginTop: 20, flexDirection: 'row',marginLeft: 70}}>
                 <Text style={{color: 'white'}}>Didn't have account?</Text>
