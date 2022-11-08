@@ -7,6 +7,7 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
+import React, { useEffect, useState } from "react";
 import KbxText from "../components/KbxText";
 import Notification from "../components/NotificationButton";
 import Blob from "../components/BackgroundBlob";
@@ -18,8 +19,42 @@ import History from "../components/icons/HistoryIcon";
 import UpArrow from "../components/icons/UpArrow";
 import TransactionItem from "../components/TransactionItem";
 import BottomNavBar from "../components/BottomNavBar";
+import axios from "axios";
 
-export default function App() {
+export default function HomeScreen({ route }) {
+  console.log(route);
+  const [transaction, setTransaction] = useState([]);
+  const [balance, setBalance] = useState([]);
+  useEffect(() => {
+    function getTransaction() {
+      axios
+        .get(
+          `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/account/+91${route.params.phoneNumber}/transaction?fromDate=2022-11-01&toDate=2022-11-08`
+        )
+        .then((response) => {
+          console.log(response.data);
+          setTransaction(response.data.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    function getBalance() {
+      axios
+        .get(
+          `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/+91${route.params.phoneNumber}/balance`
+        )
+        .then((response) => {
+          console.log(response.data);
+          setBalance(response.data.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    getTransaction();
+    getBalance();
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.blobPosition}>
@@ -40,7 +75,7 @@ export default function App() {
         <Wallet />
         <Text style={styles.balanceTitle}>Wallet Balance</Text>
       </View>
-      <Text style={styles.balanceAmount}>25,960,213 MMK</Text>
+      <Text style={styles.balanceAmount}>{balance} MMK</Text>
       <View style={styles.serviceWrap}>
         <View style={styles.service}>
           <Topup />
@@ -68,6 +103,7 @@ export default function App() {
           <Text style={styles.transactionSeeAllBtn}>See all</Text>
         </View>
         <ScrollView>
+          {/* <TransactionItem />
           <TransactionItem />
           <TransactionItem />
           <TransactionItem />
@@ -76,8 +112,10 @@ export default function App() {
           <TransactionItem />
           <TransactionItem />
           <TransactionItem />
-          <TransactionItem />
-          <TransactionItem />
+          <TransactionItem /> */}
+          {transaction.map((v, i) => {
+            return <TransactionItem key={i} props={v} />;
+          })}
         </ScrollView>
       </View>
       <BottomNavBar />

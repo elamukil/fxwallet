@@ -8,7 +8,8 @@ import {
 } from "react-native";
 import UpArrow from "../components/icons/UpArrow";
 
-function TransactionItem() {
+function TransactionItem({ props }) {
+  console.log("transaction", props);
   return (
     <View style={styles.transactionItem}>
       {/* {...props} */}
@@ -17,12 +18,18 @@ function TransactionItem() {
           <Image source={require("../assets/images/profile.png")}></Image>
         </View>
         <View>
-          <Text style={styles.transactionItemName}>Jeevan Raj</Text>
-          <Text style={styles.transactionItemId}>Ref: 109873673933</Text>
+          <Text style={styles.transactionItemName}>
+            {props.transactionDescription}
+          </Text>
+          <Text style={styles.transactionItemId}>
+            ID: {props.transactionId}
+          </Text>
         </View>
       </View>
       <View style={styles.transactionItemRight}>
-        <Text style={styles.transactionAmount}>50,000 MMK</Text>
+        <Text style={styles.transactionAmount}>
+          {props.transactionAmount} MMK
+        </Text>
         <UpArrow />
       </View>
     </View>
