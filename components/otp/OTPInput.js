@@ -30,8 +30,8 @@
  * Created Date: Sunday, November 6th 2022, 1:21:41 am                         *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 8th 2022, 4:35:35 pm                                *
- * Modified By: Tamil Elamukil                                                 *
+ * Last Modified: November 8th 2022, 4:59:05 pm                                *
+ * Modified By: Kumaragurubaran Kanagaraj                                      *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -44,9 +44,9 @@
 import { setStatusBarNetworkActivityIndicatorVisible } from "expo-status-bar";
 import React, {useRef,useState} from "react";
 import { TextInput, View, StyleSheet, Text } from 'react-native';
-import PrimaryButton from 'C:/Users/Nithin/KBXPay_Frontend/kbxWallet/components/ui/PrimaryButton.js'
+import PrimaryButton from '../../components/ui/PrimaryButton';
 // import { login } from "../api/Api";
-import HomeScreen from 'C:/Users/Nithin/KBXPay_Frontend/kbxWallet/screens/HomeScreen'
+import HomeScreen from '../../screens/HomeScreen';
 import axios from "axios"
 
 // import {
@@ -111,8 +111,8 @@ const OTPInput = ({ route, navigation }) => {
  return (
     <View>
         <View style={styles.otpContainer}>
-            <Text style={styles.otpText}>OTP</Text>
-            <Text style={{color: 'white', padding:5,marginLeft: 10}}>We have sent 4 digit one time password to your mobile number <Text style={{color: 'green'}}> +918248685803</Text></Text>
+            <Text style={styles.otpText}>PIN</Text>
+            <Text style={{color: 'white', padding:5,marginLeft: 10}}>Enter your 4 digit PIN<Text style={{color: 'green'}}></Text></Text>
         </View>
         <View style = {{flex: 0.6, justifyContent: "space-evenly", flexDirection: "row"}}>
             <TextInput 
@@ -156,7 +156,7 @@ const OTPInput = ({ route, navigation }) => {
             onChangeText={(pin4)=> setPin4(pin4)}
             style={{backgroundColor: '#1A2D3D', marginTop: 90, fontWeight: "600", alignSelf: 'center', padding: 0, fontSize: 20, height: 50, width: "15%", borderRadius: 5, borderColor: "grey",textAlign: 'center', color: 'white'}}/>
         </View>
-        <View style={{position: 'absolute', marginTop: 295, marginLeft: 280}}><Text style={{color: '#79868F'}}>Resend Otp</Text></View>
+        {/* <View style={{position: 'absolute', marginTop: 295, marginLeft: 280}}><Text style={{color: '#79868F'}}>Resend Otp</Text></View> */}
         <View style={styles.loginButton}>
                 <PrimaryButton  onPress={login}>Verify</PrimaryButton>
         </View>
