@@ -30,8 +30,8 @@
  * Created Date: Sunday, November 6th 2022, 1:21:41 am                         *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 8th 2022, 12:43:16 pm                               *
- * Modified By: Kumaragurubaran Kanagaraj                                      *
+ * Last Modified: November 8th 2022, 4:08:31 pm                                *
+ * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -44,7 +44,11 @@
 import { setStatusBarNetworkActivityIndicatorVisible } from "expo-status-bar";
 import React, {useRef,useState} from "react";
 import { TextInput, View, StyleSheet, Text } from 'react-native';
-import PrimaryButton from '../../components/ui/PrimaryButton';
+import PrimaryButton from 'C:/Users/Nithin/KBXPay_Frontend/kbxWallet/components/ui/PrimaryButton.js'
+// import { login } from "../api/Api";
+import HomeScreen from 'C:/Users/Nithin/KBXPay_Frontend/kbxWallet/screens/HomeScreen'
+import axios from "axios"
+
 // import {
 //     getHash,
 //     startOtpListener,
@@ -54,24 +58,60 @@ import PrimaryButton from '../../components/ui/PrimaryButton';
 
 
 
-const OTPInput = ({navigation}) => {
+const OTPInput = ({ route, navigation }) => {
 
     // const { hash, otp, message, timeoutError, stopListener, startListener } = useOtpVerify({numberOfDigits: 4});
     const pin1Ref = useRef(null)
     const pin2Ref = useRef(null)
     const pin3Ref = useRef(null)
     const pin4Ref = useRef(null)
-
+    const [ isAuthenticating, setIsAuthenticating] = useState(false);
     const [pin1, setPin1] = useState(null)
     const [pin2, setPin2] = useState(null)
     const [pin3, setPin3] = useState(null)
     const [pin4, setPin4] = useState(null)
     const [otps, setOtps] = useState(Array(4))
+    
     const refs = useRef(null)
     const onFocusHandler = () => {
         refs.current && refs.current.focus();
        }
+    console.log(route.params.phoneNumber)
+
+    async function loginHandler(){
+        setIsAuthenticating(true)
+        const res = await login(route.params.phoneNumber)
+        console.log('hello',res)
+        setIsAuthenticating(false)
+
+    }
+    const getCircularReplacer = () => {
+        const seen = new WeakSet();
+        return (key, value) => {
+        if (typeof value === "object" && value !== null) {
+            if (seen.has(value)) {
+                return;
+            }
+            seen.add(value);
+        }
+        return value;
+        };
+    };
+    function login(phoneNumber){
+        console.log('Hi')
+        let verifyRequest = {
+            phoneNumber: '+917777777777'
+        }
+        // console.log(verifyRequest.phoneNumber)
     
+        axios.post("https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/signin/otp", verifyRequest)
+        .then((res)=> {
+            console.log('hello', res)
+            navigation.navigate('home')
+        }).catch((err)=>{
+            console.log(err)
+        })
+    }
     // useEffect(() => {
     // getHash().then(hash => {
     //     // use this hash in the message.
@@ -135,7 +175,7 @@ const OTPInput = ({navigation}) => {
         </View>
         <View style={{position: 'absolute', marginTop: 295, marginLeft: 280}}><Text style={{color: '#79868F'}}>Resend Otp</Text></View>
         <View style={styles.loginButton}>
-                <PrimaryButton onPress={() => navigation.navigate('home')}>Verify</PrimaryButton>
+                <PrimaryButton  onPress={login}>Verify</PrimaryButton>
         </View>
     </View>
    
