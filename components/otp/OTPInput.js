@@ -30,7 +30,7 @@
  * Created Date: Sunday, November 6th 2022, 1:21:41 am                         *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 8th 2022, 4:08:31 pm                                *
+ * Last Modified: November 8th 2022, 4:35:35 pm                                *
  * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -78,33 +78,16 @@ const OTPInput = ({ route, navigation }) => {
        }
     console.log(route.params.phoneNumber)
 
-    async function loginHandler(){
-        setIsAuthenticating(true)
-        const res = await login(route.params.phoneNumber)
-        console.log('hello',res)
-        setIsAuthenticating(false)
-
-    }
-    const getCircularReplacer = () => {
-        const seen = new WeakSet();
-        return (key, value) => {
-        if (typeof value === "object" && value !== null) {
-            if (seen.has(value)) {
-                return;
-            }
-            seen.add(value);
-        }
-        return value;
-        };
-    };
-    function login(phoneNumber){
+    console.log('pin',(pin1+pin2+pin3+pin4))
+    function login(){
         console.log('Hi')
         let verifyRequest = {
-            phoneNumber: '+917777777777'
+            phoneNumber: `+91`+ route.params.phoneNumber,
+            PIN: Number(pin1+pin2+pin3+pin4)
         }
-        // console.log(verifyRequest.phoneNumber)
+        console.log(verifyRequest.phoneNumber)
     
-        axios.post("https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/signin/otp", verifyRequest)
+        axios.post("https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/validate/pin", verifyRequest)
         .then((res)=> {
             console.log('hello', res)
             navigation.navigate('home')
@@ -170,7 +153,7 @@ const OTPInput = ({ route, navigation }) => {
             ref={pin4Ref}
             keyboardType="number-pad"
             maxLength={1}
-            onChangeText={(pin4)=> setPin1(pin4)}
+            onChangeText={(pin4)=> setPin4(pin4)}
             style={{backgroundColor: '#1A2D3D', marginTop: 90, fontWeight: "600", alignSelf: 'center', padding: 0, fontSize: 20, height: 50, width: "15%", borderRadius: 5, borderColor: "grey",textAlign: 'center', color: 'white'}}/>
         </View>
         <View style={{position: 'absolute', marginTop: 295, marginLeft: 280}}><Text style={{color: '#79868F'}}>Resend Otp</Text></View>
