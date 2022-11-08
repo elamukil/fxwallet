@@ -30,7 +30,7 @@
  * Created Date: Thursday, November 3rd 2022, 1:57:12 pm                       *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 8th 2022, 11:25:19 am                               *
+ * Last Modified: November 8th 2022, 4:07:14 pm                                *
  * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -44,6 +44,7 @@
 import React, {useState} from 'react';
 import { TextInput, View, StyleSheet, Text, Pressable} from 'react-native'
 import CheckBox from 'expo-checkbox';
+import { login } from '../components/api/Api';
 import PrimaryButton from '../components/ui/PrimaryButton';
 import OTPInput from '../components/otp/OTPInput';
 import { NavigationContainer } from '@react-navigation/native';
@@ -52,12 +53,16 @@ import Walletimg from '../assets/walletimg';
 import { AntDesign } from '@expo/vector-icons'; 
 
 export default function LoginScreen({ navigation, code }) {
-    const [password, setPassword] = useState('')
+    const [phoneNumber, setPhoneNumber] = useState('')
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
+
+
+    // console.log(phoneNumber)
+
     return (
         <View style={styles.inputContainer}>
             <View style={{position: 'absolute', marginLeft: 330, marginBottom: 80}}>
-                    <Walletimg/>
+                <Walletimg/>
             </View>
             <View style={styles.fixedScreen}>
                 <Text style={styles.loginText}>Login</Text>
@@ -70,7 +75,8 @@ export default function LoginScreen({ navigation, code }) {
                     autoFocus={true}
                     keyboardType="number-pad" 
                     placeholder='Enter mobile Number' 
-                    placeholderTextColor="#79868F" 
+                    placeholderTextColor="#79868F"
+                    onChangeText={newText => setPhoneNumber(newText)} 
                     style={styles.loginTextInput}/>
             </View>
             <View>
@@ -79,6 +85,7 @@ export default function LoginScreen({ navigation, code }) {
             <View style={styles.numberInput1}>
                 {/* <Text style = {styles.passwordText}>Password</Text> */}
                 <TextInput  
+                    secureTextEntry={true}
                     placeholder='Enter Password' 
                     placeholderTextColor="#79868F" 
                     style={styles.loginTextInput}
@@ -89,7 +96,7 @@ export default function LoginScreen({ navigation, code }) {
                 value={toggleCheckBox}
                 onValueChange={(newValue) => setToggleCheckBox(newValue)} style={{borderRadius: 3}}/>
                 <Text style={{color: 'white', marginRight: 140}}>Remember Me</Text>
-                <Pressable onPress={() => navigation.navigate('otp')} style={({ pressed }) => [
+                <Pressable  onPress={() => navigation.navigate('otp',{phoneNumber: phoneNumber})} style={({ pressed }) => [
                     {
                     opacity: pressed
                         ? 0.2

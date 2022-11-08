@@ -30,7 +30,7 @@
  * Created Date: Thursday, November 3rd 2022, 1:58:08 pm                       *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 7th 2022, 8:06:45 pm                                *
+ * Last Modified: November 8th 2022, 4:06:59 pm                                *
  * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -45,12 +45,11 @@ import React, {useState} from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native'
 
 export default function LoginScreen({children, onPress})  {
-    // function pressHandler(){
-    //     return(<OTPInput/>)
-    // }
+    
     const [otpCode, setOTPCode] = useState("");
     const [isPinReady, setIsPinReady] = useState(false);
     const maximumCodeLength = 4;
+    
     return (
         <View style={styles.buttonOuterContainer}>
             <Pressable style={({ pressed }) =>
