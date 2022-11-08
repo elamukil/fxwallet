@@ -30,7 +30,7 @@
  * Created Date: Thursday, November 3rd 2022, 12:51:23 pm                      *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 5th 2022, 3:08:28 pm                                *
+ * Last Modified: November 8th 2022, 10:28:34 am                               *
  * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -42,18 +42,42 @@
  */
 
 // import { StatusBar } from 'expo-status-bar';
-
+import React, {useState} from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import LoginScreen from './screens/LoginScreen';
+import SignUPScreen from './screens/SignUPScreen';
+import OTPInput from './components/otp/OTPInput';
 import Walletimg from './assets/walletimg';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const stack = createNativeStackNavigator()
+
 export default function App() {
-  
+  const [otpCode, setOTPCode] = useState("");
+  const [isPinReady, setIsPinReady] = useState(false);
+  const maximumCodeLength = 4;
   return (
-    <View style={styles.inputContainer}>
-      <Walletimg />
-      <Text>Login</Text>
-      <LoginScreen/>
-    </View>
+    // <View style={styles.inputContainer}>
+      // 
+      <View style={{ flex: 1, backgroundColor: '#011627' }}>
+        <NavigationContainer>
+        <stack.Navigator initialRouteName="Login"
+        screenOptions={{
+          headerShown: false,
+          header: () => null,
+          contentStyle: { backgroundColor: '#011627' },
+        }}>
+          <stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }}/>
+          <stack.Screen name="otp" component={OTPInput} code={otpCode}
+          setCode={setOTPCode}
+          maximumLength={maximumCodeLength}
+          setIsPinReady={setIsPinReady}/>
+          <stack.Screen name="signup" component={SignUPScreen} options={{ headerShown: false }}/>
+        </stack.Navigator>
+      </NavigationContainer>
+      </View>
+      
   );
 }
 

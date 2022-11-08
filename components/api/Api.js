@@ -25,12 +25,12 @@
  * CONTENTS, OR TO MANUFACTURE, USE, OR SELL ANYTHING THAT IT MAY DESCRIBE,    *
  * IN WHOLE OR IN PART.                                                        *
  *                                                                             *
- * File: \components\ui\Button.js                                              *
+ * File: \components\api\Api.js                                                *
  * Project: kbxwallet                                                          *
- * Created Date: Thursday, November 3rd 2022, 1:58:08 pm                       *
+ * Created Date: Tuesday, November 8th 2022, 7:37:30 am                        *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 7th 2022, 8:06:45 pm                                *
+ * Last Modified: November 8th 2022, 7:37:31 am                                *
  * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -40,52 +40,4 @@
  * Date         By  Comments                                                   *
  * --------------------------------------------------------------------------- *
  */
-
-import React, {useState} from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native'
-
-export default function LoginScreen({children, onPress})  {
-    // function pressHandler(){
-    //     return(<OTPInput/>)
-    // }
-    const [otpCode, setOTPCode] = useState("");
-    const [isPinReady, setIsPinReady] = useState(false);
-    const maximumCodeLength = 4;
-    return (
-        <View style={styles.buttonOuterContainer}>
-            <Pressable style={({ pressed }) =>
-                pressed
-                ? [styles.buttonInnerContainer, styles.pressed]
-                : styles.buttonInnerContainer
-                } onPress={onPress} android_ripple={{ color: 'grey'}} code={otpCode}
-                setCode={setOTPCode}
-                maximumLength={maximumCodeLength}
-                setIsPinReady={setIsPinReady}>
-                <Text style={styles.buttonText}>{children}</Text>
-            </Pressable>
-        </View>
-    );
-}
-
-const styles = StyleSheet.create({
-    buttonOuterContainer:{
-        borderRadius: 2,
-        overflow: 'hidden',
-        width: 350,
-    },
-    buttonInnerContainer: {
-        backgroundColor: '#60D675',
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        elevation: 2,
-   },
-   buttonText: {
-    textAlign: 'center',
-    fontWeight: '500'
-   },
-   pressed: {
-    opacity: 0.37,
-   }
-});
-
 
