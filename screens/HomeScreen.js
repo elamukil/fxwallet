@@ -1,3 +1,46 @@
+/*
+ * KBX Digital Pvt Ltd ("COMPANY") CONFIDENTIAL                                *
+ * Copyright (c) 2022 KBX Digital Pvt Ltd, All rights reserved                 *
+ *                                                                             *
+ * NOTICE:  All information contained herein is, and remains the property      *
+ * of COMPANY. The intellectual and technical concepts contained herein are    *
+ * proprietary to COMPANY and may be covered by Indian and Foreign Patents,    *
+ * patents in process, and are protected by trade secret or copyright law.     *
+ * Dissemination of this information or reproduction of this material is       *
+ * strictly forbidden unless prior written permission is obtained from         *
+ * COMPANY. Access to the source code contained herein is hereby forbidden     *
+ * to anyone except current COMPANY employees, managers or contractors who     *
+ * have executed Confidentiality and Non-disclosure agreements explicitly      *
+ * covering such access.                                                       *
+ *                                                                             *
+ * The copyright notice above does not evidence any actual or intended         *
+ * publication or disclosure of this source code, which includes               *
+ * information that is confidential and/or proprietary, and is a trade secret, *
+ * of COMPANY. ANY REPRODUCTION, MODIFICATION, DISTRIBUTION, PUBLIC            *
+ * PERFORMANCE, OR PUBLIC DISPLAY OF OR THROUGH USE OF THIS SOURCE CODE        *
+ * WITHOUT THE EXPRESS WRITTEN CONSENT OF COMPANY IS STRICTLY PROHIBITED,      *
+ * AND IN VIOLATION OF APPLICABLE LAWS AND INTERNATIONAL TREATIES. THE         *
+ * RECEIPT OR POSSESSION OF THIS SOURCE CODE AND/OR RELATED INFORMATION DOES   *
+ * NOT CONVEY OR IMPLY ANY RIGHTS TO REPRODUCE, DISCLOSE OR DISTRIBUTE ITS     *
+ * CONTENTS, OR TO MANUFACTURE, USE, OR SELL ANYTHING THAT IT MAY DESCRIBE,    *
+ * IN WHOLE OR IN PART.                                                        *
+ *                                                                             *
+ * File: \screens\HomeScreen.js                                                *
+ * Project: kbxwallet                                                          *
+ * Created Date: Tuesday, November 8th 2022, 12:21:23 pm                       *
+ * Author: Kumaragurubaran Kanagaraj <kumaraguru.kanagaraj@kbxdigital.com>     *
+ * -----                                                                       *
+ * Last Modified: November 8th 2022, 12:47:38 pm                               *
+ * Modified By: Kumaragurubaran Kanagaraj                                      *
+ * -----                                                                       *
+ * Any app that can be written in JavaScript,                                  *
+ *     will eventually be written in JavaScript !!                             *
+ * -----                                                                       *
+ * HISTORY:                                                                    *
+ * Date         By  Comments                                                   *
+ * --------------------------------------------------------------------------- *
+ */
+
 // import { StatusBar } from 'expo-status-bar';
 // import { AppLoading } from "expo";
 import {
@@ -8,22 +51,22 @@ import {
   Image,
   Platform,
 } from "react-native";
-import KbxText from "./components/KbxText";
-import Notification from "./components/NotificationButton";
-import Blob from "./components/BackgroundBlob";
-import Wallet from "./components/icons/Wallet";
-import Topup from "./components/icons/TopupIcon";
-import Send from "./components/icons/SendIcon";
-import Pay from "./components/icons/PayIcon";
-import History from "./components/icons/HistoryIcon";
-import UpArrow from "./components/icons/UpArrow";
-import TransactionItem from "./components/TransactionItem";
+import KbxText from '../components/KbxText';
+import Notification from "../components/NotificationButton";
+import Blob from "../components/BackgroundBlob";
+import Wallet from "../components/icons/Wallet";
+import Topup from "../components/icons/TopupIcon";
+import Send from "../components/icons/SendIcon";
+import Pay from "../components/icons/PayIcon";
+import History from "../components/icons/HistoryIcon";
+import UpArrow from "../components/icons/UpArrow";
+import TransactionItem from "../components/TransactionItem";
 
 export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.blobPosition}>
-        <Image source={require("./assets/images/Group.png")}></Image>
+        <Image source={require("../assets/images/Group.png")}></Image>
       </View>
       <View style={styles.headerWrap}>
         <View style={styles.titleWrap}>

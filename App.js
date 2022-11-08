@@ -30,8 +30,8 @@
  * Created Date: Thursday, November 3rd 2022, 12:51:23 pm                      *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 8th 2022, 10:28:34 am                               *
- * Modified By: Tamil Elamukil                                                 *
+ * Last Modified: November 8th 2022, 12:40:05 pm                               *
+ * Modified By: Kumaragurubaran Kanagaraj                                      *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -46,6 +46,7 @@ import React, {useState} from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import LoginScreen from './screens/LoginScreen';
 import SignUPScreen from './screens/SignUPScreen';
+import HomeScreen from './screens/HomeScreen';
 import OTPInput from './components/otp/OTPInput';
 import Walletimg from './assets/walletimg';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
@@ -69,6 +70,7 @@ export default function App() {
           contentStyle: { backgroundColor: '#011627' },
         }}>
           <stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }}/>
+          <stack.Screen name="home" component={HomeScreen} options={{ headerShown: false }}/>
           <stack.Screen name="otp" component={OTPInput} code={otpCode}
           setCode={setOTPCode}
           maximumLength={maximumCodeLength}

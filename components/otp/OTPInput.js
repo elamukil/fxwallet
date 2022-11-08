@@ -30,8 +30,8 @@
  * Created Date: Sunday, November 6th 2022, 1:21:41 am                         *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 8th 2022, 8:48:31 am                                *
- * Modified By: Tamil Elamukil                                                 *
+ * Last Modified: November 8th 2022, 12:43:16 pm                               *
+ * Modified By: Kumaragurubaran Kanagaraj                                      *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -44,7 +44,7 @@
 import { setStatusBarNetworkActivityIndicatorVisible } from "expo-status-bar";
 import React, {useRef,useState} from "react";
 import { TextInput, View, StyleSheet, Text } from 'react-native';
-import PrimaryButton from 'C:/Users/Nithin/KBXPay_Frontend/kbxWallet/components/ui/PrimaryButton.js'
+import PrimaryButton from '../../components/ui/PrimaryButton';
 // import {
 //     getHash,
 //     startOtpListener,
@@ -54,7 +54,7 @@ import PrimaryButton from 'C:/Users/Nithin/KBXPay_Frontend/kbxWallet/components/
 
 
 
-const OTPInput = ({ }) => {
+const OTPInput = ({navigation}) => {
 
     // const { hash, otp, message, timeoutError, stopListener, startListener } = useOtpVerify({numberOfDigits: 4});
     const pin1Ref = useRef(null)
@@ -135,7 +135,7 @@ const OTPInput = ({ }) => {
         </View>
         <View style={{position: 'absolute', marginTop: 295, marginLeft: 280}}><Text style={{color: '#79868F'}}>Resend Otp</Text></View>
         <View style={styles.loginButton}>
-                <PrimaryButton>Verify</PrimaryButton>
+                <PrimaryButton onPress={() => navigation.navigate('home')}>Verify</PrimaryButton>
         </View>
     </View>
    
