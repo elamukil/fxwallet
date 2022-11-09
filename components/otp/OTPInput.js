@@ -30,8 +30,8 @@
  * Created Date: Sunday, November 6th 2022, 1:21:41 am                         *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 8th 2022, 4:59:05 pm                                *
- * Modified By: Kumaragurubaran Kanagaraj                                      *
+ * Last Modified: November 9th 2022, 10:14:17 pm                               *
+ * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -73,15 +73,19 @@ const OTPInput = ({ route, navigation }) => {
     refs.current && refs.current.focus();
   };
   console.log(route.params.phoneNumber);
-
+  console.log('amount',route.params.amount)
+  const pinNumber = Number(pin1 + pin2 + pin3 + pin4)
   console.log("pin", pin1 + pin2 + pin3 + pin4);
-  function login() {
+  console.log('we are here',route.params.onPage || 'undefined')
+  
+  async function login() {
     console.log("Hi");
     let verifyRequest = {
       phoneNumber: `+91` + route.params.phoneNumber,
       PIN: Number(pin1 + pin2 + pin3 + pin4),
     };
     console.log(verifyRequest.phoneNumber);
+    console.log(route.params.pin)
 
     axios
       .post(
@@ -90,13 +94,38 @@ const OTPInput = ({ route, navigation }) => {
       )
       .then((res) => {
         console.log("hello", res);
-        navigation.navigate("home", { phoneNumber: route.params.phoneNumber });
+        if(route.params.onPage ==='transfer'){
+            let verifyRequest = {
+                requestType:"TRANSFER",
+                fromAccounts:[{phoneNumber:`+91`+route.params.phoneNumber, amount:Number(route.params.amount)}],  
+                toAccounts:[{phoneNumber:route.params.toPhoneNumber,amount:Number(route.params.amount)}],
+                PIN: pinNumber
+              };
+              console.log(typeof(pinNumber));
+              console.log(verifyRequest)
+              axios
+                .post(
+                  "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/transfer",
+                  verifyRequest
+                )
+                .then((res) => {
+                  console.log("hello", res);
+                  Alert.alert("Transfer Successful");
+                })
+                .catch((err) => {
+                  console.log(err);
+                  Alert.alert("Something went wrong");
+                });
+        }else{
+            navigation.navigate("home", { phoneNumber: route.params.phoneNumber, pin: pinNumber});
+        }
       })
       .catch((err) => {
         console.log(err);
         Alert.alert("Something went wrong");
       });
   }
+
   // useEffect(() => {
   // getHash().then(hash => {
   //     // use this hash in the message.
@@ -130,6 +159,7 @@ const OTPInput = ({ route, navigation }) => {
           ref={pin1Ref}
           autoFocus={true}
           keyboardType="number-pad"
+        //   caretHidden={true}
           onChangeText={(pin1) => {
             setPin1(pin1);
             if (pin1 !== null) {
@@ -137,8 +167,8 @@ const OTPInput = ({ route, navigation }) => {
             }
           }}
           style={{
-            backgroundColor: "#1A2D3D",
-            borderBottomColor: "#79868F",
+            backgroundColor: "#fff",
+            // borderBottomColor: "#79868F",
             marginTop: 90,
             fontWeight: "600",
             alignSelf: "center",
@@ -149,13 +179,17 @@ const OTPInput = ({ route, navigation }) => {
             borderRadius: 5,
             borderColor: "grey",
             textAlign: "center",
-            color: "white",
+            color: "#333",
+            borderStyle: "solid",
+            borderColor: "#0092A0",
+            borderWidth: 0.5,
           }}
         />
         <TextInput
           ref={pin2Ref}
           keyboardType="number-pad"
           maxLength={1}
+        //   caretHidden={true}
           onChangeText={(pin2) => {
             setPin2(pin2);
             if (pin2 !== null) {
@@ -163,7 +197,7 @@ const OTPInput = ({ route, navigation }) => {
             }
           }}
           style={{
-            backgroundColor: "#1A2D3D",
+            backgroundColor: "#fff",
             marginTop: 90,
             fontWeight: "600",
             alignSelf: "center",
@@ -174,7 +208,10 @@ const OTPInput = ({ route, navigation }) => {
             borderRadius: 5,
             borderColor: "grey",
             textAlign: "center",
-            color: "white",
+            color: "#333",
+            borderStyle: "solid",
+            borderColor: "#0092A0",
+            borderWidth: 0.5,
           }}
         />
         <TextInput
@@ -188,7 +225,7 @@ const OTPInput = ({ route, navigation }) => {
             }
           }}
           style={{
-            backgroundColor: "#1A2D3D",
+            backgroundColor: "#fff",
             marginTop: 90,
             fontWeight: "600",
             alignSelf: "center",
@@ -199,16 +236,24 @@ const OTPInput = ({ route, navigation }) => {
             borderRadius: 5,
             borderColor: "grey",
             textAlign: "center",
-            color: "white",
+            color: "#333",
+            borderStyle: "solid",
+            borderColor: "#0092A0",
+            borderWidth: 0.5,
           }}
         />
         <TextInput
           ref={pin4Ref}
           keyboardType="number-pad"
           maxLength={1}
-          onChangeText={(pin4) => setPin4(pin4)}
+          onChangeText={(pin4) => {setPin4(pin4)
+            if (pin4 !== null) {
+                pin1Ref.current.focus();
+              }
+          }
+        }
           style={{
-            backgroundColor: "#1A2D3D",
+            backgroundColor: "#fff",
             marginTop: 90,
             fontWeight: "600",
             alignSelf: "center",
@@ -219,7 +264,10 @@ const OTPInput = ({ route, navigation }) => {
             borderRadius: 5,
             borderColor: "grey",
             textAlign: "center",
-            color: "white",
+            color: "#333",
+            borderStyle: "solid",
+            borderColor: "#0092A0",
+            borderWidth: 0.5,
           }}
         />
       </View>
@@ -241,8 +289,8 @@ const styles = StyleSheet.create({
     textDecorationStyle: "Gilroy-Bold",
     fontSize: 28,
     lineHeight: 100,
-    color: "#60D675",
-    marginLeft: 15,
+    color: "#0092A0",
+    marginLeft: 25,
   },
   loginButton: {
     marginTop: 300,

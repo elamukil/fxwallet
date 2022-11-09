@@ -29,7 +29,7 @@
  * Project: kbxwallet                                                          *
  * Created Date: Thursday, November 3rd 2022, 12:51:23 pm                      *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
- * -----                                                                       *
+ * -----
  * Last Modified: November 9th 2022, 8:32:17 pm                                *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
@@ -48,8 +48,9 @@ import LoginScreen from './screens/LoginScreen';
 import SignUPScreen from './screens/SignUPScreen';
 import HomeScreen from './screens/HomeScreen'
 import OTPInput from './components/otp/OTPInput';
+import TransferScreen from './screens/TransferScreen';
 import Walletimg from './assets/walletimg';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CashIn from './screens/CashIn';
 import CashIn2 from './screens/CashIn2';
@@ -65,13 +66,13 @@ export default function App() {
   return (
     // <View style={styles.inputContainer}>
       // 
-      <View style={{ flex: 1, backgroundColor: '#011627' }}>
+      <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <NavigationContainer>
         <stack.Navigator initialRouteName="Login"
         screenOptions={{
           headerShown: false,
           header: () => null,
-          contentStyle: { backgroundColor: '#011627' },
+          contentStyle: { backgroundColor: '#fff' },
         }}>
           <stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }}/>
           <stack.Screen name="otp" component={OTPInput} code={otpCode}
@@ -84,6 +85,7 @@ export default function App() {
           <stack.Screen name="cashin2" component={CashIn2} options={{ headerShown: false }}/>
           <stack.Screen name="cashout" component={CashOut} options={{ headerShown: false }}/>
           <stack.Screen name="cashout2" component={CashOut2} options={{ headerShown: false }}/>
+          <stack.Screen name="transfer" component={TransferScreen} options={{ headerShown: false }}/>
         </stack.Navigator>
       </NavigationContainer>
       </View>
@@ -94,7 +96,7 @@ export default function App() {
 const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
-    backgroundColor: '#011627',
+    backgroundColor: '#fff',
     flexDirection: 'row-reverse',
 },
 

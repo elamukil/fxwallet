@@ -49,6 +49,9 @@ import {
   Image,
   Platform,
   ScrollView,
+  Pressable,
+  BackHandler,
+  Alert
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Notification from "../components/icons/NotificationButton";
@@ -75,6 +78,28 @@ import axios from "axios";
 export default function HomeScreen({ route, navigation }) {
   const [transaction, setTransaction] = useState([]);
   const [balance, setBalance] = useState([]);
+  // if(route.name==='home'){
+  //   const backAction = () => {
+  //     Alert.alert("Hold on!", "Are you sure you want to go back?", [
+  //       {
+  //         text: "Cancel",
+  //         onPress: () => null,
+  //         style: "cancel"
+  //       },
+  //       { text: "YES", onPress: () => BackHandler.exitApp() }
+  //     ]);
+  //     return true;
+  //   };
+  
+  //   useEffect(() => {
+  //     BackHandler.addEventListener("hardwareBackPress", backAction);
+  
+  //     return () =>
+  //       BackHandler.removeEventListener("hardwareBackPress", backAction);
+  //   }, []);
+  // }
+  
+  
   useEffect(() => {
     function getTransaction() {
       axios
@@ -145,7 +170,7 @@ export default function HomeScreen({ route, navigation }) {
           </View>
           <View style={styles.service}>
             <View style={styles.serviceIcon}>
-              <Send />
+              <Send onPress={() => navigation.navigate('transfer',{phoneNumber:route.params.phoneNumber, pin: route.params.pin})} />
             </View>
             <Text style={styles.serviceName}>Transfers</Text>
           </View>
