@@ -25,12 +25,12 @@
  * CONTENTS, OR TO MANUFACTURE, USE, OR SELL ANYTHING THAT IT MAY DESCRIBE,    *
  * IN WHOLE OR IN PART.                                                        *
  *                                                                             *
- * File: \App.js                                                               *
+ * File: \screens\CashIn.js                                                    *
  * Project: kbxwallet                                                          *
- * Created Date: Thursday, November 3rd 2022, 12:51:23 pm                      *
- * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
+ * Created Date: Wednesday, November 9th 2022, 6:12:30 pm                      *
+ * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 9th 2022, 8:32:17 pm                                *
+ * Last Modified: November 9th 2022, 7:52:56 pm                                *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -41,61 +41,72 @@
  * --------------------------------------------------------------------------- *
  */
 
-// import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import LoginScreen from './screens/LoginScreen';
-import SignUPScreen from './screens/SignUPScreen';
-import HomeScreen from './screens/HomeScreen'
-import OTPInput from './components/otp/OTPInput';
-import Walletimg from './assets/walletimg';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CashIn from './screens/CashIn';
-import CashIn2 from './screens/CashIn2';
-import CashOut from './screens/CashOut';
-import CashOut2 from './screens/CashOut2';
+import React from "react";
+import { View, StyleSheet, StatusBar, Text } from "react-native";
+import Next from "../components/icons/NextIcon"
 
-const stack = createNativeStackNavigator()
-
-export default function App() {
-  const [otpCode, setOTPCode] = useState("");
-  const [isPinReady, setIsPinReady] = useState(false);
-  const maximumCodeLength = 4;
+export default function CashIn({ navigation }) {
   return (
-    // <View style={styles.inputContainer}>
-      // 
-      <View style={{ flex: 1, backgroundColor: '#011627' }}>
-        <NavigationContainer>
-        <stack.Navigator initialRouteName="Login"
-        screenOptions={{
-          headerShown: false,
-          header: () => null,
-          contentStyle: { backgroundColor: '#011627' },
-        }}>
-          <stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="otp" component={OTPInput} code={otpCode}
-          setCode={setOTPCode}
-          maximumLength={maximumCodeLength}
-          setIsPinReady={setIsPinReady}/>
-          <stack.Screen name="signup" component={SignUPScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="home" component={HomeScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="cashin" component={CashIn} options={{ headerShown: false }}/>
-          <stack.Screen name="cashin2" component={CashIn2} options={{ headerShown: false }}/>
-          <stack.Screen name="cashout" component={CashOut} options={{ headerShown: false }}/>
-          <stack.Screen name="cashout2" component={CashOut2} options={{ headerShown: false }}/>
-        </stack.Navigator>
-      </NavigationContainer>
+    <View style={styles.container}>
+      <View style={styles.headerWrap}>
+        <Text style={styles.pageTitle}>Cash In</Text>
       </View>
-      
+      <View style={styles.optionsContainer}>
+        <View style={styles.optionItem}>
+          <Text onPress={() => navigation.navigate('cashin2')} style={styles.optionText}>Agent / Merchant</Text>
+          <Next style={{marginTop:4}} />
+        </View>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  inputContainer: {
+  container: {
     flex: 1,
-    backgroundColor: '#011627',
-    flexDirection: 'row-reverse',
-},
-
+    textColor: "#fff",
+    backgroundColor: "#EFEFEF",
+    alignItems: "center",
+    // padding: 16,
+  },
+  headerWrap: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    backgroundColor: "#0092A0",
+    width: "100%",
+    padding: 16,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  pageTitle: {
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    color: "#fff",
+    fontSize: 20,
+    fontWeight: "bold"
+  },
+  optionsContainer: {
+    padding: 16,
+    width: "100%",
+  },
+  optionItem: {
+    width: "100%",
+    // height: 60,
+    backgroundColor: "#fff",
+    padding: 16,
+    borderRadius: 8,
+    elevation: 10,
+    shadowColor: '#171717',
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "row"
+  },
+  optionText: {
+    color: "#333",
+    fontSize: 16,
+    flex: 1
+  }
 });

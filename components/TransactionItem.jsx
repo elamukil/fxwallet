@@ -1,3 +1,12 @@
+/*
+ * Filename: c:\KBX Apps\KBXPay_Frontend\components\TransactionItem.jsx
+ * Path: c:\KBX Apps\KBXPay_Frontend
+ * Created Date: Wednesday, November 9th 2022, 10:31:44 am
+ * Author: Hari Prasad
+ * 
+ * Copyright (c) 2022 KBX Digital
+ */
+
 import {
   StyleSheet,
   Text,
@@ -30,7 +39,7 @@ function TransactionItem({ props }) {
         <Text style={styles.transactionAmount}>
           {props.transactionAmount} MMK
         </Text>
-        <UpArrow />
+        {/* <UpArrow /> */}
       </View>
     </View>
   );
@@ -41,8 +50,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     paddingTop: 12,
-    borderBottomColor: "#3B4C5A",
-    borderBottomWidth: 2,
+    borderBottomColor: "#CBDAE7",
+    borderBottomWidth: 1,
     // paddingBottom: 8,
   },
   transactionItemLeft: {
@@ -57,11 +66,11 @@ const styles = StyleSheet.create({
   transactionItemName: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#333333",
   },
   transactionItemId: {
     fontSize: 10,
-    color: "#79868F",
+    color: "#888888",
   },
   transactionItemRight: {
     display: "flex",
@@ -70,7 +79,7 @@ const styles = StyleSheet.create({
   transactionAmount: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#333333",
     marginTop: 4,
   },
 });

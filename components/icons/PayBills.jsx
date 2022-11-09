@@ -1,7 +1,7 @@
 /*
- * Filename: c:\KBX Apps\KBXPay_Frontend\components\icons\SendIcon.jsx
+ * Filename: c:\KBX Apps\KBXPay_Frontend\components\icons\PayBills.jsx
  * Path: c:\KBX Apps\KBXPay_Frontend
- * Created Date: Wednesday, November 9th 2022, 10:31:44 am
+ * Created Date: Wednesday, November 9th 2022, 4:38:08 pm
  * Author: Hari Prasad
  * 
  * Copyright (c) 2022 KBX Digital
@@ -20,14 +20,14 @@ function SvgComponent(props) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <G clipPath="url(#clip0_251_14499)">
+      <G clipPath="url(#clip0_251_14493)">
         <Path
-          d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 100-16.001A8 8 0 0012 20zm-5-7h9v2h-4v3l-5-5zm5-4V6l5 5H8V9h4z"
+          d="M17 16h2V4H9v2h8v10zm0 2v3c0 .552-.45 1-1.007 1H4.007A1 1 0 013 21l.003-14c0-.552.45-1 1.007-1H7V3a1 1 0 011-1h12a1 1 0 011 1v14a1 1 0 01-1 1h-3zM5.003 8L5 20h10V8H5.003zM7 16h4.5a.5.5 0 000-1h-3a2.5 2.5 0 010-5H9V9h2v1h2v2H8.5a.5.5 0 000 1h3a2.5 2.5 0 010 5H11v1H9v-1H7v-2z"
           fill="#222"
         />
       </G>
       <Defs>
-        <ClipPath id="clip0_251_14499">
+        <ClipPath id="clip0_251_14493">
           <Path fill="#fff" d="M0 0H24V24H0z" />
         </ClipPath>
       </Defs>

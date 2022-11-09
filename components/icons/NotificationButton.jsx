@@ -1,5 +1,5 @@
 /*
- * Filename: c:\KBX Apps\KBXPay_Frontend\components\icons\Wallet.jsx
+ * Filename: c:\KBX Apps\KBXPay_Frontend\components\icons\NotificationButton.jsx
  * Path: c:\KBX Apps\KBXPay_Frontend
  * Created Date: Wednesday, November 9th 2022, 10:31:44 am
  * Author: Hari Prasad
@@ -13,21 +13,21 @@ import Svg, { G, Path, Defs, ClipPath } from "react-native-svg"
 function SvgComponent(props) {
   return (
     <Svg
-      width={20}
-      height={20}
+      width={24}
+      height={24}
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <G clipPath="url(#clip0_80_4340)">
+      <G clipPath="url(#clip0_251_14547)">
         <Path
-          d="M18 7h3a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V4a1 1 0 011-1h15v4zM4 9v10h16V9H4zm0-4v2h12V5H4zm11 8h3v2h-3v-2z"
-          fill="#fff"
+          d="M18 10a6 6 0 10-12 0v8h12v-8zm2 8.667l.4.533a.5.5 0 01-.4.8H4a.5.5 0 01-.4-.8l.4-.533V10a8 8 0 0116 0v8.667zM9.5 21h5a2.5 2.5 0 01-5 0z"
+          fill="#011627"
         />
       </G>
       <Defs>
-        <ClipPath id="clip0_80_4340">
+        <ClipPath id="clip0_251_14547">
           <Path fill="#fff" d="M0 0H24V24H0z" />
         </ClipPath>
       </Defs>

@@ -1,7 +1,7 @@
 /*
- * Filename: c:\KBX Apps\KBXPay_Frontend\components\icons\SendIcon.jsx
+ * Filename: c:\KBX Apps\KBXPay_Frontend\components\icons\CashIn.jsx
  * Path: c:\KBX Apps\KBXPay_Frontend
- * Created Date: Wednesday, November 9th 2022, 10:31:44 am
+ * Created Date: Wednesday, November 9th 2022, 4:57:22 pm
  * Author: Hari Prasad
  * 
  * Copyright (c) 2022 KBX Digital
@@ -20,15 +20,15 @@ function SvgComponent(props) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <G clipPath="url(#clip0_251_14499)">
+      <G clipPath="url(#clip0_251_14505)">
         <Path
-          d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 100-16.001A8 8 0 0012 20zm-5-7h9v2h-4v3l-5-5zm5-4V6l5 5H8V9h4z"
+          d="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10S2 17.52 2 12zm18 0c0-4.42-3.58-8-8-8s-8 3.58-8 8 3.58 8 8 8 8-3.58 8-8zm-9 0V8h2v4h3l-4 4-4-4h3z"
           fill="#222"
         />
       </G>
       <Defs>
-        <ClipPath id="clip0_251_14499">
-          <Path fill="#fff" d="M0 0H24V24H0z" />
+        <ClipPath id="clip0_251_14505">
+          <Path fill="#fff" transform="rotate(-90 12 12)" d="M0 0H24V24H0z" />
         </ClipPath>
       </Defs>
     </Svg>
