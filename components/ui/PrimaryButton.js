@@ -30,7 +30,7 @@
  * Created Date: Thursday, November 3rd 2022, 1:58:08 pm                       *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 8th 2022, 4:06:59 pm                                *
+ * Last Modified: November 9th 2022, 6:46:51 pm                                *
  * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -73,14 +73,15 @@ const styles = StyleSheet.create({
         width: 350,
     },
     buttonInnerContainer: {
-        backgroundColor: '#60D675',
+        backgroundColor: '#0092A0',
         paddingVertical: 8,
         paddingHorizontal: 16,
         elevation: 2,
    },
    buttonText: {
     textAlign: 'center',
-    fontWeight: '500'
+    fontWeight: '500',
+    color: 'white'
    },
    pressed: {
     opacity: 0.37,

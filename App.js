@@ -30,7 +30,7 @@
  * Created Date: Thursday, November 3rd 2022, 12:51:23 pm                      *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 8th 2022, 4:07:06 pm                                *
+ * Last Modified: November 9th 2022, 6:41:13 pm                                *
  * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -48,8 +48,9 @@ import LoginScreen from './screens/LoginScreen';
 import SignUPScreen from './screens/SignUPScreen';
 import HomeScreen from './screens/HomeScreen'
 import OTPInput from './components/otp/OTPInput';
+import TransferScreen from './screens/TransferScreen';
 import Walletimg from './assets/walletimg';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const stack = createNativeStackNavigator()
@@ -61,13 +62,13 @@ export default function App() {
   return (
     // <View style={styles.inputContainer}>
       // 
-      <View style={{ flex: 1, backgroundColor: '#011627' }}>
+      <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <NavigationContainer>
         <stack.Navigator initialRouteName="Login"
         screenOptions={{
           headerShown: false,
           header: () => null,
-          contentStyle: { backgroundColor: '#011627' },
+          contentStyle: { backgroundColor: '#fff' },
         }}>
           <stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }}/>
           <stack.Screen name="otp" component={OTPInput} code={otpCode}
@@ -76,6 +77,7 @@ export default function App() {
           setIsPinReady={setIsPinReady}/>
           <stack.Screen name="signup" component={SignUPScreen} options={{ headerShown: false }}/>
           <stack.Screen name="home" component={HomeScreen} options={{ headerShown: false }}/>
+          <stack.Screen name="transfer" component={TransferScreen} options={{ headerShown: false }}/>
         </stack.Navigator>
       </NavigationContainer>
       </View>
@@ -86,7 +88,7 @@ export default function App() {
 const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
-    backgroundColor: '#011627',
+    backgroundColor: '#fff',
     flexDirection: 'row-reverse',
 },
 

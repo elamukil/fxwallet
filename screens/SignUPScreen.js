@@ -30,7 +30,7 @@
  * Created Date: Thursday, November 3rd 2022, 1:57:24 pm                       *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 8th 2022, 4:07:02 pm                                *
+ * Last Modified: November 9th 2022, 9:46:55 pm                                *
  * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -106,7 +106,7 @@ export default function SignUPScreen({ navigation, code }) {
                 <Text style={styles.loginText}>Sign Up</Text>
             </View>
             <View>
-                    <Text style = {{color: 'white', position: 'absolute', marginTop:80}}>Full Name</Text>
+                    <Text style = {{color: '#0092A0', position: 'absolute', marginTop:80}}>Full Name</Text>
             </View>
             <View style={styles.numberInput}>
                 <TextInput
@@ -116,7 +116,7 @@ export default function SignUPScreen({ navigation, code }) {
                     style={styles.loginTextInput}/>
             </View>
             <View>
-                    <Text style = {{color: 'white', position: 'absolute', marginTop:70}}>Mobile Number</Text>
+                    <Text style = {{color: '#0092A0', position: 'absolute', marginTop:70}}>Mobile Number</Text>
             </View>
             <View style={styles.numberInput1}>
                 {/* <Text style = {styles.passwordText}>Password</Text> */}
@@ -130,8 +130,8 @@ export default function SignUPScreen({ navigation, code }) {
                 <PrimaryButton>Next</PrimaryButton>
             </View>
             <View style={{alignItems: 'center', marginTop: 20, flexDirection: 'row',marginLeft: 70,overflow:'hidden'}}>
-                <Text style={{color: 'white'}}>Didn't have account?</Text>
-                <Pressable onPress={() => navigation.navigate('signup')}><Text style={{color: 'green'}}> Sign Up</Text></Pressable>
+                <Text style={{color: '#333'}}>Didn't have account?</Text>
+                <Pressable onPress={() => navigation.navigate('signup')}><Text style={{color: '#0092A0'}}> Sign Up</Text></Pressable>
             </View>
         </View>
     );
@@ -143,7 +143,7 @@ export default function SignUPScreen({ navigation, code }) {
         marginTop: 85,
         marginBottom: 30,
         padding: 16,
-        backgroundColor: '#011627'
+        backgroundColor: '#fff'
     },
     numberInput: {
         height: 50,
@@ -179,13 +179,13 @@ export default function SignUPScreen({ navigation, code }) {
     },
     loginText: {
         textDecorationStyle: 'Gilroy-Bold',
-        fontSize: 28,
+        fontSize: 25,
         lineHeight: 48,
-        color: '#60D675',
+        color: '#0092A0',
         marginLeft: 15
     },
     loginTextInput: {
-        color: 'white',
+        color: '#333',
         marginTop:20,
     },
     loginButton: {
@@ -195,7 +195,7 @@ export default function SignUPScreen({ navigation, code }) {
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginTop: 20,
-        color: 'white',
+        color: '#0092A0',
         overflow: 'hidden'
     },
     fixedScreen: {

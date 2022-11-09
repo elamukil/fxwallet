@@ -30,8 +30,8 @@
  * Created Date: Thursday, November 3rd 2022, 1:57:12 pm                       *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 8th 2022, 4:57:41 pm                                *
- * Modified By: Kumaragurubaran Kanagaraj                                      *
+ * Last Modified: November 9th 2022, 8:06:27 pm                                *
+ * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -61,14 +61,14 @@ export default function LoginScreen({ navigation, code }) {
 
     return (
         <View style={styles.inputContainer}>
-            <View style={{position: 'absolute', marginLeft: 330, marginBottom: 80}}>
+            {/* <View style={{position: 'absolute', marginLeft: 330, marginBottom: 80}}>
                 <Walletimg/>
-            </View>
+            </View> */}
             <View style={styles.fixedScreen}>
                 <Text style={styles.loginText}>Login</Text>
             </View>
             <View>
-                    <Text style = {{color: 'white', position: 'absolute', marginTop:80}}>Mobile Number</Text>
+                    <Text style = {{color: '#0092A0', position: 'absolute', marginTop:80}}>Mobile Number</Text>
             </View>
             <View style={styles.numberInput}>
                 <TextInput maxLength={10} 
@@ -90,8 +90,8 @@ export default function LoginScreen({ navigation, code }) {
                 ]}>Login</PrimaryButton>
             </View>
             <View style={{alignItems: 'center', marginTop: 20, flexDirection: 'row',marginLeft: 70}}>
-                <Text style={{color: 'white'}}>Didn't have account?</Text>
-                <Pressable onPress={() => navigation.navigate('signup')}><Text style={{color: 'green'}}> Sign Up</Text></Pressable>
+                <Text style={{color: 'black'}}>Didn't have account?</Text>
+                <Pressable onPress={() => navigation.navigate('signup')}><Text style={{color: '#0092A0'}}> Sign Up</Text></Pressable>
             </View>
         </View>
     );
@@ -103,7 +103,7 @@ export default function LoginScreen({ navigation, code }) {
         marginTop: 85,
         marginBottom: 30,
         padding: 16,
-        backgroundColor: '#011627'
+        backgroundColor: '#fff'
     },
     numberInput: {
         height: 50,
@@ -138,14 +138,14 @@ export default function LoginScreen({ navigation, code }) {
         marginTop: 0,
     },
     loginText: {
-        textDecorationStyle: 'Gilroy-Bold',
+        textDecorationStyle: 'Manrope',
         fontSize: 32,
         lineHeight: 48,
-        color: '#60D675',
+        color: '#0092A0',
         marginLeft: 15
     },
     loginTextInput: {
-        color: 'white',
+        color: '#333',
         marginTop:20,
     },
     loginButton: {
