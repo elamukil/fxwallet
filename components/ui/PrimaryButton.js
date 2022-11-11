@@ -30,8 +30,8 @@
  * Created Date: Thursday, November 3rd 2022, 1:58:08 pm                       *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 9th 2022, 6:46:51 pm                                *
- * Modified By: Tamil Elamukil                                                 *
+ * Last Modified: November 11th 2022, 1:49:29 pm                               *
+ * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     buttonOuterContainer:{
         borderRadius: 2,
         overflow: 'hidden',
-        width: 350,
+        width: "100%",
     },
     buttonInnerContainer: {
         backgroundColor: '#0092A0',

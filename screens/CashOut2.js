@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 6:12:30 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 9th 2022, 10:04:35 pm                               *
+ * Last Modified: November 11th 2022, 2:58:25 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -41,7 +41,7 @@
  * --------------------------------------------------------------------------- *
  */
 
-import React from "react";
+import * as React from "react";
 import {
   View,
   StyleSheet,
@@ -49,10 +49,25 @@ import {
   Text,
   Image,
   TextInput,
+  BackHandler
 } from "react-native";
 import Next from "../components/icons/NextIcon";
 
-export default function CashIn({ navigation }) {
+export default function CashIn({ navigation, route }) {
+  const backAction = () => {
+    navigation.navigate("cashout", {
+      phoneNumber: route.params.phoneNumber,
+      pin: route.params.pin,
+    });
+    return true;
+  };
+
+  React.useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.headerWrap}>
@@ -111,7 +126,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   pageTitle: {
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     color: "#fff",
     fontSize: 20,
     fontWeight: "bold",

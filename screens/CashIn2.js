@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 9th 2022, 6:12:30 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 10th 2022, 7:51:52 pm                               *
- * Modified By: Tamil Elamukil                                                 *
+ * Last Modified: November 11th 2022, 2:57:57 pm                               *
+ * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -41,10 +41,32 @@
  * --------------------------------------------------------------------------- *
  */
 
-import React from "react";
-import { View, StyleSheet, StatusBar, Text, Image, Pressable } from "react-native";
+import * as React from "react";
+import {
+  View,
+  StyleSheet,
+  StatusBar,
+  Text,
+  Image,
+  Pressable,
+  BackHandler,
+} from "react-native";
 
-export default function CashIn({ navigation }) {
+export default function CashIn({ navigation, route }) {
+  const backAction = () => {
+    navigation.navigate("cashin", {
+      phoneNumber: route.params.phoneNumber,
+      pin: route.params.pin,
+    });
+    return true;
+  };
+
+  React.useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.headerWrap}>
@@ -52,12 +74,57 @@ export default function CashIn({ navigation }) {
       </View>
       <View style={styles.optionsContainer}>
         <Text style={styles.faqText}>How to Cash in at Agent / Merchant?</Text>
-        <Image style={{width: "100%", height: "60%", resizeMode: 'contain'}} source={require("../assets/images/faqCashIn.png")} />
+        {/* <Image style={{width: "100%", height: "60%", resizeMode: 'contain'}} source={require("../assets/images/faqCashIn.png")} /> */}
+        <View style={styles.instructionWrap}>
+          <Image
+            style={{ width: "40%", resizeMode: "contain" }}
+            source={require("../assets/images/find.png")}
+          />
+          <View style={styles.instructions}>
+            <Text style={styles.instructionsTitle}>
+              1. Find nearby agent or merchant
+            </Text>
+            <Text>
+              Click "Nearby agents/merchants" button on this page or"Nearby"
+              button on homepage to find an agent or merchat.
+            </Text>
+          </View>
+        </View>
+        <View style={styles.instructionWrap}>
+          <Image
+            style={{ width: "40%", resizeMode: "contain" }}
+            source={require("../assets/images/request.png")}
+          />
+          <View style={styles.instructions}>
+            <Text style={styles.instructionsTitle}>
+              2. Request e-money that you want to cash in from the agent or
+              merchant
+            </Text>
+            <Text>
+              Click "I am at an agent/merchant" button on this page. Then, enter
+              amount that you want to cash in and click "Generate QR code",
+              Finally, let the agent/merchant scan your QR code.
+            </Text>
+          </View>
+        </View>
+        <View style={styles.instructionWrap}>
+          <Image
+            style={{ width: "40%", resizeMode: "contain" }}
+            source={require("../assets/images/transfer.png")}
+          />
+          <View style={styles.instructions}>
+            <Text style={styles.instructionsTitle}>3. Finish cash in</Text>
+            <Text>
+              You will recieve e~money and SMS of cash in successfully. Can
+              check balance in homepage as well.
+            </Text>
+          </View>
+        </View>
       </View>
       <View style={styles.footer}>
-          <View style={styles.footerBtn}>
-              <Text style={styles.footerText}>I am at agent/merchant</Text>
-          </View>
+        <View style={styles.footerBtn}>
+          <Text style={styles.footerText}>I am at agent/merchant</Text>
+        </View>
       </View>
     </View>
   );
@@ -82,10 +149,10 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   pageTitle: {
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     color: "#fff",
     fontSize: 20,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   optionsContainer: {
     padding: 16,
@@ -94,7 +161,7 @@ const styles = StyleSheet.create({
   faqText: {
     fontSize: 18,
     color: "#0092A0",
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   footer: {
     position: "absolute",
@@ -104,7 +171,7 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    padding: 16
+    padding: 16,
   },
   footerBtn: {
     padding: 8,
@@ -113,11 +180,24 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 8
+    borderRadius: 8,
   },
   footerText: {
     color: "#fff",
     fontSize: 16,
-    fontWeight: "bold"
-  }
+    fontWeight: "bold",
+  },
+  instructionWrap: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "nowrap",
+    width: "70%",
+    justifyContent: "space-between"
+  },
+  instructions: {
+    padding: 8,
+  },
+  instructionsTitle: {
+    fontWeight: "bold",
+  },
 });

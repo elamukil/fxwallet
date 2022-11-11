@@ -30,8 +30,8 @@
  * Created Date: Thursday, November 3rd 2022, 1:57:24 pm                       *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 9th 2022, 9:46:55 pm                                *
- * Modified By: Tamil Elamukil                                                 *
+ * Last Modified: November 11th 2022, 1:54:18 pm                               *
+ * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -129,7 +129,7 @@ export default function SignUPScreen({ navigation, code }) {
             <View style={styles.loginButton}>
                 <PrimaryButton>Next</PrimaryButton>
             </View>
-            <View style={{alignItems: 'center', marginTop: 20, flexDirection: 'row',marginLeft: 70,overflow:'hidden'}}>
+            <View style={{alignItems: 'center',justifyContent: "center", marginTop: 20, flexDirection: 'row',overflow:'hidden'}}>
                 <Text style={{color: '#333'}}>Didn't have account?</Text>
                 <Pressable onPress={() => navigation.navigate('signup')}><Text style={{color: '#0092A0'}}> Sign Up</Text></Pressable>
             </View>
@@ -147,7 +147,7 @@ export default function SignUPScreen({ navigation, code }) {
     },
     numberInput: {
         height: 50,
-        width: 350,
+        width: "100%",
         fontSize: 32,
         borderBottomColor: 'grey',
         borderBottomWidth: 1,
@@ -161,7 +161,7 @@ export default function SignUPScreen({ navigation, code }) {
     numberInput1: {
         // position: 'absolute',
         height: 50,
-        width: 350,
+        width: "100%",
         fontSize: 32,
         borderBottomColor: 'grey',
         borderBottomWidth: 1,
@@ -189,7 +189,7 @@ export default function SignUPScreen({ navigation, code }) {
         marginTop:20,
     },
     loginButton: {
-        marginTop: 30
+        marginTop: 40
     },
     alternateLogin: {
         flexDirection: 'row',

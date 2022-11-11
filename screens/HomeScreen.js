@@ -31,10 +31,10 @@
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
 <<<<<<< HEAD
- * Last Modified: November 11th 2022, 1:14:45 pm                               *
+ * Last Modified: November 11th 2022, 2:58:54 pm                               *
  * Modified By: Hari Prasad                                                    *
 =======
- * Last Modified: November 11th 2022, 1:14:45 pm                               *
+ * Last Modified: November 11th 2022, 2:58:54 pm                               *
  * Modified By: Hari Prasad                                                    *
 >>>>>>> 13dc4ed0ba324c4a647ee82b32789eeb3c084db4
  * -----                                                                       *
@@ -179,13 +179,13 @@ export default function HomeScreen({ route, navigation }) {
           </View>
           <View style={styles.service}>
             <View style={styles.serviceIcon}>
-              <CashIn onPress={() => navigation.navigate('cashin')} />
+              <CashIn onPress={() => navigation.navigate('cashin',{phoneNumber:route.params.phoneNumber, pin: route.params.pin})} />
             </View>
             <Text style={styles.serviceName}>Cash In</Text>
           </View>
           <View style={styles.serviceLast}>
             <View style={styles.serviceIcon}>
-              <CashOut onPress={() => navigation.navigate('cashout')} />
+              <CashOut onPress={() => navigation.navigate('cashout',{phoneNumber:route.params.phoneNumber, pin: route.params.pin})} />
             </View>
             <Text style={styles.serviceName}>Cash Out</Text>
           </View>
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "#011627",
     backgroundColor: "#fff",
     alignItems: "center",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     // padding: 16,
   },
   headerWrap: {

@@ -30,8 +30,8 @@
  * Created Date: Thursday, November 3rd 2022, 1:57:12 pm                       *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 10th 2022, 10:24:05 am                              *
- * Modified By: Tamil Elamukil                                                 *
+ * Last Modified: November 11th 2022, 1:52:29 pm                               *
+ * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -90,7 +90,7 @@ export default function LoginScreen({ navigation, code }) {
                     styles.button,
                 ]}>Login</PrimaryButton>
             </View>
-            <View style={{alignItems: 'center', marginTop: 20, flexDirection: 'row',marginLeft: 70}}>
+            <View style={{alignItems: "center", display:"flex", justifyContent: "center", marginTop: 20, flexDirection: 'row', alignContent:"center"}}>
                 <Text style={{color: 'black'}}>Didn't have account?</Text>
                 <Pressable onPress={() => navigation.navigate('signup')}><Text style={{color: '#0092A0'}}> Sign Up</Text></Pressable>
             </View>
@@ -108,7 +108,7 @@ export default function LoginScreen({ navigation, code }) {
     },
     numberInput: {
         height: 50,
-        width: 350,
+        width: "100%",
         fontSize: 32,
         borderBottomColor: 'grey',
         borderBottomWidth: 1,
