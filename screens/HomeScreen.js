@@ -30,8 +30,13 @@
  * Created Date: Wednesday, November 9th 2022, 10:31:44 am                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 11th 2022, 1:10:17 pm                               *
+<<<<<<< HEAD
+ * Last Modified: November 11th 2022, 1:14:45 pm                               *
  * Modified By: Hari Prasad                                                    *
+=======
+ * Last Modified: November 11th 2022, 1:14:45 pm                               *
+ * Modified By: Hari Prasad                                                    *
+>>>>>>> 13dc4ed0ba324c4a647ee82b32789eeb3c084db4
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *

@@ -30,8 +30,8 @@
  * Created Date: Thursday, November 10th 2022, 8:59:54 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 11th 2022, 11:29:29 am                              *
- * Modified By: Hari Prasad                                                    *
+ * Last Modified: November 11th 2022, 12:43:55 pm                              *
+ * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -41,11 +41,22 @@
  * --------------------------------------------------------------------------- *
  */
 
-import React from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import React,{useEffect} from "react";
+import { View, StyleSheet, ScrollView, BackHandler } from "react-native";
 import PlanDetail from "../../components/PlanDetail";
 
-function TopUpPlan(props) {
+function TopUpPlan({ navigation, route}) {
+  const backAction = () => {
+        navigation.navigate('home',{ phoneNumber: route.params.phoneNumber, pin: route.params.pin})
+  return true;
+};
+
+useEffect(() => {
+  BackHandler.addEventListener("hardwareBackPress", backAction);
+
+  return () =>
+    BackHandler.removeEventListener("hardwareBackPress", backAction);
+}, []);
   return (
     <ScrollView>
       <View style={styles.container}>
