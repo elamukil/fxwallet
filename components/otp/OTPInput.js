@@ -50,7 +50,7 @@ import axios from "axios";
 
 
 const OTPInput = ({ route, navigation }) => {
-
+  
   const pin1Ref = useRef(null);
   const pin2Ref = useRef(null);
   const pin3Ref = useRef(null);
@@ -187,9 +187,12 @@ const OTPInput = ({ route, navigation }) => {
         //   caretHidden={true}
           onChangeText={(pin1) => {
             setPin1(pin1);
-            if (pin1 !== null) {
+            if (pin1 !== null && pin1 !== '') {
               pin2Ref.current.focus();
             }
+          }}
+          onKeyPress = {() => {
+            pin2Ref.current.focus();
           }}
           value={pin1}
           style={{
@@ -218,9 +221,14 @@ const OTPInput = ({ route, navigation }) => {
         //   caretHidden={true}
           onChangeText={(pin2) => {
             setPin2(pin2);
-            if (pin2 !== null) {
+            if (pin2 == '')
+              pin1Ref.current.focus();
+            if (pin2 !== null && pin2 !== '') {
               pin3Ref.current.focus();
             }
+          }}
+          onKeyPress = {() => {
+            pin3Ref.current.focus();
           }}
           value={pin2}
           style={{
@@ -247,9 +255,14 @@ const OTPInput = ({ route, navigation }) => {
           maxLength={1}
           onChangeText={(pin3) => {
             setPin3(pin3);
-            if (pin3 !== null) {
+            if (pin3 == '')
+              pin2Ref.current.focus();
+            if (pin3 !== null && pin3 !== '') {
               pin4Ref.current.focus();
             }
+          }}
+          onKeyPress = {() => {
+            pin4Ref.current.focus();
           }}
           value={pin3}
           style={{
@@ -275,11 +288,16 @@ const OTPInput = ({ route, navigation }) => {
           keyboardType="number-pad"
           maxLength={1}
           onChangeText={(pin4) => {setPin4(pin4)
-            if (pin4 !== null) {
+            if (pin4 == '')
+              pin3Ref.current.focus();
+            if (pin4 !== null && pin4 !== '') {
                 pin1Ref.current.focus();
               }
           }
         }
+        onKeyPress = {() => {
+          pin1Ref.current.focus();
+        }}
         value={pin4}
           style={{
             backgroundColor: "#fff",
