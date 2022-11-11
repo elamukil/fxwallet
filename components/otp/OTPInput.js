@@ -187,12 +187,18 @@ const OTPInput = ({ route, navigation }) => {
         //   caretHidden={true}
           onChangeText={(pin1) => {
             setPin1(pin1);
+            if (pin1 == '')
+              pin1Ref.current.focus();
             if (pin1 !== null && pin1 !== '') {
               pin2Ref.current.focus();
             }
           }}
           onKeyPress = {() => {
-            pin2Ref.current.focus();
+            console.log("pin1 is : ", pin1)
+            if (pin1 == '')
+              pin1Ref.current.focus();
+            if (pin1 !== null && pin1 !== '')
+              pin2Ref.current.focus();    
           }}
           value={pin1}
           style={{
@@ -228,7 +234,10 @@ const OTPInput = ({ route, navigation }) => {
             }
           }}
           onKeyPress = {() => {
-            pin3Ref.current.focus();
+            if (pin2 == '' || pin2 == null)
+              pin1Ref.current.focus();
+            if (pin2 !== null && pin2 !== '')
+              pin3Ref.current.focus();
           }}
           value={pin2}
           style={{
@@ -262,7 +271,11 @@ const OTPInput = ({ route, navigation }) => {
             }
           }}
           onKeyPress = {() => {
-            pin4Ref.current.focus();
+            if (pin3 == '' || pin3 == null)
+              pin2Ref.current.focus();
+            if (pin3 !== null && pin3 !== '') {
+              pin4Ref.current.focus();
+            }
           }}
           value={pin3}
           style={{
@@ -296,7 +309,11 @@ const OTPInput = ({ route, navigation }) => {
           }
         }
         onKeyPress = {() => {
-          pin1Ref.current.focus();
+          if (pin4 == ''|| pin4 == null)
+              pin3Ref.current.focus();
+          if (pin4 !== null && pin4 !== '') {
+                pin1Ref.current.focus();
+          }
         }}
         value={pin4}
           style={{
