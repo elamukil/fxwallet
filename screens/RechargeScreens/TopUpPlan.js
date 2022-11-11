@@ -25,12 +25,12 @@
  * CONTENTS, OR TO MANUFACTURE, USE, OR SELL ANYTHING THAT IT MAY DESCRIBE,    *
  * IN WHOLE OR IN PART.                                                        *
  *                                                                             *
- * File: \App.js                                                               *
+ * File: \screens\RechargeScreens\TopUpPlan.js                                 *
  * Project: kbxwallet                                                          *
- * Created Date: Thursday, November 3rd 2022, 12:51:23 pm                      *
- * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
- * -----
- * Last Modified: November 10th 2022, 1:01:07 pm                               *
+ * Created Date: Thursday, November 10th 2022, 8:59:54 pm                      *
+ * Author: Hari Prasad <hari@kbxdigital.com>                                   *
+ * -----                                                                       *
+ * Last Modified: November 11th 2022, 11:29:29 am                              *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -41,65 +41,31 @@
  * --------------------------------------------------------------------------- *
  */
 
-// import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import LoginScreen from './screens/LoginScreen';
-import SignUPScreen from './screens/SignUPScreen';
-import HomeScreen from './screens/HomeScreen'
-import OTPInput from './components/otp/OTPInput';
-import TransferScreen from './screens/TransferScreen';
-import Walletimg from './assets/walletimg';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CashIn from './screens/CashIn';
-import CashIn2 from './screens/CashIn2';
-import CashOut from './screens/CashOut';
-import CashOut2 from './screens/CashOut2';
-import RechargeScreen from './screens/Recharge';
+import React from "react";
+import { View, StyleSheet, ScrollView } from "react-native";
+import PlanDetail from "../../components/PlanDetail";
 
-const stack = createNativeStackNavigator()
-
-export default function App() {
-  const [otpCode, setOTPCode] = useState("");
-  const [isPinReady, setIsPinReady] = useState(false);
-  const maximumCodeLength = 4;
+function TopUpPlan(props) {
   return (
-    // <View style={styles.inputContainer}>
-      // 
-      <View style={{ flex: 1, backgroundColor: '#fff' }}>
-        <NavigationContainer>
-        <stack.Navigator initialRouteName="Login"
-        screenOptions={{
-          headerShown: false,
-          header: () => null,
-          contentStyle: { backgroundColor: '#fff' },
-        }}>
-          <stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="otp" component={OTPInput} code={otpCode}
-          setCode={setOTPCode}
-          maximumLength={maximumCodeLength}
-          setIsPinReady={setIsPinReady}/>
-          <stack.Screen name="signup" component={SignUPScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="home" component={HomeScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="cashin" component={CashIn} options={{ headerShown: false }}/>
-          <stack.Screen name="cashin2" component={CashIn2} options={{ headerShown: false }}/>
-          <stack.Screen name="cashout" component={CashOut} options={{ headerShown: false }}/>
-          <stack.Screen name="cashout2" component={CashOut2} options={{ headerShown: false }}/>
-          <stack.Screen name="transfer" component={TransferScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="recharge" component={ RechargeScreen } options={{ headerShown: false }}/>
-        </stack.Navigator>
-      </NavigationContainer>
+    <ScrollView>
+      <View style={styles.container}>
+        <PlanDetail />
+        <PlanDetail />
+        <PlanDetail />
+        <PlanDetail />
+        <PlanDetail />
+        <PlanDetail />
       </View>
-      
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  inputContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    flexDirection: 'row-reverse',
-},
-
+  container: {
+    height: "50%",
+    width: "100%",
+    padding: 16,
+  },
 });
+
+export default TopUpPlan;

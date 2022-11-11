@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 10:31:44 am                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 9th 2022, 8:21:15 pm                                *
+ * Last Modified: November 10th 2022, 7:43:39 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -102,19 +102,28 @@ export default function HomeScreen({ route, navigation }) {
   
   useEffect(() => {
     function getTransaction() {
+      let fullFromDate = new Date()
+      fullFromDate.setDate(fullFromDate.getDate()-15)
+      let fullToDate = new Date()
+      // let fromDate = ((fullFromDate.getDate()<9)?'0'+fullFromDate.getDate():fullFromDate.getDate())+'-'+((fullFromDate.getMonth()<10)?'0'+fullFromDate.getMonth():fullFromDate.getMonth())+'-'+fullFromDate.getFullYear()
+      let fromDate = fullFromDate.getFullYear()+'-'+((fullFromDate.getMonth()+1<9)?'0'+fullFromDate.getMonth()+1:fullFromDate.getMonth()+1)+'-'+((fullFromDate.getDate()<9)?'0'+fullFromDate.getDate():fullFromDate.getDate())
+      let toDate = fullToDate.getFullYear()+'-'+((fullToDate.getMonth()+1<9)?'0'+fullToDate.getMonth()+1:fullToDate.getMonth()+1)+'-'+((fullToDate.getDate()<9)?'0'+fullToDate.getDate():fullToDate.getDate())
+      let url = `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/account/${route.params.phoneNumber}/transaction?fromDate=${fromDate}&toDate=${toDate}`
+      console.log("dats", url)
       axios
         .get(
-          `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/account/+91${route.params.phoneNumber}/transaction?fromDate=2022-11-01&toDate=2022-11-08`
+          `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/account/${route.params.phoneNumber}/transaction?fromDate=${fromDate}&toDate=${toDate}`
         )
         .then((response) => {
           setTransaction(response.data.data);
+          console.log(res, response.data.data, )
         })
         .catch((error) => {});
     }
     function getBalance() {
       axios
         .get(
-          `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/+91${route.params.phoneNumber}/balance`
+          `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/${route.params.phoneNumber}/balance`
         )
         .then((response) => {
           setBalance(response.data.data);
@@ -164,7 +173,7 @@ export default function HomeScreen({ route, navigation }) {
         <View style={styles.serviceWrap}>
           <View style={styles.service}>
             <View style={styles.serviceIcon}>
-              <PayBills />
+              <PayBills onPress={() => navigation.navigate('recharge')}/>
             </View>
             <Text style={styles.serviceName}>Pay Bills</Text>
           </View>

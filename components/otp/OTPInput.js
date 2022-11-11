@@ -30,8 +30,8 @@
  * Created Date: Sunday, November 6th 2022, 1:21:41 am                         *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 9th 2022, 10:14:17 pm                               *
- * Modified By: Tamil Elamukil                                                 *
+ * Last Modified: November 10th 2022, 7:09:34 pm                               *
+ * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -81,7 +81,7 @@ const OTPInput = ({ route, navigation }) => {
   async function login() {
     console.log("Hi");
     let verifyRequest = {
-      phoneNumber: `+91` + route.params.phoneNumber,
+      phoneNumber: route.params.phoneNumber,
       PIN: Number(pin1 + pin2 + pin3 + pin4),
     };
     console.log(verifyRequest.phoneNumber);
@@ -97,7 +97,7 @@ const OTPInput = ({ route, navigation }) => {
         if(route.params.onPage ==='transfer'){
             let verifyRequest = {
                 requestType:"TRANSFER",
-                fromAccounts:[{phoneNumber:`+91`+route.params.phoneNumber, amount:Number(route.params.amount)}],  
+                fromAccounts:[{phoneNumber:route.params.phoneNumber, amount:Number(route.params.amount)}],  
                 toAccounts:[{phoneNumber:route.params.toPhoneNumber,amount:Number(route.params.amount)}],
                 PIN: pinNumber
               };
