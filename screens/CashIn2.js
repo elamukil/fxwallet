@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 9th 2022, 6:12:30 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 9th 2022, 8:13:10 pm                                *
- * Modified By: Hari Prasad                                                    *
+ * Last Modified: November 10th 2022, 7:51:52 pm                               *
+ * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -42,7 +42,7 @@
  */
 
 import React from "react";
-import { View, StyleSheet, StatusBar, Text, Image } from "react-native";
+import { View, StyleSheet, StatusBar, Text, Image, Pressable } from "react-native";
 
 export default function CashIn({ navigation }) {
   return (
@@ -55,9 +55,9 @@ export default function CashIn({ navigation }) {
         <Image style={{width: "100%", height: "60%", resizeMode: 'contain'}} source={require("../assets/images/faqCashIn.png")} />
       </View>
       <View style={styles.footer}>
-        <View style={styles.footerBtn}>
-            <Text style={styles.footerText}>I am at agent/merchant</Text>
-        </View>
+          <View style={styles.footerBtn}>
+              <Text style={styles.footerText}>I am at agent/merchant</Text>
+          </View>
       </View>
     </View>
   );

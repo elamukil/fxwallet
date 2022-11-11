@@ -30,8 +30,8 @@
  * Created Date: Thursday, November 3rd 2022, 12:51:23 pm                      *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----
- * Last Modified: November 9th 2022, 8:32:17 pm                                *
- * Modified By: Hari Prasad                                                    *
+ * Last Modified: November 10th 2022, 7:49:43 pm                               *
+ * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -60,12 +60,9 @@ import CashOut2 from './screens/CashOut2';
 const stack = createNativeStackNavigator()
 
 export default function App() {
-  const [otpCode, setOTPCode] = useState("");
-  const [isPinReady, setIsPinReady] = useState(false);
-  const maximumCodeLength = 4;
+  
   return (
-    // <View style={styles.inputContainer}>
-      // 
+    
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <NavigationContainer>
         <stack.Navigator initialRouteName="Login"
@@ -75,10 +72,7 @@ export default function App() {
           contentStyle: { backgroundColor: '#fff' },
         }}>
           <stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="otp" component={OTPInput} code={otpCode}
-          setCode={setOTPCode}
-          maximumLength={maximumCodeLength}
-          setIsPinReady={setIsPinReady}/>
+          <stack.Screen name="otp" component={OTPInput}/>
           <stack.Screen name="signup" component={SignUPScreen} options={{ headerShown: false }}/>
           <stack.Screen name="home" component={HomeScreen} options={{ headerShown: false }}/>
           <stack.Screen name="cashin" component={CashIn} options={{ headerShown: false }}/>

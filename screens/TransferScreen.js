@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 11:52:01 am                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 9th 2022, 9:55:13 pm                                *
+ * Last Modified: November 11th 2022, 10:47:35 am                              *
  * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -41,8 +41,8 @@
  * --------------------------------------------------------------------------- *
  */
 
-import React, {useState} from 'react';
-import { TextInput, View, StyleSheet,Text, StatusBar } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { TextInput, View, StyleSheet,Text, StatusBar, BackHandler,Alert } from 'react-native';
 import PrimaryButton from '../components/ui/PrimaryButton'
 
 const TransferScreen = ({navigation, route}) => {
@@ -52,11 +52,20 @@ const TransferScreen = ({navigation, route}) => {
     const [toPhoneNumber, setToPhoneNumber] = useState(0)
 
     
-    console.log(toPhoneNumber)
-    console.log(route.params.phoneNumber)
-    console.log(amount)
-    console.log(description)
-    console.log(route.name)
+    if(route.name==='transfer'){
+        const backAction = () => {
+        navigation.navigate('home',{ phoneNumber: route.params.phoneNumber})
+          return true;
+        };
+      
+        useEffect(() => {
+          BackHandler.addEventListener("hardwareBackPress", backAction);
+      
+          return () =>
+            BackHandler.removeEventListener("hardwareBackPress", backAction);
+        }, ['transfer']);
+      }
+
     async function transfer() {
         console.log("Hi");
         let verifyRequest = {

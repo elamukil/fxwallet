@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 9th 2022, 10:31:44 am                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 9th 2022, 8:21:15 pm                                *
- * Modified By: Hari Prasad                                                    *
+ * Last Modified: November 11th 2022, 10:30:14 am                              *
+ * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -75,54 +75,54 @@ import CashOut from "../components/icons/CashOut"
 
 import axios from "axios";
 
+
+
 export default function HomeScreen({ route, navigation }) {
   const [transaction, setTransaction] = useState([]);
   const [balance, setBalance] = useState([]);
-  // if(route.name==='home'){
-  //   const backAction = () => {
-  //     Alert.alert("Hold on!", "Are you sure you want to go back?", [
-  //       {
-  //         text: "Cancel",
-  //         onPress: () => null,
-  //         style: "cancel"
-  //       },
-  //       { text: "YES", onPress: () => BackHandler.exitApp() }
-  //     ]);
-  //     return true;
-  //   };
+  if(route.name==='home'){
+    const backAction = () => {
+      Alert.alert("Hold on!", "Are you sure you want to go back?", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "YES", onPress: () => BackHandler.exitApp() }
+      ]);
+      return true;
+    };
   
-  //   useEffect(() => {
-  //     BackHandler.addEventListener("hardwareBackPress", backAction);
+    useEffect(() => {
+      BackHandler.addEventListener("hardwareBackPress", backAction);
   
-  //     return () =>
-  //       BackHandler.removeEventListener("hardwareBackPress", backAction);
-  //   }, []);
-  // }
-  
+      return () =>
+        BackHandler.removeEventListener("hardwareBackPress", backAction);
+    }, []);
+  }
+
   
   useEffect(() => {
     function getTransaction() {
       axios
         .get(
-          `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/account/+91${route.params.phoneNumber}/transaction?fromDate=2022-11-01&toDate=2022-11-08`
+          `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/account/${route.params.phoneNumber}/transaction?fromDate=2022-11-01&toDate=2022-11-10`
         )
         .then((response) => {
           setTransaction(response.data.data);
-        })
-        .catch((error) => {});
-    }
-    function getBalance() {
-      axios
+          axios
         .get(
-          `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/+91${route.params.phoneNumber}/balance`
+          `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/${route.params.phoneNumber}/balance`
         )
         .then((response) => {
           setBalance(response.data.data);
         })
         .catch((error) => {});
+        })
+
+        .catch((error) => {});
     }
     getTransaction();
-    getBalance();
   }, []);
   return (
     <View style={styles.container}>
@@ -196,11 +196,11 @@ export default function HomeScreen({ route, navigation }) {
           </View>
           <Text style={styles.transactionSeeAllBtn}>See all</Text>
         </View>
-        <ScrollView>
-          {transaction.map((v, i) => {
-            return <TransactionItem key={i} props={v} />;
-          })}
-        </ScrollView>
+          <ScrollView overScrollMode="never" showsVerticalScrollIndicator={false}>
+            {transaction.map((v, i) => {
+              return <TransactionItem key={i} props={v} />;
+            })}
+          </ScrollView>
       </View>
       {/* <BottomNavBar /> */}
     </View>

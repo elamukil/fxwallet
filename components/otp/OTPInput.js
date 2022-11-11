@@ -30,7 +30,7 @@
  * Created Date: Sunday, November 6th 2022, 1:21:41 am                         *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 9th 2022, 10:14:17 pm                               *
+ * Last Modified: November 11th 2022, 11:22:11 am                              *
  * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -42,21 +42,15 @@
  */
 
 import { setStatusBarNetworkActivityIndicatorVisible } from "expo-status-bar";
-import React, { useRef, useState } from "react";
-import { TextInput, View, StyleSheet, Text, Alert } from "react-native";
+import React, { useRef, useState, useEffect } from "react";
+import { TextInput, View, StyleSheet, Text, Alert, BackHandler } from "react-native";
 import PrimaryButton from "../../components/ui/PrimaryButton";
-// import { login } from "../api/Api";
 import HomeScreen from "../../screens/HomeScreen";
 import axios from "axios";
 
-// import {
-//     getHash,
-//     startOtpListener,
-//     useOtpVerify,
-//   } from 'react-native-otp-verify';
 
 const OTPInput = ({ route, navigation }) => {
-  // const { hash, otp, message, timeoutError, stopListener, startListener } = useOtpVerify({numberOfDigits: 4});
+
   const pin1Ref = useRef(null);
   const pin2Ref = useRef(null);
   const pin3Ref = useRef(null);
@@ -77,28 +71,42 @@ const OTPInput = ({ route, navigation }) => {
   const pinNumber = Number(pin1 + pin2 + pin3 + pin4)
   console.log("pin", pin1 + pin2 + pin3 + pin4);
   console.log('we are here',route.params.onPage || 'undefined')
+  console.log(route.params.onPage)
+
   
+ 
+    const backAction = () => {
+        if(route.params.onPage === 'transfer'){
+            navigation.navigate('transfer',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})
+        }else{
+            console.log('loginotp')
+            navigation.navigate('login')
+        }
+      return true;
+    };
+  
+    useEffect(() => {
+      BackHandler.addEventListener("hardwareBackPress", backAction);
+  
+      return () =>
+        BackHandler.removeEventListener("hardwareBackPress", backAction);
+    }, []);
+
   async function login() {
     console.log("Hi");
     let verifyRequest = {
-      phoneNumber: `+91` + route.params.phoneNumber,
+      phoneNumber: route.params.phoneNumber,
       PIN: Number(pin1 + pin2 + pin3 + pin4),
     };
     console.log(verifyRequest.phoneNumber);
     console.log(route.params.pin)
 
-    axios
-      .post(
-        "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/validate/pin",
-        verifyRequest
-      )
-      .then((res) => {
-        console.log("hello", res);
         if(route.params.onPage ==='transfer'){
             let verifyRequest = {
                 requestType:"TRANSFER",
-                fromAccounts:[{phoneNumber:`+91`+route.params.phoneNumber, amount:Number(route.params.amount)}],  
+                fromAccounts:[{phoneNumber:route.params.phoneNumber, amount:Number(route.params.amount)}],  
                 toAccounts:[{phoneNumber:route.params.toPhoneNumber,amount:Number(route.params.amount)}],
+                description: route.params.description,
                 PIN: pinNumber
               };
               console.log(typeof(pinNumber));
@@ -109,23 +117,40 @@ const OTPInput = ({ route, navigation }) => {
                   verifyRequest
                 )
                 .then((res) => {
-                  console.log("hello", res);
-                  Alert.alert("Transfer Successful");
+                  console.log("hello", res.data);
+                  Alert.alert("Transfer Successful", 'Click Proceed to Continue', [{text: 'Proceed', onPress:() => navigation.navigate('home',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})}]);
+                  
                 })
                 .catch((err) => {
                   console.log(err);
-                  Alert.alert("Something went wrong");
+                  Alert.alert("Transfer Unuccessful", 'Click Proceed to Try Again', [{text: 'Proceed', onPress:() => navigation.navigate('transfer',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})}]);
                 });
         }else{
-            navigation.navigate("home", { phoneNumber: route.params.phoneNumber, pin: pinNumber});
+            let verifyRequest1 = {
+                phoneNumber: route.params.phoneNumber, 
+                PIN: pinNumber
+              };
+              console.log(verifyRequest1)
+            axios
+                .post(
+                  "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/validate/pin",
+                  verifyRequest1
+                )
+                .then((res) => {
+                  console.log("hello", res.data);
+                  navigation.navigate("home", { phoneNumber: route.params.phoneNumber, pin: pinNumber});
+                  
+                })
+                .catch((err) => {
+                  console.log(err);
+                  Alert.alert("Incorrect Pin", 'Click Proceed to Try Again', [{text: 'Proceed'}]);
+                });
         }
-      })
-      .catch((err) => {
-        console.log(err);
-        Alert.alert("Something went wrong");
-      });
   }
-
+  const clearInput1 = React.useCallback(()=> setPin1(''), [])
+  const clearInput2 = React.useCallback(()=> setPin2(''), [])
+  const clearInput3 = React.useCallback(()=> setPin3(''), [])
+  const clearInput4 = React.useCallback(()=> setPin4(''), [])
   // useEffect(() => {
   // getHash().then(hash => {
   //     // use this hash in the message.
@@ -166,6 +191,7 @@ const OTPInput = ({ route, navigation }) => {
               pin2Ref.current.focus();
             }
           }}
+          value={pin1}
           style={{
             backgroundColor: "#fff",
             // borderBottomColor: "#79868F",
@@ -196,6 +222,7 @@ const OTPInput = ({ route, navigation }) => {
               pin3Ref.current.focus();
             }
           }}
+          value={pin2}
           style={{
             backgroundColor: "#fff",
             marginTop: 90,
@@ -224,6 +251,7 @@ const OTPInput = ({ route, navigation }) => {
               pin4Ref.current.focus();
             }
           }}
+          value={pin3}
           style={{
             backgroundColor: "#fff",
             marginTop: 90,
@@ -252,6 +280,7 @@ const OTPInput = ({ route, navigation }) => {
               }
           }
         }
+        value={pin4}
           style={{
             backgroundColor: "#fff",
             marginTop: 90,
@@ -273,7 +302,7 @@ const OTPInput = ({ route, navigation }) => {
       </View>
       {/* <View style={{position: 'absolute', marginTop: 295, marginLeft: 280}}><Text style={{color: '#79868F'}}>Resend Otp</Text></View> */}
       <View style={styles.loginButton}>
-        <PrimaryButton onPress={login}>Verify</PrimaryButton>
+        <PrimaryButton onPress={() => { login(); clearInput1(); clearInput2(); clearInput3(); clearInput4(); }}>Verify</PrimaryButton>
       </View>
     </View>
   );

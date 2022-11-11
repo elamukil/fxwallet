@@ -30,7 +30,7 @@
  * Created Date: Thursday, November 3rd 2022, 1:57:12 pm                       *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 9th 2022, 8:06:27 pm                                *
+ * Last Modified: November 10th 2022, 10:24:05 am                              *
  * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -58,6 +58,7 @@ export default function LoginScreen({ navigation, code }) {
 
 
     // console.log(phoneNumber)
+    
 
     return (
         <View style={styles.inputContainer}>
