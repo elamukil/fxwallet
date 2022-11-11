@@ -30,7 +30,7 @@
  * Created Date: Thursday, November 10th 2022, 12:17:34 pm                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 11th 2022, 11:30:14 am                              *
+ * Last Modified: November 11th 2022, 1:08:31 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -62,7 +62,7 @@ import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 // import PagerView from "react-native-pager-view";
 import TopUpPlan from "./RechargeScreens/TopUpPlan";
 
-export default ({ navigate }) => {
+export default ({ navigation, route }) => {
   const FirstRoute = () => (
     // <View style={{ height: "50%", backgroundColor: "#ff4081" }} />
     <TopUpPlan />
@@ -72,16 +72,22 @@ export default ({ navigate }) => {
     // <View style={{ height: "50%", backgroundColor: "#673ab7" }} />
     <TopUpPlan />
   );
-  const renderTabBar = props => (
+  const renderTabBar = (props) => (
     <TabBar
-    {...props}
-    renderLabel={({ route, focused, color }) => (
-      <Text style={{ color: (focused)?"#0092A0":"#333", margin: 8, fontWeight: "700" }}>
-        {route.title}
-      </Text>
-    )}
-      indicatorStyle={{ backgroundColor: '#0092A0' }}
-      style={{ backgroundColor: 'white', color: "#333" }}
+      {...props}
+      renderLabel={({ route, focused, color }) => (
+        <Text
+          style={{
+            color: focused ? "#0092A0" : "#333",
+            margin: 8,
+            fontWeight: "700",
+          }}
+        >
+          {route.title}
+        </Text>
+      )}
+      indicatorStyle={{ backgroundColor: "#0092A0" }}
+      style={{ backgroundColor: "white", color: "#333" }}
     />
   );
 
@@ -96,6 +102,22 @@ export default ({ navigate }) => {
     { key: "first", title: "TOP UP" },
     { key: "second", title: "DATA PLAN" },
   ]);
+
+  const backAction = () => {
+    navigation.navigate("home", {
+      phoneNumber: route.params.phoneNumber,
+      pin: route.params.pin,
+    });
+    return true;
+  };
+
+  React.useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.headers}>
@@ -117,7 +139,8 @@ export default ({ navigate }) => {
         </View>
         <EditIcon />
       </View>
-      <TabView renderTabBar={renderTabBar}
+      <TabView
+        renderTabBar={renderTabBar}
         navigationState={{ index, routes }}
         renderScene={renderScene}
         onIndexChange={setIndex}

@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 9th 2022, 10:31:44 am                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 10th 2022, 7:43:39 pm                               *
- * Modified By: Hari Prasad
+ * Last Modified: November 11th 2022, 1:10:17 pm                               *
+ * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -162,7 +162,7 @@ export default function HomeScreen({ route, navigation }) {
         <View style={styles.serviceWrap}>
           <View style={styles.service}>
             <View style={styles.serviceIcon}>
-              <PayBills onPress={() => navigation.navigate('recharge')}/>
+              <PayBills onPress={() => navigation.navigate('recharge', {phoneNumber:route.params.phoneNumber, pin: route.params.pin})}/>
             </View>
             <Text style={styles.serviceName}>Pay Bills</Text>
           </View>
