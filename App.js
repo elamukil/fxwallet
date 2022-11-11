@@ -30,7 +30,7 @@
  * Created Date: Thursday, November 3rd 2022, 12:51:23 pm                      *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----
- * Last Modified: November 11th 2022, 1:38:57 pm                               *
+ * Last Modified: November 11th 2022, 1:41:47 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -56,7 +56,7 @@ import CashIn from './screens/CashIn';
 import CashIn2 from './screens/CashIn2';
 import CashOut from './screens/CashOut';
 import CashOut2 from './screens/CashOut2';
-import RechargeScreen from './screens/Recharge';
+import Recharge from './screens/Recharge';
 
 const stack = createNativeStackNavigator()
 
@@ -81,7 +81,7 @@ export default function App() {
           <stack.Screen name="cashout" component={CashOut} options={{ headerShown: false }}/>
           <stack.Screen name="cashout2" component={CashOut2} options={{ headerShown: false }}/>
           <stack.Screen name="transfer" component={TransferScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="recharge" component={ RechargeScreen } options={{ headerShown: false }}/>
+          <stack.Screen name="recharge" component={ Recharge } options={{ headerShown: false }}/>
         </stack.Navigator>
       </NavigationContainer>
       </View>

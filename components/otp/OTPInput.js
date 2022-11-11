@@ -30,8 +30,8 @@
  * Created Date: Sunday, November 6th 2022, 1:21:41 am                         *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 10th 2022, 7:09:34 pm                               *
- * Modified By: Hari Prasad
+ * Last Modified: November 11th 2022, 1:57:27 pm                               *
+ * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -322,7 +322,8 @@ const styles = StyleSheet.create({
     marginLeft: 25,
   },
   loginButton: {
-    marginTop: 300,
-    marginLeft: 15,
+    marginTop: 100,
+    padding: 16
+    // marginLeft: 15,
   },
 });

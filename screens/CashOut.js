@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 6:12:30 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 9th 2022, 8:32:27 pm                                *
+ * Last Modified: November 11th 2022, 2:58:17 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -41,11 +41,26 @@
  * --------------------------------------------------------------------------- *
  */
 
-import React from "react";
-import { View, StyleSheet, StatusBar, Text } from "react-native";
+import * as React from "react";
+import { View, StyleSheet, StatusBar, Text, BackHandler } from "react-native";
 import Next from "../components/icons/NextIcon"
 
-export default function CashIn({ navigation }) {
+export default function CashIn({ navigation, route }) {
+
+  const backAction = () => {
+    navigation.navigate("home", {
+      phoneNumber: route.params.phoneNumber,
+      pin: route.params.pin,
+    });
+    return true;
+  };
+
+  React.useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.headerWrap}>
@@ -53,7 +68,7 @@ export default function CashIn({ navigation }) {
       </View>
       <View style={styles.optionsContainer}>
         <View style={styles.optionItem}>
-          <Text onPress={() => navigation.navigate('cashout2')} style={styles.optionText}>Agent / Merchant</Text>
+          <Text onPress={() => navigation.navigate('cashout2',{phoneNumber:route.params.phoneNumber, pin: route.params.pin})} style={styles.optionText}>Agent / Merchant</Text>
           <Next style={{marginTop:4}} />
         </View>
       </View>
@@ -80,7 +95,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   pageTitle: {
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     color: "#fff",
     fontSize: 20,
     fontWeight: "bold"
