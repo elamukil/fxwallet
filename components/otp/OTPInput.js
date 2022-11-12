@@ -30,7 +30,7 @@
  * Created Date: Sunday, November 6th 2022, 1:21:41 am                         *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 11th 2022, 1:57:27 pm                               *
+ * Last Modified: November 12th 2022, 11:09:47 pm                              *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -43,14 +43,19 @@
 
 import { setStatusBarNetworkActivityIndicatorVisible } from "expo-status-bar";
 import React, { useRef, useState, useEffect } from "react";
-import { TextInput, View, StyleSheet, Text, Alert, BackHandler } from "react-native";
+import {
+  TextInput,
+  View,
+  StyleSheet,
+  Text,
+  Alert,
+  BackHandler,
+} from "react-native";
 import PrimaryButton from "../../components/ui/PrimaryButton";
 import HomeScreen from "../../screens/HomeScreen";
 import axios from "axios";
 
-
 const OTPInput = ({ route, navigation }) => {
-  
   const pin1Ref = useRef(null);
   const pin2Ref = useRef(null);
   const pin3Ref = useRef(null);
@@ -67,30 +72,31 @@ const OTPInput = ({ route, navigation }) => {
     refs.current && refs.current.focus();
   };
   console.log(route.params.phoneNumber);
-  console.log('amount',route.params.amount)
-  const pinNumber = Number(pin1 + pin2 + pin3 + pin4)
+  console.log("amount", route.params.amount);
+  const pinNumber = Number(pin1 + pin2 + pin3 + pin4);
   console.log("pin", pin1 + pin2 + pin3 + pin4);
-  console.log('we are here',route.params.onPage || 'undefined')
-  console.log(route.params.onPage)
+  console.log("we are here", route.params.onPage || "undefined");
+  console.log(route.params.onPage);
 
-  
- 
-    const backAction = () => {
-        if(route.params.onPage === 'transfer'){
-            navigation.navigate('transfer',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})
-        }else{
-            console.log('loginotp')
-            navigation.navigate('login')
-        }
-      return true;
-    };
-  
-    useEffect(() => {
-      BackHandler.addEventListener("hardwareBackPress", backAction);
-  
-      return () =>
-        BackHandler.removeEventListener("hardwareBackPress", backAction);
-    }, []);
+  const backAction = () => {
+    if (route.params.onPage === "transfer") {
+      navigation.navigate("transfer", {
+        phoneNumber: route.params.phoneNumber,
+        pin: pinNumber,
+      });
+    } else {
+      console.log("loginotp");
+      navigation.navigate("login");
+    }
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
 
   async function login() {
     console.log("Hi");
@@ -99,58 +105,130 @@ const OTPInput = ({ route, navigation }) => {
       PIN: Number(pin1 + pin2 + pin3 + pin4),
     };
     console.log(verifyRequest.phoneNumber);
-    console.log(route.params.pin)
+    console.log(route.params.pin);
 
-        if(route.params.onPage ==='transfer'){
-            let verifyRequest = {
-                requestType:"TRANSFER",
-                fromAccounts:[{phoneNumber:route.params.phoneNumber, amount:Number(route.params.amount)}],  
-                toAccounts:[{phoneNumber:route.params.toPhoneNumber,amount:Number(route.params.amount)}],
-                description: route.params.description,
-                PIN: pinNumber
-              };
-              console.log(typeof(pinNumber));
-              console.log(verifyRequest)
-              axios
-                .post(
-                  "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/transfer",
-                  verifyRequest
-                )
-                .then((res) => {
-                  console.log("hello", res.data);
-                  Alert.alert("Transfer Successful", 'Click Proceed to Continue', [{text: 'Proceed', onPress:() => navigation.navigate('home',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})}]);
-                  
-                })
-                .catch((err) => {
-                  console.log(err);
-                  Alert.alert("Transfer Unuccessful", 'Click Proceed to Try Again', [{text: 'Proceed', onPress:() => navigation.navigate('transfer',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})}]);
-                });
-        }else{
-            let verifyRequest1 = {
-                phoneNumber: route.params.phoneNumber, 
-                PIN: pinNumber
-              };
-              console.log(verifyRequest1)
-            axios
-                .post(
-                  "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/validate/pin",
-                  verifyRequest1
-                )
-                .then((res) => {
-                  console.log("hello", res.data);
-                  navigation.navigate("home", { phoneNumber: route.params.phoneNumber, pin: pinNumber});
-                  
-                })
-                .catch((err) => {
-                  console.log(err);
-                  Alert.alert("Incorrect Pin", 'Click Proceed to Try Again', [{text: 'Proceed'}]);
-                });
-        }
+    if (route.params.onPage === "transfer") {
+      let verifyRequest = {
+        requestType: "TRANSFER",
+        fromAccounts: [
+          {
+            phoneNumber: route.params.phoneNumber,
+            amount: Number(route.params.amount),
+          },
+        ],
+        toAccounts: [
+          {
+            phoneNumber: route.params.toPhoneNumber,
+            amount: Number(route.params.amount),
+          },
+        ],
+        description: route.params.description,
+        PIN: pinNumber,
+      };
+      console.log(typeof pinNumber);
+      console.log(verifyRequest);
+      axios
+        .post(
+          "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/transfer",
+          verifyRequest
+        )
+        .then((res) => {
+          console.log("hello", res.data);
+          Alert.alert("Transfer Successful", "Click Proceed to Continue", [
+            {
+              text: "Proceed",
+              onPress: () =>
+                navigation.navigate("home", {
+                  phoneNumber: route.params.phoneNumber,
+                  pin: pinNumber,
+                }),
+            },
+          ]);
+        })
+        .catch((err) => {
+          console.log(err);
+          Alert.alert("Transfer Unuccessful", "Click Proceed to Try Again", [
+            {
+              text: "Proceed",
+              onPress: () =>
+                navigation.navigate("transfer", {
+                  phoneNumber: route.params.phoneNumber,
+                  pin: pinNumber,
+                }),
+            },
+          ]);
+        });
+    } else if (route.params.onPage === "termdeposit") {
+      let verifyRequest = {
+        phoneNumber: route.params.phoneNumber,
+        tenor: route.params.tenor,
+        principalAmount: route.params.principalAmount,
+        calculationType: route.params.calculationType,
+        PIN: pinNumber,
+      };
+      console.log(typeof pinNumber);
+      console.log(verifyRequest);
+      axios
+        .post(
+          "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/td",
+          verifyRequest
+        )
+        .then((res) => {
+          console.log("hello", res.data);
+          Alert.alert("Deposit created successfully", "Click Proceed to Continue", [
+            {
+              text: "Proceed",
+              onPress: () =>
+                navigation.navigate("home", {
+                  phoneNumber: route.params.phoneNumber,
+                  pin: pinNumber,
+                }),
+            },
+          ]);
+        })
+        .catch((err) => {
+          console.log(err);
+          Alert.alert("Deposit creation Unuccessful", "Click Proceed to Try Again", [
+            {
+              text: "Proceed",
+              onPress: () =>
+                navigation.navigate("termdeposit", {
+                  phoneNumber: route.params.phoneNumber,
+                  pin: pinNumber,
+                }),
+            },
+          ]);
+        });
+    } else {
+      let verifyRequest1 = {
+        phoneNumber: route.params.phoneNumber,
+        PIN: pinNumber,
+      };
+      console.log(verifyRequest1);
+      axios
+        .post(
+          "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/validate/pin",
+          verifyRequest1
+        )
+        .then((res) => {
+          console.log("hello", res.data);
+          navigation.navigate("home", {
+            phoneNumber: route.params.phoneNumber,
+            pin: pinNumber,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          Alert.alert("Incorrect Pin", "Click Proceed to Try Again", [
+            { text: "Proceed" },
+          ]);
+        });
+    }
   }
-  const clearInput1 = React.useCallback(()=> setPin1(''), [])
-  const clearInput2 = React.useCallback(()=> setPin2(''), [])
-  const clearInput3 = React.useCallback(()=> setPin3(''), [])
-  const clearInput4 = React.useCallback(()=> setPin4(''), [])
+  const clearInput1 = React.useCallback(() => setPin1(""), []);
+  const clearInput2 = React.useCallback(() => setPin2(""), []);
+  const clearInput3 = React.useCallback(() => setPin3(""), []);
+  const clearInput4 = React.useCallback(() => setPin4(""), []);
   // useEffect(() => {
   // getHash().then(hash => {
   //     // use this hash in the message.
@@ -184,21 +262,18 @@ const OTPInput = ({ route, navigation }) => {
           ref={pin1Ref}
           autoFocus={true}
           keyboardType="number-pad"
-        //   caretHidden={true}
+          //   caretHidden={true}
           onChangeText={(pin1) => {
             setPin1(pin1);
-            if (pin1 == '')
-              pin1Ref.current.focus();
-            if (pin1 !== null && pin1 !== '') {
+            if (pin1 == "") pin1Ref.current.focus();
+            if (pin1 !== null && pin1 !== "") {
               pin2Ref.current.focus();
             }
           }}
-          onKeyPress = {() => {
-            console.log("pin1 is : ", pin1)
-            if (pin1 == '')
-              pin1Ref.current.focus();
-            if (pin1 !== null && pin1 !== '')
-              pin2Ref.current.focus();    
+          onKeyPress={() => {
+            console.log("pin1 is : ", pin1);
+            if (pin1 == "") pin1Ref.current.focus();
+            if (pin1 !== null && pin1 !== "") pin2Ref.current.focus();
           }}
           value={pin1}
           style={{
@@ -224,20 +299,17 @@ const OTPInput = ({ route, navigation }) => {
           ref={pin2Ref}
           keyboardType="number-pad"
           maxLength={1}
-        //   caretHidden={true}
+          //   caretHidden={true}
           onChangeText={(pin2) => {
             setPin2(pin2);
-            if (pin2 == '')
-              pin1Ref.current.focus();
-            if (pin2 !== null && pin2 !== '') {
+            if (pin2 == "") pin1Ref.current.focus();
+            if (pin2 !== null && pin2 !== "") {
               pin3Ref.current.focus();
             }
           }}
-          onKeyPress = {() => {
-            if (pin2 == '' || pin2 == null)
-              pin1Ref.current.focus();
-            if (pin2 !== null && pin2 !== '')
-              pin3Ref.current.focus();
+          onKeyPress={() => {
+            if (pin2 == "" || pin2 == null) pin1Ref.current.focus();
+            if (pin2 !== null && pin2 !== "") pin3Ref.current.focus();
           }}
           value={pin2}
           style={{
@@ -264,16 +336,14 @@ const OTPInput = ({ route, navigation }) => {
           maxLength={1}
           onChangeText={(pin3) => {
             setPin3(pin3);
-            if (pin3 == '')
-              pin2Ref.current.focus();
-            if (pin3 !== null && pin3 !== '') {
+            if (pin3 == "") pin2Ref.current.focus();
+            if (pin3 !== null && pin3 !== "") {
               pin4Ref.current.focus();
             }
           }}
-          onKeyPress = {() => {
-            if (pin3 == '' || pin3 == null)
-              pin2Ref.current.focus();
-            if (pin3 !== null && pin3 !== '') {
+          onKeyPress={() => {
+            if (pin3 == "" || pin3 == null) pin2Ref.current.focus();
+            if (pin3 !== null && pin3 !== "") {
               pin4Ref.current.focus();
             }
           }}
@@ -300,22 +370,20 @@ const OTPInput = ({ route, navigation }) => {
           ref={pin4Ref}
           keyboardType="number-pad"
           maxLength={1}
-          onChangeText={(pin4) => {setPin4(pin4)
-            if (pin4 == '')
-              pin3Ref.current.focus();
-            if (pin4 !== null && pin4 !== '') {
-                pin1Ref.current.focus();
-              }
-          }
-        }
-        onKeyPress = {() => {
-          if (pin4 == ''|| pin4 == null)
-              pin3Ref.current.focus();
-          if (pin4 !== null && pin4 !== '') {
-                pin1Ref.current.focus();
-          }
-        }}
-        value={pin4}
+          onChangeText={(pin4) => {
+            setPin4(pin4);
+            if (pin4 == "") pin3Ref.current.focus();
+            if (pin4 !== null && pin4 !== "") {
+              pin1Ref.current.focus();
+            }
+          }}
+          onKeyPress={() => {
+            if (pin4 == "" || pin4 == null) pin3Ref.current.focus();
+            if (pin4 !== null && pin4 !== "") {
+              pin1Ref.current.focus();
+            }
+          }}
+          value={pin4}
           style={{
             backgroundColor: "#fff",
             marginTop: 90,
@@ -337,7 +405,17 @@ const OTPInput = ({ route, navigation }) => {
       </View>
       {/* <View style={{position: 'absolute', marginTop: 295, marginLeft: 280}}><Text style={{color: '#79868F'}}>Resend Otp</Text></View> */}
       <View style={styles.loginButton}>
-        <PrimaryButton onPress={() => { login(); clearInput1(); clearInput2(); clearInput3(); clearInput4(); }}>Verify</PrimaryButton>
+        <PrimaryButton
+          onPress={() => {
+            login();
+            clearInput1();
+            clearInput2();
+            clearInput3();
+            clearInput4();
+          }}
+        >
+          Verify
+        </PrimaryButton>
       </View>
     </View>
   );
@@ -358,7 +436,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     marginTop: 100,
-    padding: 16
+    padding: 16,
     // marginLeft: 15,
   },
 });

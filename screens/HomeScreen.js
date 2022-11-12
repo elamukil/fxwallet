@@ -30,13 +30,8 @@
  * Created Date: Wednesday, November 9th 2022, 10:31:44 am                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
-<<<<<<< HEAD
- * Last Modified: November 11th 2022, 2:58:54 pm                               *
+ * Last Modified: November 12th 2022, 10:25:27 pm                              *
  * Modified By: Hari Prasad                                                    *
-=======
- * Last Modified: November 11th 2022, 2:58:54 pm                               *
- * Modified By: Hari Prasad                                                    *
->>>>>>> 13dc4ed0ba324c4a647ee82b32789eeb3c084db4
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -56,6 +51,7 @@ import {
   ScrollView,
   Pressable,
   BackHandler,
+  Dimensions,
   Alert
 } from "react-native";
 import React, { useEffect, useState } from "react";
@@ -77,14 +73,19 @@ import HistoryW from "../components/icons/HistoryIconW";
 import PayBills from "../components/icons/PayBills";
 import CashIn from "../components/icons/CashIn"
 import CashOut from "../components/icons/CashOut"
-
+import ViewSlider from 'react-native-view-slider'
 import axios from "axios";
+import TdBalance from "./HomeComponents/TdBalance";
+import TdBalance2 from "./HomeComponents/TdBalance2";
+const { width, height } = Dimensions.get('window');
 
 
 
 export default function HomeScreen({ route, navigation }) {
   const [transaction, setTransaction] = useState([]);
   const [balance, setBalance] = useState([]);
+  const [tdBalance, setTd] = useState([]);
+
   if(route.name==='home'){
     const backAction = () => {
       Alert.alert("Hold on!", "Are you sure you want to go back?", [
@@ -105,7 +106,6 @@ export default function HomeScreen({ route, navigation }) {
         BackHandler.removeEventListener("hardwareBackPress", backAction);
     }, []);
   }
-
   
   useEffect(() => {
     function getTransaction() {
@@ -124,6 +124,12 @@ export default function HomeScreen({ route, navigation }) {
           .catch((error) => {});
         })
         .catch((error) => {});
+        axios.get(`https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/${route.params.phoneNumber}`)
+          .then((response) => {
+            setTd(response.data.TDDetails);
+            console.log("td", tdBalance)
+          })
+          .catch((error) => {});
     }
     getTransaction();
   }, []);
@@ -143,6 +149,17 @@ export default function HomeScreen({ route, navigation }) {
         </View>
       </View>
       <View style={styles.mainBody}>
+      <ViewSlider
+      slideCount = {2+tdBalance.length}
+      dots = {true}
+      dotActiveColor = '#0092A0'
+      dotInactiveColor = 'gray'
+      dotsContainerStyle={styles.dotContainer}
+      autoSlide = {false}
+      // slideInterval = {1000}
+      renderSlides = {
+        <>
+        <View style={styles.carousalView}>
         <LinearGradient
           colors={["#0092A0", "#095B6D"]}
           start={{ x: 0, y: 0.5 }}
@@ -164,6 +181,13 @@ export default function HomeScreen({ route, navigation }) {
             </View>
           </View>
         </LinearGradient>
+        </View>
+        {(tdBalance.length === 0) ? '' : <TdBalance2 props={tdBalance} />}
+        <TdBalance phoneNumber={route.params.phoneNumber} navigation={navigation} pin={route.params.pin}/>
+        
+        </>
+      }
+        />
         <View style={styles.serviceWrap}>
           <View style={styles.service}>
             <View style={styles.serviceIcon}>
@@ -257,8 +281,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#DDDDDD",
   },
   balanceContainer: {
-    height: "auto",
-    // backgroundColor: "#095B6D",
+    height: 150,
+    // backgroundColor: "#095B6D"
+    width: "90%",
+    marginRight: 12,
     borderRadius: 8,
     padding: 16,
     marginBottom: 24,
@@ -427,4 +453,18 @@ const styles = StyleSheet.create({
     borderColor: "#fff",
     borderWidth: 0.5,
   },
+  carousalView: {
+    width: width,
+    paddingBottom: 10,
+    // alignItems: "center"
+  },
+  dotContainer: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    // bottom: 30
+    marginTop: 160,
+    alignItems: "center",
+    justifyContent: "center",
+    alignContent: "center",
+  }
 });

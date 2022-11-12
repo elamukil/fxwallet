@@ -25,12 +25,12 @@
  * CONTENTS, OR TO MANUFACTURE, USE, OR SELL ANYTHING THAT IT MAY DESCRIBE,    *
  * IN WHOLE OR IN PART.                                                        *
  *                                                                             *
- * File: \App.js                                                               *
+ * File: \screens\CountryCode.js                                               *
  * Project: kbxwallet                                                          *
- * Created Date: Thursday, November 3rd 2022, 12:51:23 pm                      *
- * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
- * -----
- * Last Modified: November 12th 2022, 10:23:06 pm                              *
+ * Created Date: Saturday, November 12th 2022, 12:15:34 pm                     *
+ * Author: Hari Prasad <hari@kbxdigital.com>                                   *
+ * -----                                                                       *
+ * Last Modified: November 12th 2022, 12:24:26 pm                              *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -41,63 +41,46 @@
  * --------------------------------------------------------------------------- *
  */
 
-// import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import LoginScreen from './screens/LoginScreen';
-import SignUPScreen from './screens/SignUPScreen';
-import HomeScreen from './screens/HomeScreen'
-import OTPInput from './components/otp/OTPInput';
-import TransferScreen from './screens/TransferScreen';
-import Walletimg from './assets/walletimg';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CashIn from './screens/CashIn';
-import CashIn2 from './screens/CashIn2';
-import CashOut from './screens/CashOut';
-import CashOut2 from './screens/CashOut2';
-import Recharge from './screens/Recharge';
-import TermDeposit from './screens/TermDeposit'
-import TdBalance from './screens/HomeComponents/TdBalance';
-
-const stack = createNativeStackNavigator()
+import { useState } from "react";
+import { TextInput, View, StyleSheet, Text, Pressable, SafeAreaView, TouchableOpacity } from 'react-native'
+import {CountryPicker} from "react-native-country-codes-picker";
 
 export default function App() {
-  
+  const [show, setShow] = useState(false);
+  const [countryCode, setCountryCode] = useState('');
+
   return (
-    
-      <View style={{ flex: 1, backgroundColor: '#fff' }}>
-        <NavigationContainer>
-        <stack.Navigator initialRouteName="Login"
-        screenOptions={{
-          headerShown: false,
-          header: () => null,
-          contentStyle: { backgroundColor: '#fff' },
+    <View style={styles.container}>
+      <TouchableOpacity
+        onPress={() => setShow(true)}
+        style={{
+            width: '80%',
+            height: 60,
+            backgroundColor: 'black',
+            padding: 10,
+        }}
+      >
+        <Text style={{
+            color: 'white',
+            fontSize: 20
         }}>
-          <stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="otp" component={OTPInput}/>
-          <stack.Screen name="signup" component={SignUPScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="home" component={HomeScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="cashin" component={CashIn} options={{ headerShown: false }}/>
-          <stack.Screen name="cashin2" component={CashIn2} options={{ headerShown: false }}/>
-          <stack.Screen name="cashout" component={CashOut} options={{ headerShown: false }}/>
-          <stack.Screen name="cashout2" component={CashOut2} options={{ headerShown: false }}/>
-          <stack.Screen name="transfer" component={TransferScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="recharge" component={ Recharge } options={{ headerShown: false }}/>
-          <stack.Screen name="termdeposit" component={ TermDeposit } options={{ headerShown: false }}/>
-          <stack.Screen name="tdbalance" component={ TdBalance } options={{ headerShown: false }}/>
-        </stack.Navigator>
-      </NavigationContainer>
-      </View>
-      
+            {countryCode}
+        </Text>
+      </TouchableOpacity>
+      <CountryPicker
+        show={show}
+        // when picker button press you will get the country object with dial code
+        pickerButtonOnPress={(item) => {
+          setCountryCode(item.dial_code);
+          setShow(false);
+        }}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  inputContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    flexDirection: 'row-reverse',
-},
-
-});
+    container: {
+        padding:16
+    }
+})
