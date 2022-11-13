@@ -30,7 +30,7 @@
  * Created Date: Sunday, November 6th 2022, 1:21:41 am                         *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 12th 2022, 11:09:47 pm                              *
+ * Last Modified: November 13th 2022, 10:39:42 pm                              *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -78,37 +78,48 @@ const OTPInput = ({ route, navigation }) => {
   console.log("we are here", route.params.onPage || "undefined");
   console.log(route.params.onPage);
 
-  
-    const previousRoute = route.params.onPage
-    console.log(previousRoute)
-    // function back(){
-    //     if(previousRoute === 'transfer'){
-    //         navigation.navigate('transfer',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})
-    //     }
-    // }
-    const backAction = () => {
-        const routes = navigation.getState()?.routes;
-        const prevRoute = routes[routes.length - 2];
-        console.log(prevRoute)
-        if(previousRoute === 'transfer'){
-            navigation.navigate('transfer',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})
-        }
-        else if(previousRoute === 'cashout2'){
-            navigation.navigate('cashout2',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})
-        }
-        else{
-            console.log('loginotp')
-            navigation.navigate('login',{phoneNumber: route.params.phoneNumber, pin: pinNumber})
-        }
-      return true;
-    };
-  
-    useEffect(() => {
-      BackHandler.addEventListener("hardwareBackPress", backAction);
-  
-      return () =>
-        BackHandler.removeEventListener("hardwareBackPress", backAction);
-    }, [route.params.onPage]);
+  const previousRoute = route.params.onPage;
+  console.log(previousRoute);
+  // function back(){
+  //     if(previousRoute === 'transfer'){
+  //         navigation.navigate('transfer',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})
+  //     }
+  // }
+  const backAction = () => {
+    const routes = navigation.getState()?.routes;
+    const prevRoute = routes[routes.length - 2];
+    console.log(prevRoute);
+    if (previousRoute === "transfer") {
+      navigation.navigate("transfer", {
+        phoneNumber: route.params.phoneNumber,
+        pin: pinNumber,
+      });
+    } else if (route.params.onPage === "termdeposit") {
+      navigation.navigate("termdeposit", {
+        phoneNumber: route.params.phoneNumber,
+        pin: pinNumber,
+      });
+    } else if (previousRoute === "cashout2") {
+      navigation.navigate("cashout2", {
+        phoneNumber: route.params.phoneNumber,
+        pin: pinNumber,
+      });
+    } else {
+      console.log("loginotp");
+      navigation.navigate("login", {
+        phoneNumber: route.params.phoneNumber,
+        pin: pinNumber,
+      });
+    }
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, [route.params.onPage]);
 
   async function login() {
     console.log("Hi");
@@ -118,116 +129,222 @@ const OTPInput = ({ route, navigation }) => {
     };
     console.log(verifyRequest.phoneNumber);
     console.log(route.params.pin);
-        if(route.params.onPage ==='transfer'){
-            let verifyRequest = {
-                requestType:"TRANSFER",
-                fromAccounts:[{phoneNumber:route.params.phoneNumber, amount:Number(route.params.amount)}],  
-                toAccounts:[{phoneNumber:route.params.toPhoneNumber,amount:Number(route.params.amount)}],
-                description: route.params.description,
-                PIN: pinNumber
-              };
-              console.log(typeof(pinNumber));
-              console.log(verifyRequest)
-              axios
-                .post(
-                  "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/transfer",
-                  verifyRequest
-                )
-                .then((res) => {
-                  console.log("hello", res.data);
-                  Alert.alert("Transfer Successful", 'Click Proceed to Continue', [{text: 'Proceed', onPress:() => navigation.navigate('home',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})}]);
-                  
-                })
-                .catch((err) => {
-                  console.log(err);
-                  Alert.alert("Transfer Unuccessful", 'Click Proceed to Try Again', [{text: 'Proceed', onPress:() => navigation.navigate('transfer',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})}]);
-                });
-                
-        }
-        else if (route.params.onPage === "termdeposit") {
-          let verifyRequest = {
+    if (route.params.onPage === "transfer") {
+      let verifyRequest = {
+        requestType: "TRANSFER",
+        fromAccounts: [
+          {
             phoneNumber: route.params.phoneNumber,
-            tenor: route.params.tenor,
-            principalAmount: route.params.principalAmount,
-            calculationType: route.params.calculationType,
+            amount: Number(route.params.amount),
+          },
+        ],
+        toAccounts: [
+          {
+            phoneNumber: route.params.toPhoneNumber,
+            amount: Number(route.params.amount),
+          },
+        ],
+        description: route.params.description,
+        PIN: pinNumber,
+      };
+      console.log(typeof pinNumber);
+      console.log(verifyRequest);
+      axios
+        .post(
+          "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/transfer",
+          verifyRequest
+        )
+        .then((res) => {
+          console.log("hello", res.data);
+          Alert.alert("Transfer Successful", "Click Proceed to Continue", [
+            {
+              text: "Proceed",
+              onPress: () =>
+                navigation.navigate("home", {
+                  phoneNumber: route.params.phoneNumber,
+                  pin: pinNumber,
+                }),
+            },
+          ]);
+        })
+        .catch((err) => {
+          console.log(err);
+          Alert.alert("Please check the pin", "Or check your input", [
+            {
+              text: "Try again",
+              onPress: () =>
+                navigation.navigate("transfer", {
+                  phoneNumber: route.params.phoneNumber,
+                  pin: pinNumber,
+                }),
+            },
+          ]);
+        });
+    } else if (route.params.onPage === "termdeposit") {
+      console.log("tedphno", route.params.phoneNumber);
+      console.log("tedphno", route.params.tenor);
+      console.log("tedphno", route.params.principalAmount);
+      console.log("tedphno", route.params.calculationType);
+      console.log("routename", route.params.onPage);
+      let verifyRequest = {
+        phoneNumber: route.params.phoneNumber,
+        tenor: Number(route.params.tenor),
+        principalAmount: Number(route.params.principalAmount),
+        calculationType: route.params.calculationType,
+      };
+      console.log(typeof pinNumber);
+      console.log(verifyRequest);
+      axios
+        .post(
+          "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/td",
+          verifyRequest
+        )
+        .then((res) => {
+          console.log("hello", res.data);
+          let verifyRequest = {
+            requestType: "TD",
+            fromAccounts: [
+              {
+                phoneNumber: route.params.phoneNumber,
+                amount: Number(route.params.principalAmount),
+              },
+            ],
+            toAccounts: [
+              {
+                phoneNumber: res.data.data,
+                amount: Number(route.params.principalAmount),
+              },
+            ],
             PIN: pinNumber,
           };
           console.log(typeof pinNumber);
           console.log(verifyRequest);
           axios
             .post(
-              "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/td",
+              "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/transfer",
               verifyRequest
             )
             .then((res) => {
               console.log("hello", res.data);
-              Alert.alert("Deposit created successfully", "Click Proceed to Continue", [
-                {
-                  text: "Proceed",
-                  onPress: () =>
-                    navigation.navigate("home", {
-                      phoneNumber: route.params.phoneNumber,
-                      pin: pinNumber,
-                    }),
-                },
-              ]);
+              Alert.alert(
+                "Term Deposit Account created successfully",
+                "Click Proceed to Continue",
+                [
+                  {
+                    text: "Proceed",
+                    onPress: () =>
+                      navigation.navigate("home", {
+                        phoneNumber: route.params.phoneNumber,
+                        pin: pinNumber,
+                      }),
+                  },
+                ]
+              );
             })
             .catch((err) => {
               console.log(err);
-              Alert.alert("Deposit creation Unuccessful", "Click Proceed to Try Again", [
-                {
-                  text: "Proceed",
-                  onPress: () =>
-                    navigation.navigate("termdeposit", {
-                      phoneNumber: route.params.phoneNumber,
-                      pin: pinNumber,
-                    }),
-                },
-              ]);
+              Alert.alert(
+                "Account creation Unuccessful",
+                "Check your pin or go back",
+                [
+                  {
+                    text: "Go Back",
+                    onPress: () =>
+                      navigation.navigate("termdeposit", {
+                        phoneNumber: route.params.phoneNumber,
+                        pin: pinNumber,
+                      }),
+                  },
+                  { text: "Try Again" },
+                ]
+              );
             });
-        }
-        else if(route.params.onPage === 'cashout2'){
-            let verifyRequest = {
-                requestType:"CASHOUT",
-                fromAccounts:[{"phoneNumber":route.params.phoneNumber, "amount":route.params.amount}],
-                description: route.params.description,
-                PIN: route.params.pin
-              };
-              axios
-                    .post(
-                      "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/transfer",
-                      verifyRequest
-                    )
-                    .then((res) => {
-                      console.log("hello", res);
-                      Alert.alert("Cash Out Successful", 'Click OK to Continue', [{text: 'OK', onPress:() => navigation.navigate('home',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})}])
-                    })
-                    .catch((err) => {
-                      console.log(err);
-                      Alert.alert("Incorrect Pin", 'Please Try Again', [{text: 'OK'}])
-                    });
-        }
-        else {
-            let verifyRequest1 = {
-                phoneNumber: route.params.phoneNumber, 
-                PIN: pinNumber
-              };
-              console.log(verifyRequest1)
-            axios
-                .post(
-                  "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/validate/pin",
-                  verifyRequest1
-                )
-                .then((res) => {
-                  console.log("hello", res.data);
-                  navigation.navigate("home", { phoneNumber: route.params.phoneNumber, pin: pinNumber});
-                  
-                })
-                .catch((err) => {
-                  console.log(err);
-                  Alert.alert("Incorrect Pin", 'Click Proceed to Try Again', [{text: 'Proceed'}]);
-                });
-        }
+        })
+        .catch((err) => {
+          console.log(err);
+          Alert.alert(
+            "Account creation Unuccessful",
+            "Click Proceed to Try Again",
+            [
+              {
+                text: "Proceed",
+                onPress: () =>
+                  navigation.navigate("termdeposit", {
+                    phoneNumber: route.params.phoneNumber,
+                    pin: pinNumber,
+                  }),
+              },
+            ]
+          );
+        });
+    } else if (route.params.onPage === "cashout2") {
+      let verifyRequest = {
+        requestType: "CASHOUT",
+        fromAccounts: [
+          {
+            phoneNumber: route.params.phoneNumber,
+            amount: Number(route.params.amount),
+          },
+        ],
+        PIN: pinNumber,
+      };
+      axios
+        .post(
+          "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/transfer",
+          verifyRequest
+        )
+        .then((res) => {
+          console.log("hello", res);
+          Alert.alert("Cash Out Successful", "Click OK to Continue", [
+            {
+              text: "OK",
+              onPress: () =>
+                navigation.navigate("home", {
+                  phoneNumber: route.params.phoneNumber,
+                  pin: pinNumber,
+                }),
+            },
+          ]);
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log("verifyRequest", verifyRequest);
+          Alert.alert("Please check the pin", "Or check your input", [
+            {
+              text: "Try again",
+              onPress: () =>
+                navigation.navigate("cashout2", {
+                  phoneNumber: route.params.phoneNumber,
+                  pin: pinNumber,
+                }),
+            },
+          ]);
+        });
+    } else {
+      let verifyRequest1 = {
+        phoneNumber: route.params.phoneNumber,
+        PIN: pinNumber,
+      };
+      console.log(verifyRequest1);
+      axios
+        .post(
+          "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/validate/pin",
+          verifyRequest1
+        )
+        .then((res) => {
+          console.log("hello", res.data);
+          navigation.navigate("home", {
+            phoneNumber: route.params.phoneNumber,
+            pin: pinNumber,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          Alert.alert("Incorrect Pin", "Click Proceed to Try Again", [
+            { text: "Proceed" },
+          ]);
+        });
+    }
   }
   const clearInput1 = React.useCallback(() => setPin1(""), []);
   const clearInput2 = React.useCallback(() => setPin2(""), []);

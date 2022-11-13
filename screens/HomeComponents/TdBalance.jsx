@@ -63,13 +63,15 @@ const styles = StyleSheet.create({
   carousalView: {
     width: width,
     paddingBottom: 10,
-    // alignItems: "center"
+    paddingRight: 16,
+    paddingLeft: 16,
+    alignItems: "center"
   },
   balanceContainer: {
     height: 150,
     // backgroundColor: "#095B6D"
-    width: "90%",
-    marginRight: 12,
+    width: "100%",
+    // marginLeft: 16,
     borderRadius: 8,
     padding: 16,
     marginBottom: 24,
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   balanceAmount: {
-    fontSize: 32,
+    fontSize: 28,
     color: "#fff",
     fontWeight: "bold",
     marginLeft: -8,

@@ -30,7 +30,7 @@
  * Created Date: Thursday, November 3rd 2022, 12:51:23 pm                      *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----
- * Last Modified: November 12th 2022, 10:23:06 pm                              *
+ * Last Modified: November 13th 2022, 12:16:23 pm                              *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -60,6 +60,7 @@ import CashIn3 from './screens/CashIn3';
 import Recharge from './screens/Recharge';
 import TermDeposit from './screens/TermDeposit'
 import TdBalance from './screens/HomeComponents/TdBalance';
+import TermDepositTransactions from './screens/TermDepositTransactions';
 
 const stack = createNativeStackNavigator()
 
@@ -88,6 +89,7 @@ export default function App() {
           <stack.Screen name="recharge" component={ Recharge } options={{ headerShown: false }}/>
           <stack.Screen name="termdeposit" component={ TermDeposit } options={{ headerShown: false }}/>
           <stack.Screen name="tdbalance" component={ TdBalance } options={{ headerShown: false }}/>
+          <stack.Screen name="termdeposittransaction" component={ TermDepositTransactions } options={{ headerShown: false }}/>
         </stack.Navigator>
       </NavigationContainer>
       </View>

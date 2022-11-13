@@ -25,7 +25,7 @@ import PlusIcon from "../../components/icons/PlusIcon";
 import HistoryW from "../../components/icons/HistoryIconW";
 import React from "react";
 const { width, height } = Dimensions.get("window");
-function TdBalance({ props }) {
+function TdBalance({ props, phoneNumber, pin, navigation, route }) {
   console.log("props", props);
   return (
     <>
@@ -43,20 +43,30 @@ function TdBalance({ props }) {
                 <Text style={styles.balanceTitle}>Term Deposit</Text>
               </View>
               <View style={styles.balanceTitleWrap}>
-                <Text style={[styles.tenorTitle, {flex: 1}]}>
+                <Text style={[styles.tenorTitle, { flex: 1 }]}>
                   Account ID: {v.accountId}
                 </Text>
                 <Text style={styles.tenorTitle}>Tenor: {v.tenor}</Text>
               </View>
               <Text style={styles.balanceAmount}>{v.balance} MMK</Text>
-              <View style={styles.addWrap}>
-                <View style={styles.addMoneyBtn}>
-              <Text style={styles.addMoneyText}>See transactions</Text>
-            </View>
-                {/* <View style={styles.historyBtn}>
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("termdeposittransaction", {
+                    phoneNumber: phoneNumber,
+                    accountId: v.accountId,
+                    pin: pin,
+                  })
+                }
+              >
+                <View style={styles.addWrap}>
+                  <View style={styles.addMoneyBtn}>
+                    <Text style={styles.addMoneyText}>See transactions</Text>
+                  </View>
+                  {/* <View style={styles.historyBtn}>
               <HistoryW />
             </View> */}
-              </View>
+                </View>
+              </Pressable>
             </LinearGradient>
           </View>
         );
@@ -69,13 +79,15 @@ const styles = StyleSheet.create({
   carousalView: {
     width: width,
     paddingBottom: 10,
-    // alignItems: "center"
+    paddingRight: 16,
+    paddingLeft: 16,
+    alignItems: "center"
   },
   balanceContainer: {
     // height: 150,
     // backgroundColor: "#095B6D"
-    width: "90%",
-    marginRight: 12,
+    width: "100%",
+    // marginRight: 12,
     borderRadius: 8,
     padding: 16,
     marginBottom: 24,

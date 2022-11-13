@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 9th 2022, 6:12:30 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 13th 2022, 5:54:33 am                               *
- * Modified By: Tamil Elamukil                                                 *
+ * Last Modified: November 13th 2022, 11:06:07 pm                              *
+ * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -41,7 +41,7 @@
  * --------------------------------------------------------------------------- *
  */
 
-import  React, {useState} from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -52,17 +52,20 @@ import {
   BackHandler,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
-  Keyboard
+  SafeAreaView,
+  ScrollView,
+  Keyboard,
+  Alert
 } from "react-native";
 import Next from "../components/icons/NextIcon";
 import OTPInput from "../components/otp/OTPInput";
-import PrimaryButton from '../components/ui/PrimaryButton'
+import PrimaryButton from "../components/ui/PrimaryButton";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function CashOut2({ navigation, route }) {
-
-  const [agentCode, setAgentCode] = useState(0)
-  const [amount, setAmount] = useState(0)
-  const [description, setDescription] = useState(0)
+  const [agentCode, setAgentCode] = useState(0);
+  const [amount, setAmount] = useState(0);
+  const [description, setDescription] = useState(0);
   const backAction = () => {
     navigation.navigate("cashout", {
       phoneNumber: route.params.phoneNumber,
@@ -78,74 +81,98 @@ export default function CashOut2({ navigation, route }) {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
 
-  async function cashOut(){
-    let verifyRequest = {
-      requestType:"CASHOUT",
-      fromAccounts:[{"phoneNumber":route.params.phoneNumber, "amount":amount}],
-      description: description,
-      PIN: route.params.pin
-    };
-    axios
-          .post(
-            "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/transfer",
-            verifyRequest
-          )
-          .then((res) => {
-            console.log("hello", res);
-            Alert.alert("Cash Out Successful", 'Click OK to Continue', [{text: 'OK', onPress:() => navigation.navigate('home',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})}])
-          })
-          .catch((err) => {
-            console.log(err);
-            Alert.alert("Incorrect Pin");
-          });
-  }
+  const amountIsValid = !isNaN(amount) && amount > 0;
+
+  const validation = ()=>{
+    if (!amountIsValid) {
+        Alert.alert('Please enter a valid amount');
+        return false
+    }
+    else{
+      navigation.navigate("otp", {
+        phoneNumber: route.params.phoneNumber,
+        amount: amount,
+        pin: route.params.pin,
+        description: description,
+        onPage: route.name,
+      })
+    }
+}
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container1}>
+    <SafeAreaView style={styles.container1}>
+      <KeyboardAwareScrollView>
+    <ScrollView
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      behavior="padding"
+      scrollEnabled={false}
+      // contentContainerStyle={styles.container1}
+    >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-       <View style={styles.container}>
-      <View style={styles.headerWrap}>
-        <Text style={styles.pageTitle}>Cash Out</Text>
-      </View>
-      <View style={styles.optionsContainer}>
-        <Image
-          style={{ width: "100%", height: 200, resizeMode: "contain" }}
-          source={require("../assets/images/illCashOut.png")}
-        />
-      </View>
-      <Text style={styles.optionsTitle}>Enter Agent Short Code</Text>
-      <View style={{ padding: 12 }}>
-        <Text style={styles.optionsDesc}>
-          Please make sure the short code is correct before you initiate cash
-          out transaction. You will not get any reversal for the transaction
-          where incorrect amount and information is made.
-        </Text>
-      </View>
-      <TextInput style={styles.input} placeholder="Agent short code" keyboardType="numeric" onChangeText={(txt)=>setAgentCode(txt)}/>
-      <TextInput style={styles.input} placeholder="Enter Amount" keyboardType="numeric" onChangeText={(amt)=>setAmount(amt)}/>
-      <TextInput style={styles.input} placeholder="Enter Description" onChangeText={(txt)=>setDescription(txt)}/>
-      <View>
-            <PrimaryButton onPress={() => navigation.navigate('otp',{phoneNumber: route.params.phoneNumber,amount: amount,pin:route.params.pin,description:description, onPage: route.name})}>Transfer</PrimaryButton>
-        </View>
-        <View style={styles.footer}>
+        <View style={styles.container}>
+          <View style={styles.headerWrap}>
+            <Text style={styles.pageTitle}>Cash Out</Text>
+          </View>
+          <View style={styles.optionsContainer}>
+            <Image
+              style={{ width: "100%", height: 200, resizeMode: "contain" }}
+              source={require("../assets/images/illCashOut.png")}
+            />
+          </View>
+          <Text style={styles.optionsTitle}>Enter Agent Short Code</Text>
+          <View style={{ padding: 12 }}>
+            <Text style={styles.optionsDesc}>
+              Please make sure the short code is correct before you initiate
+              cash out transaction. You will not get any reversal for the
+              transaction where incorrect amount and information is made.
+            </Text>
+          </View>
+          <TextInput
+            style={styles.input}
+            placeholder="Agent short code"
+            keyboardType="numeric"
+            onChangeText={(txt) => setAgentCode(txt)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Enter Amount"
+            keyboardType="numeric"
+            onChangeText={(amt) => setAmount(amt)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Enter Description"
+            onChangeText={(txt) => setDescription(txt)}
+          />
+          <View>
+            <PrimaryButton
+              onPress={validation}
+            >
+              Transfer
+            </PrimaryButton>
+          </View>
+          <View style={styles.footer}>
             <Text style={styles.footerFaqText}>How to cash out at agent?</Text>
+          </View>
         </View>
-    </View>
-    </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
-   
+      </TouchableWithoutFeedback>
+    </ScrollView>
+    </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container1: {
     flex: 1,
+    height: "100%"
   },
   container: {
     flex: 1,
     textColor: "#fff",
     backgroundColor: "#fff",
     alignItems: "center",
+    height: "150%"
     // padding: 16,
   },
   input: {
@@ -191,19 +218,18 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   footerBtn: {
-    
     padding: 8,
     backgroundColor: "#0092A0",
     width: "90%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 8
+    borderRadius: 8,
   },
   footerText: {
     color: "#fff",
     fontSize: 16,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   footer: {
     // position: "absolute",
@@ -213,10 +239,10 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    padding: 16
+    padding: 16,
   },
   footerFaqText: {
     color: "#0092A0",
     fontSize: 16,
-  }
+  },
 });

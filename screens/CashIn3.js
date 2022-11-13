@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 9th 2022, 11:52:01 am                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 13th 2022, 6:20:03 am                               *
- * Modified By: Tamil Elamukil                                                 *
+ * Last Modified: November 13th 2022, 10:59:52 pm                              *
+ * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -51,11 +51,10 @@ const CashIn3 = ({navigation, route}) => {
 
     const [amount, setAmount] = useState(0)
     const [agent, setAgent] = useState('')
-    const [toPhoneNumber, setToPhoneNumber] = useState(0)
+    const [toPhoneNumber, setToPhoneNumber] = useState(route.params.phoneNumber)
 
     const amountIsValid = !isNaN(amount) && amount > 0;
     const agentIsValid = agent.trim(). length > 0;
-    const toPhoneNumberIsValid = toPhoneNumber.length>0
 
     
     const backAction = () => {
@@ -90,13 +89,9 @@ const CashIn3 = ({navigation, route}) => {
               console.log("hello", res.data);
               setAgent(res.data.data)
               Alert.alert(
-                "Greetings!",
-                "Copy Agent Code?",
+                "Copy agent code!",
+                res.data.data,
                 [
-                   {
-                      text: res.data.data,
-                    //   onPress: () => console.log("User pressed Later")
-                   },
                    { text: "OK",
                       onPress: () => console.log("OK Pressed")
                    }
@@ -112,10 +107,15 @@ const CashIn3 = ({navigation, route}) => {
             });
     }
     const validation = ()=>{
-        if (!amountIsValid || ! agentIsValid || !toPhoneNumberIsValid) {
-            Alert.alert('Invalid input' , ' Please check your input values');
+        if (!amountIsValid) {
+            Alert.alert('Please enter a valid amount');
             return false
-        }else{
+        }
+        else if (!agentIsValid) {
+            Alert.alert('Please enter a valid agent code');
+            return false
+        }
+        else{
             getAgentCode()
     
         }
@@ -145,9 +145,10 @@ const CashIn3 = ({navigation, route}) => {
                 <TextInput  
                     // autoFocus={true}
                     keyboardType="number-pad" 
-                    placeholder='Enter Mobile Number' 
+                    placeholder={toPhoneNumber}
+                    editable={false}
                     placeholderTextColor="#79868F"
-                    onChangeText={phone => setToPhoneNumber(phone)} 
+                    // onChangeText={phone => setToPhoneNumber(phone)} 
                     style={styles.loginTextInput}/>
             </View>
             <View>
@@ -163,7 +164,7 @@ const CashIn3 = ({navigation, route}) => {
                     style={styles.loginTextInput}/>
             </View>
             <View style={{ marginTop: 30}}>
-                <PrimaryButton onPress={validation}>Get Agent Code</PrimaryButton>
+                <PrimaryButton onPress={validation}>Request cash in</PrimaryButton>
                 {/* onPress={() => navigation.navigate('cashout',{phoneNumber:route.params.phoneNumber, pin: route.params.pin})} */}
             </View>
             <DailogBox/>

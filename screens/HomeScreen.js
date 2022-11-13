@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 10:31:44 am                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 12th 2022, 10:25:27 pm                              *
+ * Last Modified: November 13th 2022, 10:32:09 pm                              *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -72,72 +72,96 @@ import PlusIcon from "../components/icons/PlusIcon";
 import { LinearGradient } from "expo-linear-gradient";
 import HistoryW from "../components/icons/HistoryIconW";
 import PayBills from "../components/icons/PayBills";
-import CashIn from "../components/icons/CashIn"
-import CashOut from "../components/icons/CashOut"
-import ViewSlider from 'react-native-view-slider'
+import CashIn from "../components/icons/CashIn";
+import CashOut from "../components/icons/CashOut";
+import ViewSlider from "react-native-view-slider";
 import TdBalance from "./HomeComponents/TdBalance";
 import TdBalance2 from "./HomeComponents/TdBalance2";
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 import axios from "axios";
 import Skeleton from "../components/Skeleton";
 
-
 export default function HomeScreen({ route, navigation }) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [loadSkeleton, setLoadSkeleton] = useState(true)
+  const [loadSkeleton, setLoadSkeleton] = useState(true);
   const [transaction, setTransaction] = useState([]);
   const [balance, setBalance] = useState([]);
   const [tdBalance, setTd] = useState([]);
-  if(route.name==='home') {
+  if (route.name === "home") {
     const backAction = () => {
-      Alert.alert("Hold on!", "Are you sure you want to go back?", [
+      Alert.alert("Hold on!", "Are you sure you want to exit?", [
         {
           text: "Cancel",
           onPress: () => null,
-          style: "cancel"
+          style: "cancel",
         },
-        { text: "YES", onPress: () => BackHandler.exitApp() }
+        { text: "YES", onPress: () => BackHandler.exitApp() },
       ]);
       return true;
     };
-  
+
     useEffect(() => {
       BackHandler.addEventListener("hardwareBackPress", backAction);
-  
+
       return () =>
         BackHandler.removeEventListener("hardwareBackPress", backAction);
     }, []);
   }
 
-//   const setTimePassed = () => {
-//       setIsLoaded(false);
-//  }
-
   useEffect(() => {
-    function getTransaction() {   
-      let fullFromDate = new Date()
-      fullFromDate.setDate(fullFromDate.getDate()-15)
-      let fullToDate = new Date()
-      let fromDate = fullFromDate.getFullYear()+'-'+((fullFromDate.getMonth()+1<9)?'0'+fullFromDate.getMonth()+1:fullFromDate.getMonth()+1)+'-'+((fullFromDate.getDate()<9)?'0'+fullFromDate.getDate():fullFromDate.getDate())
-      let toDate = fullToDate.getFullYear()+'-'+((fullToDate.getMonth()+1<9)?'0'+fullToDate.getMonth()+1:fullToDate.getMonth()+1)+'-'+((fullToDate.getDate()<9)?'0'+fullToDate.getDate():fullToDate.getDate())
-      axios.get(`https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/account/${route.params.phoneNumber}/transaction?fromDate=${fromDate}&toDate=${toDate}`)
+    function getTransaction() {
+      let fullFromDate = new Date();
+      fullFromDate.setDate(fullFromDate.getDate() - 15);
+      let fullToDate = new Date();
+      let fromDate =
+        fullFromDate.getFullYear() +
+        "-" +
+        (fullFromDate.getMonth() + 1 < 9
+          ? "0" + fullFromDate.getMonth() + 1
+          : fullFromDate.getMonth() + 1) +
+        "-" +
+        (fullFromDate.getDate() < 9
+          ? "0" + fullFromDate.getDate()
+          : fullFromDate.getDate());
+      let toDate =
+        fullToDate.getFullYear() +
+        "-" +
+        (fullToDate.getMonth() + 1 < 9
+          ? "0" + fullToDate.getMonth() + 1
+          : fullToDate.getMonth() + 1) +
+        "-" +
+        (fullToDate.getDate() < 9
+          ? "0" + fullToDate.getDate()
+          : fullToDate.getDate());
+      axios
+        .get(
+          `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/account/${route.params.phoneNumber}/transaction?fromDate=${fromDate}&toDate=${toDate}`
+        )
         .then((response) => {
           setIsLoaded(true);
           setTransaction(response.data.data);
-          axios.get(`https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/${route.params.phoneNumber}/balance`)
-          .then((response) => {
-            setLoadSkeleton(false)
-            setBalance(response.data.data);
-          })
-          .catch((error) => {});
+          axios
+            .get(
+              `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/${route.params.phoneNumber}/balance`
+            )
+            .then((response) => {
+              setLoadSkeleton(false);
+              setBalance(response.data.data);
+            })
+            .catch((error) => {});
         })
         .catch((error) => {});
-        axios.get(`https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/${route.params.phoneNumber}`)
-          .then((response) => {
-            setTd(response.data.TDDetails);
-            console.log("td", tdBalance)
-          })
-          .catch((error) => {});
+      axios
+        .get(
+          `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/${route.params.phoneNumber}`
+        )
+        .then((response) => {
+          setTd(response.data.TDDetails);
+          console.log("td", tdBalance);
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
     }
     getTransaction();
   }, []);
@@ -145,49 +169,76 @@ export default function HomeScreen({ route, navigation }) {
     if (loadSkeleton == true) {
       const cardWidth = "90%";
       // const skeWidth = cardWidth - 32;
-      console.log("The transactions are loading")
+      console.log("The transactions are loading");
       return (
         <View style={styles.container}>
           {/* <Text>Open up App.js to start working on your app!</Text>
           <StatusBar style="auto" /> */}
-          <View  width = {320} style={styles.card}>
-            <Skeleton height={50} width = {"40%"} style = {{borderRadius: 8, marginTop: 16}}></Skeleton>
+          <View width={320} style={styles.card}>
+            <Skeleton
+              height={50}
+              width={"40%"}
+              style={{ borderRadius: 8, marginTop: 16 }}
+            ></Skeleton>
             {/* <Skeleton height={40} width = {40} style = {{borderRadius: 20}}></Skeleton> */}
-            <Skeleton height={30} width = {"100%"} style = {{borderRadius: 8, marginTop: 16}}></Skeleton>
-            <Skeleton height={30} width = {"100%"} style = {{borderRadius: 8, marginTop: 16}}></Skeleton>
-            <Skeleton height={30} width = {"100%"} style = {{borderRadius: 8, marginTop: 16}}></Skeleton>
-            <Skeleton height={30} width = {"100%"} style = {{borderRadius: 8, marginTop: 16}}></Skeleton>
-            <Skeleton height={30} width = {"100%"} style = {{borderRadius: 8, marginTop: 16}}></Skeleton>
+            <Skeleton
+              height={30}
+              width={"100%"}
+              style={{ borderRadius: 8, marginTop: 16 }}
+            ></Skeleton>
+            <Skeleton
+              height={30}
+              width={"100%"}
+              style={{ borderRadius: 8, marginTop: 16 }}
+            ></Skeleton>
+            <Skeleton
+              height={30}
+              width={"100%"}
+              style={{ borderRadius: 8, marginTop: 16 }}
+            ></Skeleton>
+            <Skeleton
+              height={30}
+              width={"100%"}
+              style={{ borderRadius: 8, marginTop: 16 }}
+            ></Skeleton>
+            <Skeleton
+              height={30}
+              width={"100%"}
+              style={{ borderRadius: 8, marginTop: 16 }}
+            ></Skeleton>
             {/* <Skeleton height={40} width = {"80%"} style = {{borderRadius: 8, marginTop: 16}}></Skeleton> */}
           </View>
         </View>
       );
     }
-    return(
-        <View style={styles.transactionWrap}>
-            <View style={styles.transactionHeader}>
-              <View style={styles.transactionHeaderLeft}>
-                <Text style={styles.recentText}>Recent</Text>
-                <Text style={styles.transactionText}>Transaction</Text>
-              </View>
-              <Text style={styles.transactionSeeAllBtn}>See all</Text>
-            </View>
-              <ScrollView overScrollMode="never" showsVerticalScrollIndicator={false}>
-                {transaction.map((v, i) => {
-                  return <TransactionItem key={i} props={v} />;
-                })}
-              </ScrollView>
+    return (
+      <View style={styles.transactionWrap}>
+        <View style={styles.transactionHeader}>
+          <View style={styles.transactionHeaderLeft}>
+            <Text style={styles.recentText}>Recent</Text>
+            <Text style={styles.transactionText}>Transaction</Text>
+          </View>
+          <Text style={styles.transactionSeeAllBtn}>See all</Text>
         </View>
-    )
-  } 
+        <ScrollView overScrollMode="never" showsVerticalScrollIndicator={false}>
+          {transaction.map((v, i) => {
+            return <TransactionItem key={i} props={v} />;
+          })}
+        </ScrollView>
+      </View>
+    );
+  };
   if (isLoaded == false) {
-    console.log("The respective api is called and the sata is Loading")
-    return(
-      <ActivityIndicator height= "100%"
-                         width= '100%'
-                         top = "950%"
-                        size="large" color="black"></ActivityIndicator>
-    )
+    console.log("The respective api is called and the sata is Loading");
+    return (
+      <ActivityIndicator
+        height="100%"
+        width="100%"
+        top="950%"
+        size="large"
+        color="black"
+      ></ActivityIndicator>
+    );
   }
   return (
     <View style={styles.container}>
@@ -205,67 +256,107 @@ export default function HomeScreen({ route, navigation }) {
         </View>
       </View>
       <View style={styles.mainBody}>
-      <ViewSlider
-      slideCount = {2+tdBalance.length}
-      dots = {true}
-      dotActiveColor = '#0092A0'
-      dotInactiveColor = 'gray'
-      dotsContainerStyle={styles.dotContainer}
-      autoSlide = {false}
-      // slideInterval = {1000}
-      renderSlides = {
-        <>
-        <View style={styles.carousalView}>
-        <LinearGradient
-          colors={["#0092A0", "#095B6D"]}
-          start={{ x: 0, y: 0.5 }}
-          end={{ x: 1, y: 0.5 }}
-          style={styles.balanceContainer}
-        >
-          <View style={styles.balanceTitleWrap}>
-            <Wallet />
-            <Text style={styles.balanceTitle}>Wallet Balance</Text>
-          </View>
-          <Text style={styles.balanceAmount}>{balance} MMK</Text>
-          <View style={styles.addWrap}>
-            <View style={styles.addMoneyBtn}>
-              <PlusIcon />
-              <Text style={styles.addMoneyText}>Add Money</Text>
-            </View>
-            <View style={styles.historyBtn}>
-              <HistoryW />
-            </View>
-          </View>
-        </LinearGradient>
-        </View>
-        {(tdBalance.length === 0) ? '' : <TdBalance2 props={tdBalance} />}
-        <TdBalance phoneNumber={route.params.phoneNumber} navigation={navigation} pin={route.params.pin}/>
-        
-        </>
-      }
+        <ViewSlider
+          slideCount={2 + tdBalance.length}
+          dots={true}
+          dotActiveColor="#0092A0"
+          dotInactiveColor="gray"
+          dotsContainerStyle={styles.dotContainer}
+          autoSlide={false}
+          // slideInterval = {1000}
+          renderSlides={
+            <>
+              <View style={styles.carousalView}>
+                <LinearGradient
+                  colors={["#0092A0", "#095B6D"]}
+                  start={{ x: 0, y: 0.5 }}
+                  end={{ x: 1, y: 0.5 }}
+                  style={styles.balanceContainer}
+                >
+                  <View style={styles.balanceTitleWrap}>
+                    <Wallet />
+                    <Text style={styles.balanceTitle}>Wallet Balance</Text>
+                  </View>
+                  <Text style={styles.balanceAmount}>{parseFloat(balance).toFixed(2)} MMK</Text>
+                  <View style={styles.addWrap}>
+                    <View style={styles.addMoneyBtn}>
+                      <PlusIcon />
+                      <Text style={styles.addMoneyText}>Add Money</Text>
+                    </View>
+                    <View style={styles.historyBtn}>
+                      <HistoryW />
+                    </View>
+                  </View>
+                </LinearGradient>
+              </View>
+              {tdBalance.length === 0 ? (
+                ""
+              ) : (
+                <TdBalance2
+                  phoneNumber={route.params.phoneNumber}
+                  navigation={navigation}
+                  pin={route.params.pin}
+                  props={tdBalance}
+                />
+              )}
+              <TdBalance
+                phoneNumber={route.params.phoneNumber}
+                navigation={navigation}
+                pin={route.params.pin}
+              />
+            </>
+          }
         />
         <View style={styles.serviceWrap}>
           <View style={styles.service}>
             <View style={styles.serviceIcon}>
-              <PayBills onPress={() => navigation.navigate('recharge', {phoneNumber:route.params.phoneNumber, pin: route.params.pin})}/>
+              <PayBills
+                onPress={() =>
+                  navigation.navigate("recharge", {
+                    phoneNumber: route.params.phoneNumber,
+                    pin: route.params.pin,
+                  })
+                }
+              />
             </View>
             <Text style={styles.serviceName}>Pay Bills</Text>
           </View>
           <View style={styles.service}>
             <View style={styles.serviceIcon}>
-              <Send onPress={() => navigation.navigate('transfer',{phoneNumber:route.params.phoneNumber, pin: route.params.pin})} />
+              <Send
+                onPress={() =>
+                  navigation.navigate("transfer", {
+                    phoneNumber: route.params.phoneNumber,
+                    pin: route.params.pin,
+                  })
+                }
+              />
             </View>
             <Text style={styles.serviceName}>Transfers</Text>
           </View>
           <View style={styles.service}>
             <View style={styles.serviceIcon}>
-              <CashIn onPress={() => navigation.navigate('cashin',{phoneNumber:route.params.phoneNumber, pin: route.params.pin})} />
+              <CashIn
+                onPress={() =>
+                  navigation.navigate("cashin", {
+                    phoneNumber: route.params.phoneNumber,
+                    pin: route.params.pin,
+                  })
+                }
+              />
             </View>
             <Text style={styles.serviceName}>Cash In</Text>
           </View>
           <View style={styles.serviceLast}>
             <View style={styles.serviceIcon}>
-              <CashOut onPress={() => navigation.navigate('cashout',{phoneNumber:route.params.phoneNumber, pin: route.params.pin})} />
+              <CashOut
+                onPress={() =>
+                  navigation.navigate("cashout", {
+                    phoneNumber: route.params.phoneNumber,
+                    pin: route.params.pin,
+                  })
+                }
+              />
             </View>
             <Text style={styles.serviceName}>Cash Out</Text>
           </View>
@@ -319,21 +410,24 @@ const styles = StyleSheet.create({
     paddingTop: 2,
   },
   mainBody: {
-    padding: 16,
+    // padding: 16,
+    paddingTop: 16,
     width: "100%",
     backgroundColor: "#DDDDDD",
   },
   balanceContainer: {
-    height: 150,
+    height: "auto",
     // backgroundColor: "#095B6D"
-    width: "90%",
-    marginRight: 12,
+    marginLeft: 16,
+    marginRight: 16,
+    width: "100%",
+    // marginRight: 12,
     borderRadius: 8,
     padding: 16,
     marginBottom: 24,
-    shadowOffset: {width: 2, height: 4},  
-    shadowColor: '#171717',  
-    shadowOpacity: 0.2,  
+    shadowOffset: { width: 2, height: 4 },
+    shadowColor: "#171717",
+    shadowOpacity: 0.2,
     shadowRadius: 3,
   },
   balanceTitleWrap: {
@@ -374,6 +468,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    padding: 16,
   },
   serviceIcon: {
     display: "flex",
@@ -405,7 +500,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
     fontSize: 14,
     color: "#011627",
-    fontWeight: "500"
+    fontWeight: "500",
   },
   transactionWrap: {
     width: "100%",
@@ -499,23 +594,26 @@ const styles = StyleSheet.create({
   carousalView: {
     width: width,
     paddingBottom: 10,
-    // alignItems: "center"
+    paddingRight: 16,
+    paddingLeft: 16,
+    alignItems: "center"
   },
   dotContainer: {
-    backgroundColor: 'transparent',
-    position: 'absolute',
+    backgroundColor: "transparent",
+    position: "absolute",
     // bottom: 30
-    marginTop: 160,
+    marginTop: 165,
     alignItems: "center",
     justifyContent: "center",
-    alignContent: "center"
+    alignContent: "center",
+    width: "100%"
   },
   card: {
-    backgroundColor: '#eee',
+    backgroundColor: "#eee",
     padding: 12,
     borderRadius: 8,
-    top: '2%',
-    height: '80%',
+    top: "2%",
+    height: "80%",
     borderRadius: 15,
-  }
+  },
 });

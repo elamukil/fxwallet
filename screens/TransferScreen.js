@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 9th 2022, 11:52:01 am                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 13th 2022, 5:41:33 am                               *
- * Modified By: Tamil Elamukil                                                 *
+ * Last Modified: November 13th 2022, 1:40:19 pm                               *
+ * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -41,137 +41,172 @@
  * --------------------------------------------------------------------------- *
  */
 
-import React, {useState, useEffect} from 'react';
-import { TextInput, View, StyleSheet,Text, StatusBar, BackHandler,Alert } from 'react-native';
-import PrimaryButton from '../components/ui/PrimaryButton'
+import React, { useState, useEffect } from "react";
+import {
+  TextInput,
+  View,
+  StyleSheet,
+  Text,
+  StatusBar,
+  BackHandler,
+  Alert,
+} from "react-native";
+import PrimaryButton from "../components/ui/PrimaryButton";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-const TransferScreen = ({navigation, route}) => {
+const TransferScreen = ({ navigation, route }) => {
+  const [amount, setAmount] = useState(0);
+  const [description, setDescription] = useState("");
+  const [toPhoneNumber, setToPhoneNumber] = useState(0);
 
-    const [amount, setAmount] = useState(0)
-    const [description, setDescription] = useState('')
-    const [toPhoneNumber, setToPhoneNumber] = useState(0)
-
-    const amountIsValid = !isNaN(amount) && amount > 0;
-    const descriptionIsValid = description.trim(). length > 0;
-    const validation = ()=>{
-        if (!amountIsValid || ! descriptionIsValid) {
-            Alert.alert('Invalid input' , ' Please check your input values');
-            return false
-        }else{
-            navigation.navigate('otp',{phoneNumber: route.params.phoneNumber,amount: amount,toPhoneNumber:toPhoneNumber,description:description, onPage: route.name})
-        }
+  const amountIsValid = !isNaN(amount) && amount > 0;
+  const descriptionIsValid = description.trim().length > 0;
+  const validation = () => {
+    if (!amountIsValid || !descriptionIsValid) {
+      Alert.alert("Invalid input", " Please check your input values");
+      return false;
+    } else {
+      navigation.navigate("otp", {
+        phoneNumber: route.params.phoneNumber,
+        amount: amount,
+        toPhoneNumber: toPhoneNumber,
+        description: description,
+        onPage: route.name,
+      });
     }
+  };
 
-    // function nextPage(){
-    //     navigation.navigate('otp',{phoneNumber: route.params.phoneNumber,amount: amount,toPhoneNumber:toPhoneNumber,description:description, onPage: route.name})
-    // }
-    
-    if(route.name==='transfer'){
-        const backAction = () => {
-        navigation.navigate('home',{ phoneNumber: route.params.phoneNumber})
-          return true;
-        };
-      
-        useEffect(() => {
-          BackHandler.addEventListener("hardwareBackPress", backAction);
-      
-          return () =>
-            BackHandler.removeEventListener("hardwareBackPress", backAction);
-        }, ['transfer']);
-      }
+  // function nextPage(){
+  //     navigation.navigate('otp',{phoneNumber: route.params.phoneNumber,amount: amount,toPhoneNumber:toPhoneNumber,description:description, onPage: route.name})
+  // }
 
-    
-    
-    return (
-        <View style={styles.TransferContainer}>
-            <View style={styles.fixedScreen}>
-                <Text style={styles.loginText}>Transfer</Text>
-            </View>
-            <View>
-                    <Text style = {{color: '#0092A0', position: 'absolute', marginTop:80}}>Mobile Number</Text>
-            </View>
-            <View style={styles.numberInput}>
-                <TextInput maxLength={10} 
-                    autoFocus={true}
-                    keyboardType="number-pad" 
-                    placeholder='Enter mobile Number' 
-                    placeholderTextColor="#79868F"
-                    onChangeText={newText => setToPhoneNumber(newText)} 
-                    style={styles.loginTextInput}/>
-            </View>
-            <View>
-                    <Text style = {{color: '#0092A0', position: 'absolute', marginTop:80}}>Amount</Text>
-            </View>
-            <View style={styles.numberInput}>
-                <TextInput  
-                    // autoFocus={true}
-                    keyboardType="number-pad" 
-                    placeholder='Enter amount' 
-                    placeholderTextColor="#79868F"
-                    onChangeText={amt => setAmount(amt)} 
-                    style={styles.loginTextInput}/>
-            </View>
-            <View>
-                    <Text style = {{color: '#0092A0', position: 'absolute', marginTop:80}}>Description</Text>
-            </View>
-            <View style={styles.numberInput}>
-                <TextInput 
-                    // autoFocus={true}
-                    placeholder='what this transfer for?' 
-                    placeholderTextColor="#79868F"
-                    onChangeText={newText => setDescription(newText)} 
-                    style={styles.loginTextInput}/>
-            </View>
-            <View style={{ marginTop: 30}}>
-                <PrimaryButton onPress={() => {validation();}}>Transfer</PrimaryButton>
-            </View>
+  if (route.name === "transfer") {
+    const backAction = () => {
+      navigation.navigate("home", { phoneNumber: route.params.phoneNumber });
+      return true;
+    };
+
+    useEffect(() => {
+      BackHandler.addEventListener("hardwareBackPress", backAction);
+
+      return () =>
+        BackHandler.removeEventListener("hardwareBackPress", backAction);
+    }, ["transfer"]);
+  }
+
+  return (
+    <KeyboardAwareScrollView>
+      <View style={styles.TransferContainer}>
+        <View style={styles.fixedScreen}>
+          <Text style={styles.loginText}>Transfer</Text>
         </View>
-    );
-}
+        <View>
+          <Text
+            style={{ color: "#0092A0", position: "absolute", marginTop: 80 }}
+          >
+            Mobile Number
+          </Text>
+        </View>
+        <View style={styles.numberInput}>
+          <TextInput
+            maxLength={10}
+            autoFocus={true}
+            keyboardType="number-pad"
+            placeholder="Enter mobile Number"
+            placeholderTextColor="#79868F"
+            onChangeText={(newText) => setToPhoneNumber(newText)}
+            style={styles.loginTextInput}
+          />
+        </View>
+        <View>
+          <Text
+            style={{ color: "#0092A0", position: "absolute", marginTop: 80 }}
+          >
+            Amount
+          </Text>
+        </View>
+        <View style={styles.numberInput}>
+          <TextInput
+            // autoFocus={true}
+            keyboardType="number-pad"
+            placeholder="Enter amount"
+            placeholderTextColor="#79868F"
+            onChangeText={(amt) => setAmount(amt)}
+            style={styles.loginTextInput}
+          />
+        </View>
+        <View>
+          <Text
+            style={{ color: "#0092A0", position: "absolute", marginTop: 80 }}
+          >
+            Description
+          </Text>
+        </View>
+        <View style={styles.numberInput}>
+          <TextInput
+            // autoFocus={true}
+            placeholder="what this transfer for?"
+            placeholderTextColor="#79868F"
+            onChangeText={(newText) => setDescription(newText)}
+            style={styles.loginTextInput}
+          />
+        </View>
+        <View style={{ marginTop: 30 }}>
+          <PrimaryButton
+            onPress={() => {
+              validation();
+            }}
+          >
+            Transfer
+          </PrimaryButton>
+        </View>
+      </View>
+    </KeyboardAwareScrollView>
+  );
+};
 
 const styles = StyleSheet.create({
-TransferContainer:{
+  TransferContainer: {
     padding: 20,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight + 10 : 0,
-},
+  },
 
-mobileStyle: {
-    position: 'absolute',
+  mobileStyle: {
+    position: "absolute",
     marginTop: 100,
     width: 100,
     padding: 15,
-},
-fixedScreen: {
-    position: 'absolute',
-    flexDirection: 'row-reverse',
-    justifyContent: 'space-between',
-    marginBottom: -70
-},
-loginText: {
-    textDecorationStyle: 'Gilroy-Bold',
+  },
+  fixedScreen: {
+    position: "absolute",
+    flexDirection: "row-reverse",
+    justifyContent: "space-between",
+    marginBottom: -70,
+  },
+  loginText: {
+    textDecorationStyle: "Gilroy-Bold",
     fontSize: 25,
     lineHeight: 48,
-    color: '#0092A0',
+    color: "#0092A0",
     marginLeft: 15,
-    marginTop: 50
-},
-numberInput: {
+    marginTop: 50,
+  },
+  numberInput: {
     height: 50,
     // width: 350,
     fontSize: 32,
-    borderBottomColor: 'grey',
+    borderBottomColor: "grey",
     borderBottomWidth: 1,
-    color: '#lightgrey',
+    color: "#lightgrey",
     marginVertical: 8,
-    fontWeight: 'normal',
+    fontWeight: "normal",
     marginTop: 100,
     marginBottom: -10,
-    
-},
-loginTextInput: {
-    color: '#333',
-    marginTop:20,
-},
-})
+  },
+  loginTextInput: {
+    color: "#333",
+    marginTop: 20,
+  },
+});
 
 export default TransferScreen;

@@ -30,7 +30,7 @@
  * Created Date: Saturday, November 12th 2022, 9:07:07 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 12th 2022, 11:08:38 pm                              *
+ * Last Modified: November 13th 2022, 10:49:32 pm                              *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -52,14 +52,36 @@ import {
   Alert,
 } from "react-native";
 import PrimaryButton from "../components/ui/PrimaryButton";
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from "@react-native-picker/picker";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const TransferScreen = ({ navigation, route }) => {
   const [amount, setAmount] = useState(0);
   const [tenor, setTenor] = useState(0);
   const [selectedValue, setSelectedValue] = useState("SI");
 
-  if (route.name === "transfer") {
+  const amountIsValid = !isNaN(amount) && amount > 0;
+  const tenorIsValid = Number(tenor) > 0;
+
+  const validation = () => {
+    if (!amountIsValid) {
+      Alert.alert("PLease enter a valid Amount");
+      return false;
+    } else if (!tenorIsValid) {
+      Alert.alert("Please enter a valid Tenor");
+      return false;
+    } else {
+      navigation.navigate("otp", {
+        phoneNumber: route.params.phoneNumber,
+        principalAmount: amount,
+        tenor: tenor,
+        calculationType: selectedValue,
+        onPage: route.name,
+      });
+    }
+  };
+
+  if (route.name === "termdeposit") {
     const backAction = () => {
       navigation.navigate("home", { phoneNumber: route.params.phoneNumber });
       return true;
@@ -70,107 +92,81 @@ const TransferScreen = ({ navigation, route }) => {
 
       return () =>
         BackHandler.removeEventListener("hardwareBackPress", backAction);
-    }, ["transfer"]);
-  }
-
-  async function transfer() {
-    console.log("Hi");
-    let verifyRequest = {
-      phoneNumber: route.params.phoneNumber,
-      tenor: 10,
-      principalAmount: amount,
-      calculationType: "SI",
-    };
-    // console.log(verifyRequest.phoneNumber);
-
-    axios
-      .post(
-        "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/td",
-        verifyRequest
-      )
-      .then((res) => {
-        console.log("hello", res);
-        navigation.navigate("home", { phoneNumber: route.params.phoneNumber });
-      })
-      .catch((err) => {
-        console.log(err);
-        Alert.alert("Something went wrong");
-      });
+    }, ["termdeposit"]);
   }
 
   return (
-    <View style={styles.TransferContainer}>
-      <View style={styles.fixedScreen}>
-        <Text style={styles.loginText}>Term Deposit</Text>
-      </View>
-      <View>
-        <Text style={{ color: "#0092A0", position: "absolute", marginTop: 80 }}>
-          Tenor
-        </Text>
-      </View>
-      <View style={styles.numberInput}>
-        <TextInput
-          maxLength={10}
-          autoFocus={true}
-          keyboardType="number-pad"
-          placeholder="Enter tenor"
-          placeholderTextColor="#79868F"
-          onChangeText={(newText) => setTenor(newText)}
-          style={styles.loginTextInput}
-        />
-      </View>
-      <View>
-        <Text style={{ color: "#0092A0", position: "absolute", marginTop: 80 }}>
-          Principle Amount
-        </Text>
-      </View>
-      <View style={styles.numberInput}>
-        <TextInput
-          // autoFocus={true}
-          keyboardType="number-pad"
-          placeholder="Enter principle amount"
-          placeholderTextColor="#79868F"
-          onChangeText={(amt) => setAmount(amt)}
-          style={styles.loginTextInput}
-        />
-      </View>
-      <View>
-        <Text style={{ color: "#0092A0", position: "absolute", marginTop: 80 }}>
-          Calculation type
-        </Text>
-      </View>
-      <View style={styles.numberInput}>
-        {/* <TextInput 
+    <KeyboardAwareScrollView>
+      <View style={styles.TransferContainer}>
+        <View style={styles.fixedScreen}>
+          <Text style={styles.loginText}>Term Deposit</Text>
+        </View>
+        <View>
+          <Text
+            style={{ color: "#0092A0", position: "absolute", marginTop: 80 }}
+          >
+            Tenor
+          </Text>
+        </View>
+        <View style={styles.numberInput}>
+          <TextInput
+            maxLength={10}
+            autoFocus={true}
+            keyboardType="number-pad"
+            placeholder="Enter tenor"
+            placeholderTextColor="#79868F"
+            onChangeText={(newText) => setTenor(newText)}
+            style={styles.loginTextInput}
+          />
+        </View>
+        <View>
+          <Text
+            style={{ color: "#0092A0", position: "absolute", marginTop: 80 }}
+          >
+            Principle Amount
+          </Text>
+        </View>
+        <View style={styles.numberInput}>
+          <TextInput
+            // autoFocus={true}
+            keyboardType="number-pad"
+            placeholder="Enter principle amount"
+            placeholderTextColor="#79868F"
+            onChangeText={(amt) => setAmount(amt)}
+            style={styles.loginTextInput}
+          />
+        </View>
+        <View>
+          <Text
+            style={{ color: "#0092A0", position: "absolute", marginTop: 80 }}
+          >
+            Calculation type
+          </Text>
+        </View>
+        <View style={styles.numberInput}>
+          {/* <TextInput 
                     // autoFocus={true}
                     placeholder='Interest calculation type' 
                     placeholderTextColor="#79868F"
                     onChangeText={newText => setDescription(newText)} 
                     style={styles.loginTextInput}/> */}
-        <Picker
-          selectedValue={selectedValue}
-          style={{ height: 50, width: "100%" }}
-          onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-        >
-          <Picker.Item label="Simple interest" value="SI" />
-          {/* <Picker.Item label="JavaScript" value="js" /> */}
-        </Picker>
+          <Picker
+            selectedValue={selectedValue}
+            style={{ height: 50, width: "100%" }}
+            onValueChange={(itemValue, itemIndex) =>
+              setSelectedValue(itemValue)
+            }
+          >
+            <Picker.Item label="Simple interest" value="SI" />
+            <Picker.Item label="Compound interest" value="CI" />
+            {/* <Picker.Item label="JavaScript" value="js" /> */}
+          </Picker>
+        </View>
+        <View style={{ marginTop: 30 }}>
+          <PrimaryButton onPress={validation()}>Create</PrimaryButton>
+        </View>
       </View>
-      <View style={{ marginTop: 30 }}>
-        <PrimaryButton
-          onPress={() =>
-            navigation.navigate("otp", {
-              phoneNumber: route.params.phoneNumber,
-              principalAmount: amount,
-              tenor: tenor,
-              calculationType: selectedValue,
-              onPage: route.name,
-            })
-          }
-        >
-          Create
-        </PrimaryButton>
-      </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 

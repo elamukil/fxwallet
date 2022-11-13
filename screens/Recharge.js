@@ -30,7 +30,7 @@
  * Created Date: Thursday, November 10th 2022, 12:17:34 pm                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 11th 2022, 3:01:58 pm                               *
+ * Last Modified: November 13th 2022, 12:48:32 pm                              *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -131,10 +131,10 @@ export default ({ navigation, route }) => {
         <View style={styles.secondaryHeaderLeft}>
           <Image source={require("../assets/images/rechargeProfile.png")} />
           <View style={styles.secondaryHeaderLeftWrap}>
-            <Text style={styles.secondaryHeaderMobile}>9876554321</Text>
-            <Text style={styles.secondaryHeaderMobileOperator}>
+            <Text style={styles.secondaryHeaderMobile}>{route.params.phoneNumber}</Text>
+            {/* <Text style={styles.secondaryHeaderMobileOperator}>
               Airtel | Tamil Nadu
-            </Text>
+            </Text> */}
           </View>
         </View>
         <EditIcon />
