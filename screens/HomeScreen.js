@@ -52,7 +52,8 @@ import {
   Pressable,
   BackHandler,
   Dimensions,
-  Alert
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Notification from "../components/icons/NotificationButton";
@@ -74,19 +75,20 @@ import PayBills from "../components/icons/PayBills";
 import CashIn from "../components/icons/CashIn"
 import CashOut from "../components/icons/CashOut"
 import ViewSlider from 'react-native-view-slider'
-import axios from "axios";
 import TdBalance from "./HomeComponents/TdBalance";
 import TdBalance2 from "./HomeComponents/TdBalance2";
 const { width, height } = Dimensions.get('window');
-
+import axios from "axios";
+import Skeleton from "../components/Skeleton";
 
 
 export default function HomeScreen({ route, navigation }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [loadSkeleton, setLoadSkeleton] = useState(true)
   const [transaction, setTransaction] = useState([]);
   const [balance, setBalance] = useState([]);
   const [tdBalance, setTd] = useState([]);
-
-  if(route.name==='home'){
+  if(route.name==='home') {
     const backAction = () => {
       Alert.alert("Hold on!", "Are you sure you want to go back?", [
         {
@@ -106,9 +108,13 @@ export default function HomeScreen({ route, navigation }) {
         BackHandler.removeEventListener("hardwareBackPress", backAction);
     }, []);
   }
-  
+
+//   const setTimePassed = () => {
+//       setIsLoaded(false);
+//  }
+
   useEffect(() => {
-    function getTransaction() {
+    function getTransaction() {   
       let fullFromDate = new Date()
       fullFromDate.setDate(fullFromDate.getDate()-15)
       let fullToDate = new Date()
@@ -116,9 +122,11 @@ export default function HomeScreen({ route, navigation }) {
       let toDate = fullToDate.getFullYear()+'-'+((fullToDate.getMonth()+1<9)?'0'+fullToDate.getMonth()+1:fullToDate.getMonth()+1)+'-'+((fullToDate.getDate()<9)?'0'+fullToDate.getDate():fullToDate.getDate())
       axios.get(`https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/account/${route.params.phoneNumber}/transaction?fromDate=${fromDate}&toDate=${toDate}`)
         .then((response) => {
+          setIsLoaded(true);
           setTransaction(response.data.data);
           axios.get(`https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/${route.params.phoneNumber}/balance`)
           .then((response) => {
+            setLoadSkeleton(false)
             setBalance(response.data.data);
           })
           .catch((error) => {});
@@ -133,6 +141,54 @@ export default function HomeScreen({ route, navigation }) {
     }
     getTransaction();
   }, []);
+  const getTransactionDisplComp = () => {
+    if (loadSkeleton == true) {
+      const cardWidth = "90%";
+      // const skeWidth = cardWidth - 32;
+      console.log("The transactions are loading")
+      return (
+        <View style={styles.container}>
+          {/* <Text>Open up App.js to start working on your app!</Text>
+          <StatusBar style="auto" /> */}
+          <View  width = {320} style={styles.card}>
+            <Skeleton height={50} width = {"40%"} style = {{borderRadius: 8, marginTop: 16}}></Skeleton>
+            {/* <Skeleton height={40} width = {40} style = {{borderRadius: 20}}></Skeleton> */}
+            <Skeleton height={30} width = {"100%"} style = {{borderRadius: 8, marginTop: 16}}></Skeleton>
+            <Skeleton height={30} width = {"100%"} style = {{borderRadius: 8, marginTop: 16}}></Skeleton>
+            <Skeleton height={30} width = {"100%"} style = {{borderRadius: 8, marginTop: 16}}></Skeleton>
+            <Skeleton height={30} width = {"100%"} style = {{borderRadius: 8, marginTop: 16}}></Skeleton>
+            <Skeleton height={30} width = {"100%"} style = {{borderRadius: 8, marginTop: 16}}></Skeleton>
+            {/* <Skeleton height={40} width = {"80%"} style = {{borderRadius: 8, marginTop: 16}}></Skeleton> */}
+          </View>
+        </View>
+      );
+    }
+    return(
+        <View style={styles.transactionWrap}>
+            <View style={styles.transactionHeader}>
+              <View style={styles.transactionHeaderLeft}>
+                <Text style={styles.recentText}>Recent</Text>
+                <Text style={styles.transactionText}>Transaction</Text>
+              </View>
+              <Text style={styles.transactionSeeAllBtn}>See all</Text>
+            </View>
+              <ScrollView overScrollMode="never" showsVerticalScrollIndicator={false}>
+                {transaction.map((v, i) => {
+                  return <TransactionItem key={i} props={v} />;
+                })}
+              </ScrollView>
+        </View>
+    )
+  } 
+  if (isLoaded == false) {
+    console.log("The respective api is called and the sata is Loading")
+    return(
+      <ActivityIndicator height= "100%"
+                         width= '100%'
+                         top = "950%"
+                        size="large" color="black"></ActivityIndicator>
+    )
+  }
   return (
     <View style={styles.container}>
       <View style={styles.headerWrap}>
@@ -215,20 +271,7 @@ export default function HomeScreen({ route, navigation }) {
           </View>
         </View>
       </View>
-      <View style={styles.transactionWrap}>
-        <View style={styles.transactionHeader}>
-          <View style={styles.transactionHeaderLeft}>
-            <Text style={styles.recentText}>Recent</Text>
-            <Text style={styles.transactionText}>Transaction</Text>
-          </View>
-          <Text style={styles.transactionSeeAllBtn}>See all</Text>
-        </View>
-          <ScrollView overScrollMode="never" showsVerticalScrollIndicator={false}>
-            {transaction.map((v, i) => {
-              return <TransactionItem key={i} props={v} />;
-            })}
-          </ScrollView>
-      </View>
+      {getTransactionDisplComp()}
       {/* <BottomNavBar /> */}
     </View>
   );
@@ -465,6 +508,14 @@ const styles = StyleSheet.create({
     marginTop: 160,
     alignItems: "center",
     justifyContent: "center",
-    alignContent: "center",
+    alignContent: "center"
+  },
+  card: {
+    backgroundColor: '#eee',
+    padding: 12,
+    borderRadius: 8,
+    top: '2%',
+    height: '80%',
+    borderRadius: 15,
   }
 });
