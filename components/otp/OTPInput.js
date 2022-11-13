@@ -30,8 +30,8 @@
  * Created Date: Sunday, November 6th 2022, 1:21:41 am                         *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 11th 2022, 1:57:27 pm                               *
- * Modified By: Hari Prasad                                                    *
+ * Last Modified: November 13th 2022, 4:12:54 am                               *
+ * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -74,13 +74,26 @@ const OTPInput = ({ route, navigation }) => {
   console.log(route.params.onPage)
 
   
- 
+    const previousRoute = route.params.onPage
+    console.log(previousRoute)
+    // function back(){
+    //     if(previousRoute === 'transfer'){
+    //         navigation.navigate('transfer',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})
+    //     }
+    // }
     const backAction = () => {
-        if(route.params.onPage === 'transfer'){
+        const routes = navigation.getState()?.routes;
+        const prevRoute = routes[routes.length - 2];
+        console.log(prevRoute)
+        if(previousRoute === 'transfer'){
             navigation.navigate('transfer',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})
-        }else{
+        }
+        else if(previousRoute === 'cashout2'){
+            navigation.navigate('cashout2',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})
+        }
+        else{
             console.log('loginotp')
-            navigation.navigate('login')
+            navigation.navigate('login',{phoneNumber: route.params.phoneNumber, pin: pinNumber})
         }
       return true;
     };
@@ -90,7 +103,7 @@ const OTPInput = ({ route, navigation }) => {
   
       return () =>
         BackHandler.removeEventListener("hardwareBackPress", backAction);
-    }, []);
+    }, [route.params.onPage]);
 
   async function login() {
     console.log("Hi");
@@ -125,7 +138,30 @@ const OTPInput = ({ route, navigation }) => {
                   console.log(err);
                   Alert.alert("Transfer Unuccessful", 'Click Proceed to Try Again', [{text: 'Proceed', onPress:() => navigation.navigate('transfer',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})}]);
                 });
-        }else{
+                
+        }
+        else if(route.params.onPage === 'cashout2'){
+            let verifyRequest = {
+                requestType:"CASHOUT",
+                fromAccounts:[{"phoneNumber":route.params.phoneNumber, "amount":route.params.amount}],
+                description: route.params.description,
+                PIN: route.params.pin
+              };
+              axios
+                    .post(
+                      "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/transfer",
+                      verifyRequest
+                    )
+                    .then((res) => {
+                      console.log("hello", res);
+                      Alert.alert("Cash Out Successful", 'Click OK to Continue', [{text: 'OK', onPress:() => navigation.navigate('home',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})}])
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                      Alert.alert("Incorrect Pin", 'Please Try Again', [{text: 'OK'}])
+                    });
+        }
+        else {
             let verifyRequest1 = {
                 phoneNumber: route.params.phoneNumber, 
                 PIN: pinNumber

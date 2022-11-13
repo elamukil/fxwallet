@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 9th 2022, 6:12:30 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 11th 2022, 2:58:25 pm                               *
- * Modified By: Hari Prasad                                                    *
+ * Last Modified: November 13th 2022, 5:54:33 am                               *
+ * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -41,7 +41,7 @@
  * --------------------------------------------------------------------------- *
  */
 
-import * as React from "react";
+import  React, {useState} from "react";
 import {
   View,
   StyleSheet,
@@ -49,11 +49,20 @@ import {
   Text,
   Image,
   TextInput,
-  BackHandler
+  BackHandler,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard
 } from "react-native";
 import Next from "../components/icons/NextIcon";
+import OTPInput from "../components/otp/OTPInput";
+import PrimaryButton from '../components/ui/PrimaryButton'
 
-export default function CashIn({ navigation, route }) {
+export default function CashOut2({ navigation, route }) {
+
+  const [agentCode, setAgentCode] = useState(0)
+  const [amount, setAmount] = useState(0)
+  const [description, setDescription] = useState(0)
   const backAction = () => {
     navigation.navigate("cashout", {
       phoneNumber: route.params.phoneNumber,
@@ -68,8 +77,33 @@ export default function CashIn({ navigation, route }) {
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, []);
+
+  async function cashOut(){
+    let verifyRequest = {
+      requestType:"CASHOUT",
+      fromAccounts:[{"phoneNumber":route.params.phoneNumber, "amount":amount}],
+      description: description,
+      PIN: route.params.pin
+    };
+    axios
+          .post(
+            "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/transfer",
+            verifyRequest
+          )
+          .then((res) => {
+            console.log("hello", res);
+            Alert.alert("Cash Out Successful", 'Click OK to Continue', [{text: 'OK', onPress:() => navigation.navigate('home',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})}])
+          })
+          .catch((err) => {
+            console.log(err);
+            Alert.alert("Incorrect Pin");
+          });
+  }
+
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView behavior="padding" style={styles.container1}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+       <View style={styles.container}>
       <View style={styles.headerWrap}>
         <Text style={styles.pageTitle}>Cash Out</Text>
       </View>
@@ -87,18 +121,26 @@ export default function CashIn({ navigation, route }) {
           where incorrect amount and information is made.
         </Text>
       </View>
-      <TextInput style={styles.input} placeholder="Agent short code" keyboardType="numeric" />
-      <View style={styles.footerBtn}>
-            <Text style={styles.footerText}>Next</Text>
+      <TextInput style={styles.input} placeholder="Agent short code" keyboardType="numeric" onChangeText={(txt)=>setAgentCode(txt)}/>
+      <TextInput style={styles.input} placeholder="Enter Amount" keyboardType="numeric" onChangeText={(amt)=>setAmount(amt)}/>
+      <TextInput style={styles.input} placeholder="Enter Description" onChangeText={(txt)=>setDescription(txt)}/>
+      <View>
+            <PrimaryButton onPress={() => navigation.navigate('otp',{phoneNumber: route.params.phoneNumber,amount: amount,pin:route.params.pin,description:description, onPage: route.name})}>Transfer</PrimaryButton>
         </View>
         <View style={styles.footer}>
             <Text style={styles.footerFaqText}>How to cash out at agent?</Text>
         </View>
     </View>
+    </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
+   
   );
 }
 
 const styles = StyleSheet.create({
+  container1: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     textColor: "#fff",
@@ -149,6 +191,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   footerBtn: {
+    
     padding: 8,
     backgroundColor: "#0092A0",
     width: "90%",
@@ -163,7 +206,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   footer: {
-    position: "absolute",
+    // position: "absolute",
     left: 0,
     right: 0,
     bottom: 0,

@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 9th 2022, 6:12:30 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 11th 2022, 2:57:57 pm                               *
- * Modified By: Hari Prasad                                                    *
+ * Last Modified: November 12th 2022, 4:23:20 am                               *
+ * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -51,6 +51,7 @@ import {
   Pressable,
   BackHandler,
 } from "react-native";
+import PrimaryButton from '../components/ui/PrimaryButton'
 
 export default function CashIn({ navigation, route }) {
   const backAction = () => {
@@ -123,7 +124,7 @@ export default function CashIn({ navigation, route }) {
       </View>
       <View style={styles.footer}>
         <View style={styles.footerBtn}>
-          <Text style={styles.footerText}>I am at agent/merchant</Text>
+          <PrimaryButton onPress= {()=>navigation.navigate('cashin3',{phoneNumber:route.params.phoneNumber, pin: route.params.pin})}>I am at agent/merchant</PrimaryButton>
         </View>
       </View>
     </View>

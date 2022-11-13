@@ -25,12 +25,12 @@
  * CONTENTS, OR TO MANUFACTURE, USE, OR SELL ANYTHING THAT IT MAY DESCRIBE,    *
  * IN WHOLE OR IN PART.                                                        *
  *                                                                             *
- * File: \App.js                                                               *
+ * File: \components\ui\form.js                                                *
  * Project: kbxwallet                                                          *
- * Created Date: Thursday, November 3rd 2022, 12:51:23 pm                      *
+ * Created Date: Sunday, November 13th 2022, 5:04:34 am                        *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
- * -----
- * Last Modified: November 12th 2022, 4:19:12 am                               *
+ * -----                                                                       *
+ * Last Modified: November 13th 2022, 5:26:11 am                               *
  * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -41,61 +41,32 @@
  * --------------------------------------------------------------------------- *
  */
 
-// import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import LoginScreen from './screens/LoginScreen';
-import SignUPScreen from './screens/SignUPScreen';
-import HomeScreen from './screens/HomeScreen'
-import OTPInput from './components/otp/OTPInput';
-import TransferScreen from './screens/TransferScreen';
-import Walletimg from './assets/walletimg';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CashIn from './screens/CashIn';
-import CashIn2 from './screens/CashIn2';
-import CashOut from './screens/CashOut';
-import CashOut2 from './screens/CashOut2';
-import CashIn3 from './screens/CashIn3';
-import Recharge from './screens/Recharge';
-
-const stack = createNativeStackNavigator()
-
-export default function App() {
-  
-  return (
-    
-      <View style={{ flex: 1, backgroundColor: '#fff' }}>
-        <NavigationContainer>
-        <stack.Navigator initialRouteName="Login"
-        screenOptions={{
-          headerShown: false,
-          header: () => null,
-          contentStyle: { backgroundColor: '#fff' },
-        }}>
-          <stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="otp" component={OTPInput}/>
-          <stack.Screen name="signup" component={SignUPScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="home" component={HomeScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="cashin" component={CashIn} options={{ headerShown: false }}/>
-          <stack.Screen name="cashin2" component={CashIn2} options={{ headerShown: false }}/>
-          <stack.Screen name="cashin3" component={CashIn3} options={{ headerShown: false }}/>
-          <stack.Screen name="cashout" component={CashOut} options={{ headerShown: false }}/>
-          <stack.Screen name="cashout2" component={CashOut2} options={{ headerShown: false }}/>
-          <stack.Screen name="transfer" component={TransferScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="recharge" component={ Recharge } options={{ headerShown: false }}/>
-        </stack.Navigator>
-      </NavigationContainer>
-      </View>
-      
-  );
+import { Text, TextInput, View } from ' react-native';
+function Input({ label, textInputConfig }) {
+return (
+    <View style={styles.inputContainer}>
+        <Text style={styles.label}>{label}</Text>
+        <TextInput style={styles.input} {... textInputConfig} />
+    </View>
+)
 }
 
-const styles = StyleSheet.create({
-  inputContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    flexDirection: 'row-reverse',
-},
 
-});
+const styles = StyleSheet.create({
+    inputContainer: {
+        marginHorizontal: 4,
+        marginVertical: 8
+    },
+    label: {
+        fontSize: 12 ,
+        color: '#0092A0',
+        marginBottom: 4
+    },
+    input:{
+        backgroundColor: '#fff',
+        padding: 6,
+        borderRadius: 6,
+        fontSize: 18
+    }
+    });
+export default Input;
