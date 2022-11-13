@@ -127,13 +127,13 @@ const CashIn3 = ({navigation, route}) => {
                 <Text style={styles.loginText}>Cash In</Text>
             </View>
             <View>
-                    <Text style = {{color: '#0092A0', position: 'absolute', marginTop:80}}>Kbx Agent</Text>
+                    <Text style = {{color: '#0092A0', position: 'absolute', marginTop:80}}>Agent Short Code</Text>
             </View>
             <View style={styles.numberInput}>
                 <TextInput 
                     autoFocus={true}
                     autoCapitalize='none'
-                    placeholder='Enter Agent name' 
+                    placeholder='Enter Agent Code' 
                     placeholderTextColor="#79868F"
                     onChangeText={newText => setAgent(newText)} 
                     style={styles.loginTextInput}/>
@@ -145,7 +145,7 @@ const CashIn3 = ({navigation, route}) => {
                 <TextInput  
                     // autoFocus={true}
                     keyboardType="number-pad" 
-                    placeholder='Enter Phone Number' 
+                    placeholder='Enter Mobile Number' 
                     placeholderTextColor="#79868F"
                     onChangeText={phone => setToPhoneNumber(phone)} 
                     style={styles.loginTextInput}/>
