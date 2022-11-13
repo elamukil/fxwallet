@@ -25,12 +25,12 @@
  * CONTENTS, OR TO MANUFACTURE, USE, OR SELL ANYTHING THAT IT MAY DESCRIBE,    *
  * IN WHOLE OR IN PART.                                                        *
  *                                                                             *
- * File: \screens\CashIn.js                                                    *
+ * File: \components\ui\form.js                                                *
  * Project: kbxwallet                                                          *
- * Created Date: Wednesday, November 9th 2022, 6:12:30 pm                      *
- * Author: Hari Prasad <hari@kbxdigital.com>                                   *
+ * Created Date: Sunday, November 13th 2022, 5:04:34 am                        *
+ * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 13th 2022, 2:55:05 am                               *
+ * Last Modified: November 13th 2022, 5:26:11 am                               *
  * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -41,87 +41,32 @@
  * --------------------------------------------------------------------------- *
  */
 
-import * as React from "react";
-import { View, StyleSheet, StatusBar, Text, BackHandler } from "react-native";
-import Next from "../components/icons/NextIcon"
-
-export default function CashIn({ navigation, route }) {
-
-  const backAction = () => {
-    navigation.navigate("home", {
-      phoneNumber: route.params.phoneNumber,
-      pin: route.params.pin,
-    });
-    return true;
-  };
-
-  React.useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", backAction);
-
-    return () =>
-      BackHandler.removeEventListener("hardwareBackPress", backAction);
-  }, []);
-  return (
-    <View style={styles.container}>
-      <View style={styles.headerWrap}>
-        <Text style={styles.pageTitle}>Cash Out</Text>
-      </View>
-      <View style={styles.optionsContainer}>
-        <View style={styles.optionItem}>
-          <Text onPress={() => navigation.navigate('cashout2',{phoneNumber:route.params.phoneNumber, pin: route.params.pin})} style={styles.optionText}>Agent / Merchant</Text>
-          <Next style={{marginTop:4}} />
-        </View>
-      </View>
+import { Text, TextInput, View } from ' react-native';
+function Input({ label, textInputConfig }) {
+return (
+    <View style={styles.inputContainer}>
+        <Text style={styles.label}>{label}</Text>
+        <TextInput style={styles.input} {... textInputConfig} />
     </View>
-  );
+)
 }
 
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    textColor: "#fff",
-    backgroundColor: "#EFEFEF",
-    alignItems: "center",
-    // padding: 16,
-  },
-  headerWrap: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    backgroundColor: "#0092A0",
-    width: "100%",
-    padding: 16,
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-  pageTitle: {
-    // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    color: "#fff",
-    fontSize: 20,
-    fontWeight: "bold"
-  },
-  optionsContainer: {
-    padding: 16,
-    width: "100%",
-  },
-  optionItem: {
-    width: "100%",
-    // height: 60,
-    backgroundColor: "#fff",
-    padding: 16,
-    borderRadius: 8,
-    elevation: 10,
-    shadowColor: '#171717',
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "row"
-  },
-  optionText: {
-    color: "#333",
-    fontSize: 16,
-    flex: 1
-  }
-});
+    inputContainer: {
+        marginHorizontal: 4,
+        marginVertical: 8
+    },
+    label: {
+        fontSize: 12 ,
+        color: '#0092A0',
+        marginBottom: 4
+    },
+    input:{
+        backgroundColor: '#fff',
+        padding: 6,
+        borderRadius: 6,
+        fontSize: 18
+    }
+    });
+export default Input;

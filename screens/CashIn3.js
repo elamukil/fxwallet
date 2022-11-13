@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 11:52:01 am                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 13th 2022, 5:41:33 am                               *
+ * Last Modified: November 13th 2022, 6:20:03 am                               *
  * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -43,60 +43,111 @@
 
 import React, {useState, useEffect} from 'react';
 import { TextInput, View, StyleSheet,Text, StatusBar, BackHandler,Alert } from 'react-native';
-import PrimaryButton from '../components/ui/PrimaryButton'
+import PrimaryButton from '../components/ui/PrimaryButton';
+import axios from 'axios'
+import DailogBox from '../components/ui/DailogBox';
 
-const TransferScreen = ({navigation, route}) => {
+const CashIn3 = ({navigation, route}) => {
 
     const [amount, setAmount] = useState(0)
-    const [description, setDescription] = useState('')
+    const [agent, setAgent] = useState('')
     const [toPhoneNumber, setToPhoneNumber] = useState(0)
 
     const amountIsValid = !isNaN(amount) && amount > 0;
-    const descriptionIsValid = description.trim(). length > 0;
+    const agentIsValid = agent.trim(). length > 0;
+    const toPhoneNumberIsValid = toPhoneNumber.length>0
+
+    
+    const backAction = () => {
+    navigation.navigate('cashin2',{ phoneNumber: route.params.phoneNumber})
+        return true;
+    };
+    
+    useEffect(() => {
+        BackHandler.addEventListener("hardwareBackPress", backAction);
+    
+        return () =>
+        BackHandler.removeEventListener("hardwareBackPress", backAction);
+    }, []);
+
+    function getAgentCode(){
+
+        let verifyRequest = {
+            
+                agentCode: agent,
+                receiverPhoneNumber: toPhoneNumber,
+                amount: Number(amount)
+            
+          };
+          console.log(typeof(pinNumber));
+          console.log(verifyRequest)
+          axios
+            .post(
+              "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/cashIn/Request",
+              verifyRequest
+            )
+            .then((res) => {
+              console.log("hello", res.data);
+              setAgent(res.data.data)
+              Alert.alert(
+                "Greetings!",
+                "Copy Agent Code?",
+                [
+                   {
+                      text: res.data.data,
+                    //   onPress: () => console.log("User pressed Later")
+                   },
+                   { text: "OK",
+                      onPress: () => console.log("OK Pressed")
+                   }
+                ],
+                { cancelable: false }
+             );
+              
+            })
+            .catch((err) => {
+              console.log(err);
+              return
+            //   Alert.alert("Enter Correct Info", 'Click Proceed to Try Again', [{text: 'Proceed', onPress:() => navigation.navigate('transfer',{ phoneNumber: route.params.phoneNumber, pin: pinNumber})}]);
+            });
+    }
     const validation = ()=>{
-        if (!amountIsValid || ! descriptionIsValid) {
+        if (!amountIsValid || ! agentIsValid || !toPhoneNumberIsValid) {
             Alert.alert('Invalid input' , ' Please check your input values');
             return false
         }else{
-            navigation.navigate('otp',{phoneNumber: route.params.phoneNumber,amount: amount,toPhoneNumber:toPhoneNumber,description:description, onPage: route.name})
+            getAgentCode()
+    
         }
     }
 
-    // function nextPage(){
-    //     navigation.navigate('otp',{phoneNumber: route.params.phoneNumber,amount: amount,toPhoneNumber:toPhoneNumber,description:description, onPage: route.name})
-    // }
-    
-    if(route.name==='transfer'){
-        const backAction = () => {
-        navigation.navigate('home',{ phoneNumber: route.params.phoneNumber})
-          return true;
-        };
-      
-        useEffect(() => {
-          BackHandler.addEventListener("hardwareBackPress", backAction);
-      
-          return () =>
-            BackHandler.removeEventListener("hardwareBackPress", backAction);
-        }, ['transfer']);
-      }
-
-    
-    
     return (
         <View style={styles.TransferContainer}>
             <View style={styles.fixedScreen}>
-                <Text style={styles.loginText}>Transfer</Text>
+                <Text style={styles.loginText}>Cash In</Text>
+            </View>
+            <View>
+                    <Text style = {{color: '#0092A0', position: 'absolute', marginTop:80}}>Kbx Agent</Text>
+            </View>
+            <View style={styles.numberInput}>
+                <TextInput 
+                    autoFocus={true}
+                    autoCapitalize='none'
+                    placeholder='Enter Agent name' 
+                    placeholderTextColor="#79868F"
+                    onChangeText={newText => setAgent(newText)} 
+                    style={styles.loginTextInput}/>
             </View>
             <View>
                     <Text style = {{color: '#0092A0', position: 'absolute', marginTop:80}}>Mobile Number</Text>
             </View>
             <View style={styles.numberInput}>
-                <TextInput maxLength={10} 
-                    autoFocus={true}
+                <TextInput  
+                    // autoFocus={true}
                     keyboardType="number-pad" 
-                    placeholder='Enter mobile Number' 
+                    placeholder='Enter Phone Number' 
                     placeholderTextColor="#79868F"
-                    onChangeText={newText => setToPhoneNumber(newText)} 
+                    onChangeText={phone => setToPhoneNumber(phone)} 
                     style={styles.loginTextInput}/>
             </View>
             <View>
@@ -111,20 +162,11 @@ const TransferScreen = ({navigation, route}) => {
                     onChangeText={amt => setAmount(amt)} 
                     style={styles.loginTextInput}/>
             </View>
-            <View>
-                    <Text style = {{color: '#0092A0', position: 'absolute', marginTop:80}}>Description</Text>
-            </View>
-            <View style={styles.numberInput}>
-                <TextInput 
-                    // autoFocus={true}
-                    placeholder='what this transfer for?' 
-                    placeholderTextColor="#79868F"
-                    onChangeText={newText => setDescription(newText)} 
-                    style={styles.loginTextInput}/>
-            </View>
             <View style={{ marginTop: 30}}>
-                <PrimaryButton onPress={() => {validation();}}>Transfer</PrimaryButton>
+                <PrimaryButton onPress={validation}>Get Agent Code</PrimaryButton>
+                {/* onPress={() => navigation.navigate('cashout',{phoneNumber:route.params.phoneNumber, pin: route.params.pin})} */}
             </View>
+            <DailogBox/>
         </View>
     );
 }
@@ -174,4 +216,4 @@ loginTextInput: {
 },
 })
 
-export default TransferScreen;
+export default CashIn3;

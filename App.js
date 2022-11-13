@@ -56,6 +56,7 @@ import CashIn from './screens/CashIn';
 import CashIn2 from './screens/CashIn2';
 import CashOut from './screens/CashOut';
 import CashOut2 from './screens/CashOut2';
+import CashIn3 from './screens/CashIn3';
 import Recharge from './screens/Recharge';
 import TermDeposit from './screens/TermDeposit'
 import TdBalance from './screens/HomeComponents/TdBalance';
@@ -80,6 +81,7 @@ export default function App() {
           <stack.Screen name="home" component={HomeScreen} options={{ headerShown: false }}/>
           <stack.Screen name="cashin" component={CashIn} options={{ headerShown: false }}/>
           <stack.Screen name="cashin2" component={CashIn2} options={{ headerShown: false }}/>
+          <stack.Screen name="cashin3" component={CashIn3} options={{ headerShown: false }}/>
           <stack.Screen name="cashout" component={CashOut} options={{ headerShown: false }}/>
           <stack.Screen name="cashout2" component={CashOut2} options={{ headerShown: false }}/>
           <stack.Screen name="transfer" component={TransferScreen} options={{ headerShown: false }}/>
