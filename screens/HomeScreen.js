@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 10:31:44 am                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 14th 2022, 1:43:09 pm                               *
+ * Last Modified: November 15th 2022, 12:26:59 am                              *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -113,6 +113,7 @@ export default function HomeScreen({ route, navigation }) {
       let fullFromDate = new Date();
       fullFromDate.setDate(fullFromDate.getDate() - 15);
       let fullToDate = new Date();
+      // fullToDate.setHours(fullToDate.getHours - 6)
       let fromDate =
         fullFromDate.getFullYear() +
         "-" +
@@ -130,9 +131,10 @@ export default function HomeScreen({ route, navigation }) {
           ? "0" + fullToDate.getMonth() + 1
           : fullToDate.getMonth() + 1) +
         "-" +
-        (fullToDate.getDate() < 9
-          ? "0" + fullToDate.getDate()
-          : fullToDate.getDate());
+        (fullToDate.getUTCDate() < 9
+          ? "0" + fullToDate.getUTCDate()
+          : fullToDate.getUTCDate());
+        console.log("fromDate", fromDate)
       axios
         .get(
           `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/account/${route.params.phoneNumber}/transaction?fromDate=${fromDate}&toDate=${toDate}`
@@ -150,12 +152,12 @@ export default function HomeScreen({ route, navigation }) {
             })
             .catch((error) => {
               setIsLoaded(true);
-              Alert.alert("Internal server error", "Backend team please check")
+              // Alert.alert("Internal server error1", "Backend team please check")
             });
         })
         .catch((error) => {
           setIsLoaded(true);
-          Alert.alert("Internal server error", "Backend team please check")
+          // Alert.alert("Internal server error2", "Backend team please check")
         });
       axios
         .get(
@@ -168,8 +170,8 @@ export default function HomeScreen({ route, navigation }) {
         })
         .catch((error) => {
           setIsLoaded(true);
-          console.log("error", error);
-          Alert.alert("Internal server error", "Backend team please check")
+          console.log(`https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/${route.params.phoneNumber}`, error);
+          // Alert.alert("error.data.data", "Backend team please check")
         });
     }
     getTransaction();
@@ -267,10 +269,10 @@ export default function HomeScreen({ route, navigation }) {
       <View style={styles.mainBody}>
         <ViewSlider
           slideCount={2 + tdBalance.length}
-          dots={false}
+          // dots={true}
           dotActiveColor="#0092A0"
           dotInactiveColor="gray"
-          dotsContainerStyle={styles.dotContainer}
+          // dotsContainerStyle={styles.dotContainer}
           autoSlide={false}
           // slideInterval = {1000}
           renderSlides={
@@ -306,6 +308,7 @@ export default function HomeScreen({ route, navigation }) {
                   navigation={navigation}
                   pin={route.params.pin}
                   props={tdBalance}
+                  route={route}
                 />
               )}
               <TdBalance
@@ -326,7 +329,7 @@ export default function HomeScreen({ route, navigation }) {
                     pin: route.params.pin,
                   })
                 }
-              />
+                />
             </View>
             <Text style={styles.serviceName}>Pay Bills</Text>
           </View>
@@ -337,6 +340,7 @@ export default function HomeScreen({ route, navigation }) {
                   navigation.navigate("transfer", {
                     phoneNumber: route.params.phoneNumber,
                     pin: route.params.pin,
+                    countryCode: route.params.countryCode
                   })
                 }
               />
@@ -410,6 +414,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flex: 1,
     justifyContent: "center",
+    paddingTop: 8
   },
   textColor: {
     color: "#222222",
@@ -433,7 +438,7 @@ const styles = StyleSheet.create({
     // marginRight: 12,
     borderRadius: 8,
     padding: 16,
-    marginBottom: 24,
+    // marginBottom: 24,
     shadowOffset: { width: 2, height: 4 },
     shadowColor: "#171717",
     shadowOpacity: 0.2,
@@ -602,7 +607,7 @@ const styles = StyleSheet.create({
   },
   carousalView: {
     width: width,
-    paddingBottom: 10,
+    // paddingBottom: 10,
     paddingRight: 16,
     paddingLeft: 16,
     alignItems: "center"

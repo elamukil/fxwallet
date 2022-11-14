@@ -30,7 +30,7 @@
  * Created Date: Thursday, November 3rd 2022, 1:57:12 pm                       *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 12th 2022, 1:24:33 pm                               *
+ * Last Modified: November 15th 2022, 12:54:48 am                              *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -90,7 +90,7 @@ export default function LoginScreen({ navigation, code }) {
           </Pressable>
         </View>
         <TextInput
-          maxLength={10}
+          maxLength={12}
           autoFocus={true}
           keyboardType="number-pad"
           placeholder="Enter mobile Number"
@@ -102,7 +102,7 @@ export default function LoginScreen({ navigation, code }) {
       <View style={styles.loginButton}>
         <PrimaryButton
           onPress={() =>
-            navigation.navigate("otp", { phoneNumber: phoneNumber })
+            navigation.navigate("otp", { phoneNumber: phoneNumber , countryCode: countryCode})
           }
           style={({ pressed }) => [
             {

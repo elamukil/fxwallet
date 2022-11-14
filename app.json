@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "KBX Wallet",
+    "name": "Fi Wallet",
     "slug": "kbxWallet",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -19,14 +19,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.kbx.wallet"
+      "bundleIdentifier": "com.fi.wallet"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/assets.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.kbx.wallet"
+      "package": "com.fi.wallet"
     },
     "web": {
       "favicon": "./assets/favicon.png"

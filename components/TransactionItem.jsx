@@ -40,7 +40,7 @@ function TransactionItem({ props }) {
         <Text style={styles.transactionAmount}>
           {props.transactionAmount} MMK
         </Text>
-        {(props.transactionType === "DEBIT") ? <DownArrow/> : <UpArrow/>}
+        {(props.transactionType === "DEBIT") ? <Text style={styles.debit}>Dr</Text> : <Text style={styles.credit}>Cr</Text>}
       </View>
     </View>
   );
@@ -83,6 +83,16 @@ const styles = StyleSheet.create({
     color: "#333333",
     marginTop: 4,
   },
+  credit: {
+    color: "#60D675",
+    padding: 4,
+    fontWeight: "bold"
+  },
+  debit: {
+    color: "#D95959",
+    padding: 4,
+    fontWeight: "bold"
+  }
 });
 
 export default TransactionItem;

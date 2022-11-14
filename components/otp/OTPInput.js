@@ -30,7 +30,7 @@
  * Created Date: Sunday, November 6th 2022, 1:21:41 am                         *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 14th 2022, 4:28:58 pm                               *
+ * Last Modified: November 15th 2022, 12:58:17 am                              *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -58,6 +58,7 @@ import axios from "axios";
 
 const OTPInput = ({ route, navigation }) => {
   const [isLoaded, setIsLoaded] = useState(true);
+  const [isStart, setIsStart] = useState(true);
   const pin1Ref = useRef(null);
   const pin2Ref = useRef(null);
   const pin3Ref = useRef(null);
@@ -70,6 +71,14 @@ const OTPInput = ({ route, navigation }) => {
   const [otps, setOtps] = useState(Array(4));
 
   const refs = useRef(null);
+  const onFocusHandler = () => {
+    if (isStart) pin1Ref.current.focus();
+    else refs.current && refs.current.focus();
+  };
+  setTimeout(onFocusHandler, 100);
+  useEffect(() => {
+    onFocusHandler();
+  }, []);
   console.log(route.params.phoneNumber);
   console.log("amount", route.params.amount);
   const pinNumber = Number(pin1 + pin2 + pin3 + pin4);
@@ -110,6 +119,7 @@ const OTPInput = ({ route, navigation }) => {
       navigation.navigate("transfer", {
         phoneNumber: route.params.phoneNumber,
         pin: pinNumber,
+        countryCode: route.params.countryCode,
       });
     } else if (previousRoute === "recharge") {
       clearInput1();
@@ -119,6 +129,7 @@ const OTPInput = ({ route, navigation }) => {
       navigation.navigate("recharge", {
         phoneNumber: route.params.phoneNumber,
         pin: pinNumber,
+        countryCode: route.params.countryCode,
       });
     } else if (previousRoute === "termdeposit") {
       clearInput1();
@@ -128,6 +139,7 @@ const OTPInput = ({ route, navigation }) => {
       navigation.navigate("termdeposit", {
         phoneNumber: route.params.phoneNumber,
         pin: pinNumber,
+        countryCode: route.params.countryCode,
       });
     } else if (previousRoute === "cashout2") {
       clearInput1();
@@ -137,12 +149,14 @@ const OTPInput = ({ route, navigation }) => {
       navigation.navigate("cashout2", {
         phoneNumber: route.params.phoneNumber,
         pin: pinNumber,
+        countryCode: route.params.countryCode,
       });
     } else {
       console.log("loginotp");
       navigation.navigate("login", {
         phoneNumber: route.params.phoneNumber,
         pin: pinNumber,
+        countryCode: route.params.countryCode,
       });
     }
     return true;
@@ -154,6 +168,9 @@ const OTPInput = ({ route, navigation }) => {
     return () =>
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, [route.params.onPage]);
+  // useEffect(() => {
+  //   onFocusHandler();
+  // }, []);
 
   // const onFocusHandler = () => {
   //   pin1Ref.current.focus();
@@ -208,6 +225,7 @@ const OTPInput = ({ route, navigation }) => {
                 navigation.navigate("home", {
                   phoneNumber: route.params.phoneNumber,
                   pin: pinNumber,
+                  countryCode: route.params.countryCode,
                 }),
             },
           ]);
@@ -215,13 +233,14 @@ const OTPInput = ({ route, navigation }) => {
         .catch((err) => {
           setIsLoaded(true);
           console.log(err);
-          Alert.alert("Transfer Unuccessful", "Click Proceed to Try Again", [
+          Alert.alert(err.response.data.data, "Click Proceed to Try Again", [
             {
               text: "Proceed",
               onPress: () =>
                 navigation.navigate("transfer", {
                   phoneNumber: route.params.phoneNumber,
                   pin: pinNumber,
+                  countryCode: route.params.countryCode,
                 }),
             },
           ]);
@@ -284,6 +303,7 @@ const OTPInput = ({ route, navigation }) => {
                       navigation.navigate("home", {
                         phoneNumber: route.params.phoneNumber,
                         pin: pinNumber,
+                        countryCode: route.params.countryCode,
                       }),
                   },
                 ]
@@ -302,6 +322,7 @@ const OTPInput = ({ route, navigation }) => {
                       navigation.navigate("termdeposit", {
                         phoneNumber: route.params.phoneNumber,
                         pin: pinNumber,
+                        countryCode: route.params.countryCode,
                       }),
                   },
                   { text: "Try Again" },
@@ -321,6 +342,7 @@ const OTPInput = ({ route, navigation }) => {
                   navigation.navigate("termdeposit", {
                     phoneNumber: route.params.phoneNumber,
                     pin: pinNumber,
+                    countryCode: route.params.countryCode,
                   }),
               },
             ]
@@ -351,6 +373,7 @@ const OTPInput = ({ route, navigation }) => {
                 navigation.navigate("home", {
                   phoneNumber: route.params.phoneNumber,
                   pin: pinNumber,
+                  countryCode: route.params.countryCode,
                 }),
             },
           ]);
@@ -358,14 +381,9 @@ const OTPInput = ({ route, navigation }) => {
         .catch((err) => {
           console.log("erro response", err.response.data);
           console.log("verifyRequest", verifyRequest);
-          Alert.alert(err.response.data.data, [
+          Alert.alert(err.response.data.data, "Try again", [
             {
               text: "Try again",
-              onPress: () =>
-                navigation.navigate("cashout2", {
-                  phoneNumber: route.params.phoneNumber,
-                  pin: pinNumber,
-                }),
             },
           ]);
         });
@@ -394,6 +412,7 @@ const OTPInput = ({ route, navigation }) => {
                 navigation.navigate("home", {
                   phoneNumber: route.params.phoneNumber,
                   pin: pinNumber,
+                  countryCode: route.params.countryCode,
                 }),
             },
           ]);
@@ -401,21 +420,21 @@ const OTPInput = ({ route, navigation }) => {
         .catch((err) => {
           console.log("erro response", err.response.data);
           console.log("verifyRequest", verifyRequest);
-          if(err.response.data.data==='Wrong PIN'){
-            Alert.alert(err.response.data.data,'Try again', [
+          if (err.response.data.data === "Wrong PIN") {
+            Alert.alert(err.response.data.data, "Try again", [
               {
                 text: "Try again",
               },
             ]);
-          }
-          else{
-            Alert.alert(err.response.data.data,'Try again', [
+          } else {
+            Alert.alert(err.response.data.data, "Try again", [
               {
                 text: "Try again",
                 onPress: () =>
                   navigation.navigate("recharge", {
                     phoneNumber: route.params.phoneNumber,
                     pin: pinNumber,
+                    countryCode: route.params.countryCode,
                   }),
               },
             ]);
@@ -439,6 +458,7 @@ const OTPInput = ({ route, navigation }) => {
           navigation.navigate("home", {
             phoneNumber: route.params.phoneNumber,
             pin: pinNumber,
+            countryCode: route.params.countryCode,
           });
         })
         .catch((err) => {
@@ -517,6 +537,7 @@ const OTPInput = ({ route, navigation }) => {
             } else if (nativeEvent.key >= 0 && nativeEvent.key <= 9) {
               if (pin1 == null || pin1 == "") {
                 setPin1(nativeEvent.key);
+                setIsStart(false);
                 pin1Ref.current.focus();
               } else if (pin2 == null || pin2 == "") {
                 setPin2(nativeEvent.key);
@@ -549,7 +570,7 @@ const OTPInput = ({ route, navigation }) => {
           keyboardType="number-pad"
           secureTextEntry={true}
           maxLength={1}
-          //   caretHidden={true}
+          caretHidden={true}
           onKeyPress={({ nativeEvent }) => {
             if (nativeEvent.key == "Backspace") {
               if (pin2 !== null && pin2 !== "") {
@@ -684,7 +705,7 @@ const OTPInput = ({ route, navigation }) => {
             clearInput2();
             clearInput3();
             clearInput4();
-            pin1Ref.current.focus();
+            setIsStart(true);
           }}
         >
           Verify

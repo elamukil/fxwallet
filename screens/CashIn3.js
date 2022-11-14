@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 11:52:01 am                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 14th 2022, 1:02:16 pm                               *
+ * Last Modified: November 14th 2022, 4:35:26 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -93,11 +93,11 @@ const CashIn3 = ({navigation, route}) => {
                 res.data.data,
                 [
                    { text: "OK",
-                   onPress: () =>
-                   navigation.navigate("home", {
-                     phoneNumber: route.params.phoneNumber,
-                     pin: pinNumber,
-                   })
+                      onPress: () =>
+                      navigation.navigate("home", {
+                        phoneNumber: route.params.phoneNumber,
+                        pin: route.params.pin,
+                      })
                    }
                 ],
                 { cancelable: false }

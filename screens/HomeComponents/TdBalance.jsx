@@ -62,19 +62,19 @@ function TdBalance({props, phoneNumber, pin, navigation, route}) {
 const styles = StyleSheet.create({
   carousalView: {
     width: width,
-    paddingBottom: 10,
+    // paddingBottom: 10,
     paddingRight: 16,
     paddingLeft: 16,
     alignItems: "center"
   },
   balanceContainer: {
-    height: 150,
+    height: "auto",
     // backgroundColor: "#095B6D"
     width: "100%",
     // marginLeft: 16,
     borderRadius: 8,
     padding: 16,
-    marginBottom: 24,
+    // marginBottom: 24,
     shadowOffset: { width: 2, height: 4 },
     shadowColor: "#171717",
     shadowOpacity: 0.2,
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   balanceAmount: {
-    fontSize: 28,
+    fontSize: 24,
     color: "#fff",
     fontWeight: "bold",
     marginLeft: -8,

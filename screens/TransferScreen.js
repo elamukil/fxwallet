@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 11:52:01 am                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 14th 2022, 2:20:14 pm                               *
+ * Last Modified: November 14th 2022, 8:37:44 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -50,14 +50,18 @@ import {
   StatusBar,
   BackHandler,
   Alert,
+  Pressable
 } from "react-native";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { CountryPicker } from "react-native-country-codes-picker";
 
 const TransferScreen = ({ navigation, route }) => {
   const [amount, setAmount] = useState(0);
   const [description, setDescription] = useState("");
   const [toPhoneNumber, setToPhoneNumber] = useState(0);
+  const [countryCode, setCountryCode] = useState(route.params.countryCode);
+  const [show, setShow] = useState(false);
 
   const amountIsValid = !isNaN(amount) && amount > 0;
   const descriptionIsValid = description.trim().length > 0;
@@ -78,6 +82,7 @@ const TransferScreen = ({ navigation, route }) => {
         toPhoneNumber: toPhoneNumber,
         description: description,
         onPage: route.name,
+        countryCode: route.params.countryCode
       });
     }
   };
@@ -113,7 +118,7 @@ const TransferScreen = ({ navigation, route }) => {
             Mobile Number
           </Text>
         </View>
-        <View style={styles.numberInput}>
+        {/* <View style={styles.numberInput}>
           <TextInput
             maxLength={10}
             autoFocus={true}
@@ -123,7 +128,23 @@ const TransferScreen = ({ navigation, route }) => {
             onChangeText={(newText) => setToPhoneNumber(newText)}
             style={styles.loginTextInput}
           />
+        </View> */}
+        <View style={styles.numberInput}>
+        <View style={styles.coutryCode}>
+          <Pressable onPress={() => setShow(true)}>
+            <Text style={styles.coutryCodeText}>{countryCode}</Text>
+          </Pressable>
         </View>
+        <TextInput
+          maxLength={10}
+          autoFocus={true}
+          keyboardType="number-pad"
+          placeholder="Enter mobile Number"
+          placeholderTextColor="#79868F"
+          onChangeText={(newText) => setToPhoneNumber(newText)}
+          style={styles.loginTextInput}
+        />
+      </View>
         <View>
           <Text
             style={{ color: "#0092A0", position: "absolute", marginTop: 80 }}
@@ -167,6 +188,15 @@ const TransferScreen = ({ navigation, route }) => {
           </PrimaryButton>
         </View>
       </View>
+      <CountryPicker
+        initialState={"+91"}
+        show={show}
+        onBackdropPress={() => setShow(false)}
+        pickerButtonOnPress={(item) => {
+          setCountryCode(item.dial_code);
+          setShow(false);
+        }}
+      />
     </KeyboardAwareScrollView>
   );
 };
@@ -197,9 +227,23 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginTop: 50,
   },
+  // numberInput: {
+  //   height: 50,
+  //   // width: 350,
+  //   fontSize: 32,
+  //   borderBottomColor: "grey",
+  //   borderBottomWidth: 1,
+  //   color: "#lightgrey",
+  //   marginVertical: 8,
+  //   fontWeight: "normal",
+  //   marginTop: 100,
+  //   marginBottom: -10,
+  // },
   numberInput: {
     height: 50,
-    // width: 350,
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
     fontSize: 32,
     borderBottomColor: "grey",
     borderBottomWidth: 1,
@@ -212,6 +256,17 @@ const styles = StyleSheet.create({
   loginTextInput: {
     color: "#333",
     marginTop: 20,
+  },
+  coutryCode: {
+    // borderBottomColor: "grey",
+    // borderBottomWidth: 1,
+    marginTop: 25,
+    marginRight: 16,
+    marginLeft: 16,
+    width: "auto",
+  },
+  coutryCodeText: {
+    color: "#333",
   },
 });
 

@@ -18,19 +18,109 @@ import {
   BackHandler,
   Dimensions,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Wallet from "../../components/icons/Wallet";
 import PlusIcon from "../../components/icons/PlusIcon";
 import HistoryW from "../../components/icons/HistoryIconW";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 const { width, height } = Dimensions.get("window");
 function TdBalance({ props, phoneNumber, pin, navigation, route }) {
+  const [isLoaded, setIsLoaded] = useState(false);
   console.log("props", props);
+  function closeAccount(principalAmount, accountId) {
+    console.log("principalAmount", principalAmount);
+    Alert.alert(
+      "Do you really want to close account?",
+      "Click OK to Continue",
+      [
+        {
+          text: "OK",
+          onPress: () => {
+            let verifyRequest = {
+              requestType: "TDC",
+              fromAccounts: [
+                { phoneNumber: accountId, amount: principalAmount },
+              ],
+              toAccounts: [
+                {
+                  phoneNumber: route.params.phoneNumber,
+                  amount: principalAmount,
+                },
+              ],
+            };
+            console.log("verifyRequest", verifyRequest);
+            axios
+              .post(
+                "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/transfer",
+                verifyRequest
+              )
+              .then((res) => {
+                setIsLoaded(true);
+                console.log("hello", res.data);
+                let verifyRequest1 = {
+                  accountId: accountId,
+                };
+                axios
+                  .put(
+                    "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/td/status",
+                    verifyRequest1
+                  )
+                  .then(() => {
+                    setIsLoaded(true);
+                    console.log("deleted");
+                    Alert.alert(
+                      "Account deleted successfully",
+                      "Click ok to Continue",
+                      [
+                        {
+                          text: "Ok",
+                          onPress: () =>
+                            navigation.navigate("home", {
+                              phoneNumber: route.params.phoneNumber,
+                              pin: route.params.pin,
+                            }),
+                        },
+                      ]
+                    );
+                  })
+                  .catch((error) => {
+                    setIsLoaded(true);
+                    console.log("not deleted");
+                  });
+              })
+              .catch((err) => {
+                setIsLoaded(true);
+                console.log(err);
+                Alert.alert(
+                  err.response.data.data,
+                  "Click Proceed to Try Again",
+                  [
+                    {
+                      text: "Proceed",
+                      onPress: () =>
+                        navigation.navigate("transfer", {
+                          phoneNumber: route.params.phoneNumber,
+                          pin: pinNumber,
+                        }),
+                    },
+                  ]
+                );
+              });
+          },
+        },
+        {
+          text: "Cancel",
+        },
+      ]
+    );
+  }
   return (
     <>
       {props.map((v, i) => {
-        return (
+        return v.balance ? (
           <View style={styles.carousalView} key={i}>
             <LinearGradient
               colors={["#0092A0", "#095B6D"]}
@@ -49,26 +139,35 @@ function TdBalance({ props, phoneNumber, pin, navigation, route }) {
                 <Text style={styles.tenorTitle}>Tenor: {v.tenor}</Text>
               </View>
               <Text style={styles.balanceAmount}>{v.balance} MMK</Text>
-              <Pressable
-                onPress={() =>
-                  navigation.navigate("termdeposittransaction", {
-                    phoneNumber: phoneNumber,
-                    accountId: v.accountId,
-                    pin: pin,
-                  })
-                }
-              >
-                <View style={styles.addWrap}>
+              <View style={styles.addWrap}>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate("termdeposittransaction", {
+                      phoneNumber: phoneNumber,
+                      accountId: v.accountId,
+                      pin: pin,
+                    })
+                  }
+                  style={{ flex: 1 }}
+                >
                   <View style={styles.addMoneyBtn}>
                     <Text style={styles.addMoneyText}>See transactions</Text>
                   </View>
-                  {/* <View style={styles.historyBtn}>
-              <HistoryW />
-            </View> */}
-                </View>
-              </Pressable>
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    closeAccount(v.principalAmount, v.accountId);
+                  }}
+                >
+                  <View style={styles.historyBtn}>
+                    <Text style={styles.historyBtnText}>Close</Text>
+                  </View>
+                </Pressable>
+              </View>
             </LinearGradient>
           </View>
+        ) : (
+          ""
         );
       })}
     </>
@@ -78,10 +177,10 @@ function TdBalance({ props, phoneNumber, pin, navigation, route }) {
 const styles = StyleSheet.create({
   carousalView: {
     width: width,
-    paddingBottom: 10,
+    // paddingBottom: 10,
     paddingRight: 16,
     paddingLeft: 16,
-    alignItems: "center"
+    alignItems: "center",
   },
   balanceContainer: {
     // height: 150,
@@ -90,7 +189,7 @@ const styles = StyleSheet.create({
     // marginRight: 12,
     borderRadius: 8,
     padding: 16,
-    marginBottom: 24,
+    // marginBottom: 24,
     shadowOffset: { width: 2, height: 4 },
     shadowColor: "#171717",
     shadowOpacity: 0.2,
@@ -129,7 +228,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
-    width: "auto",
+    width: "50%",
     borderRadius: 8,
   },
   addMoneyText: {
@@ -146,6 +245,10 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderColor: "#fff",
     borderWidth: 0.5,
+  },
+  historyBtnText: {
+    color: "#fff",
+    fontWeight: "bold",
   },
 });
 

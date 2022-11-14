@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 6:12:30 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 14th 2022, 2:30:11 pm                               *
+ * Last Modified: November 14th 2022, 4:36:30 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -134,7 +134,7 @@ export default function CashOut2({ navigation, route }) {
               <TextInput
                 style={styles.input}
                 placeholder="Agent short code"
-                keyboardType="numeric"
+                // keyboardType="numeric"
                 onChangeText={(txt) => setAgentCode(txt)}
               />
               <TextInput
