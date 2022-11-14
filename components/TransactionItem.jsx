@@ -16,6 +16,7 @@ import {
   Platform,
 } from "react-native";
 import UpArrow from "../components/icons/UpArrow";
+import DownArrow from "../components/icons/DownArrow"
 
 function TransactionItem({ props }) {
   console.log("transaction", props);
@@ -39,7 +40,7 @@ function TransactionItem({ props }) {
         <Text style={styles.transactionAmount}>
           {props.transactionAmount} MMK
         </Text>
-        {/* <UpArrow /> */}
+        {(props.transactionType === "DEBIT") ? <DownArrow/> : <UpArrow/>}
       </View>
     </View>
   );

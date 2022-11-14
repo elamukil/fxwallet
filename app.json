@@ -4,10 +4,10 @@
     "slug": "kbxWallet",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/kbxicon.jpeg",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/kbxicon.jpeg",
+      "image": "./assets/assets.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -23,7 +23,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/assets.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.kbx.wallet"

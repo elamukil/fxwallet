@@ -30,7 +30,7 @@
  * Created Date: Sunday, November 13th 2022, 11:49:24 am                       *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 13th 2022, 12:42:33 pm                              *
+ * Last Modified: November 14th 2022, 12:47:34 pm                              *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
   transactionWrap: {
     width: "100%",
-    height: "55%",
+    height: "100%",
     alignSelf: "stretch",
     backgroundColor: "#fff",
     padding: 16,

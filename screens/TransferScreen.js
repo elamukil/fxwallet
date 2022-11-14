@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 11:52:01 am                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 13th 2022, 1:40:19 pm                               *
+ * Last Modified: November 14th 2022, 2:20:14 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -61,11 +61,17 @@ const TransferScreen = ({ navigation, route }) => {
 
   const amountIsValid = !isNaN(amount) && amount > 0;
   const descriptionIsValid = description.trim().length > 0;
+  const toPhoneNumberIsValid = toPhoneNumber.length == 10;
   const validation = () => {
-    if (!amountIsValid || !descriptionIsValid) {
-      Alert.alert("Invalid input", " Please check your input values");
+    if (!toPhoneNumberIsValid) {
+      Alert.alert("Please enter a valid phone number");
       return false;
-    } else {
+    }
+    else if (!amountIsValid) {
+      Alert.alert("Please enter a valid amount");
+      return false;
+    }
+    else {
       navigation.navigate("otp", {
         phoneNumber: route.params.phoneNumber,
         amount: amount,

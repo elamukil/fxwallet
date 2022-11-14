@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 10:31:44 am                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 13th 2022, 10:32:09 pm                              *
+ * Last Modified: November 14th 2022, 1:43:09 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -85,7 +85,7 @@ export default function HomeScreen({ route, navigation }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [loadSkeleton, setLoadSkeleton] = useState(true);
   const [transaction, setTransaction] = useState([]);
-  const [balance, setBalance] = useState([]);
+  const [balance, setBalance] = useState(0);
   const [tdBalance, setTd] = useState([]);
   if (route.name === "home") {
     const backAction = () => {
@@ -148,19 +148,28 @@ export default function HomeScreen({ route, navigation }) {
               setLoadSkeleton(false);
               setBalance(response.data.data);
             })
-            .catch((error) => {});
+            .catch((error) => {
+              setIsLoaded(true);
+              Alert.alert("Internal server error", "Backend team please check")
+            });
         })
-        .catch((error) => {});
+        .catch((error) => {
+          setIsLoaded(true);
+          Alert.alert("Internal server error", "Backend team please check")
+        });
       axios
         .get(
           `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/${route.params.phoneNumber}`
         )
         .then((response) => {
+          setIsLoaded(true);
           setTd(response.data.TDDetails);
           console.log("td", tdBalance);
         })
         .catch((error) => {
+          setIsLoaded(true);
           console.log("error", error);
+          Alert.alert("Internal server error", "Backend team please check")
         });
     }
     getTransaction();
@@ -218,7 +227,7 @@ export default function HomeScreen({ route, navigation }) {
             <Text style={styles.recentText}>Recent</Text>
             <Text style={styles.transactionText}>Transaction</Text>
           </View>
-          <Text style={styles.transactionSeeAllBtn}>See all</Text>
+          {/* <Text style={styles.transactionSeeAllBtn}>See all</Text> */}
         </View>
         <ScrollView overScrollMode="never" showsVerticalScrollIndicator={false}>
           {transaction.map((v, i) => {
@@ -258,7 +267,7 @@ export default function HomeScreen({ route, navigation }) {
       <View style={styles.mainBody}>
         <ViewSlider
           slideCount={2 + tdBalance.length}
-          dots={true}
+          dots={false}
           dotActiveColor="#0092A0"
           dotInactiveColor="gray"
           dotsContainerStyle={styles.dotContainer}

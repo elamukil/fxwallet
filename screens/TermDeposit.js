@@ -30,7 +30,7 @@
  * Created Date: Saturday, November 12th 2022, 9:07:07 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 13th 2022, 10:49:32 pm                              *
+ * Last Modified: November 13th 2022, 11:54:08 pm                              *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -64,11 +64,11 @@ const TransferScreen = ({ navigation, route }) => {
   const tenorIsValid = Number(tenor) > 0;
 
   const validation = () => {
-    if (!amountIsValid) {
-      Alert.alert("PLease enter a valid Amount");
-      return false;
-    } else if (!tenorIsValid) {
+    if (!tenorIsValid) {
       Alert.alert("Please enter a valid Tenor");
+      return false;
+    } else if (!amountIsValid) {
+      Alert.alert("PLease enter a valid Amount");
       return false;
     } else {
       navigation.navigate("otp", {
@@ -163,7 +163,7 @@ const TransferScreen = ({ navigation, route }) => {
           </Picker>
         </View>
         <View style={{ marginTop: 30 }}>
-          <PrimaryButton onPress={validation()}>Create</PrimaryButton>
+          <PrimaryButton onPress={validation}>Create</PrimaryButton>
         </View>
       </View>
     </KeyboardAwareScrollView>

@@ -30,7 +30,7 @@
  * Created Date: Sunday, November 6th 2022, 1:21:41 am                         *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 13th 2022, 10:39:42 pm                              *
+ * Last Modified: November 14th 2022, 4:28:58 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -50,12 +50,14 @@ import {
   Text,
   Alert,
   BackHandler,
+  ActivityIndicator,
 } from "react-native";
 import PrimaryButton from "../../components/ui/PrimaryButton";
 import HomeScreen from "../../screens/HomeScreen";
 import axios from "axios";
 
 const OTPInput = ({ route, navigation }) => {
+  const [isLoaded, setIsLoaded] = useState(true);
   const pin1Ref = useRef(null);
   const pin2Ref = useRef(null);
   const pin3Ref = useRef(null);
@@ -68,9 +70,6 @@ const OTPInput = ({ route, navigation }) => {
   const [otps, setOtps] = useState(Array(4));
 
   const refs = useRef(null);
-  const onFocusHandler = () => {
-    refs.current && refs.current.focus();
-  };
   console.log(route.params.phoneNumber);
   console.log("amount", route.params.amount);
   const pinNumber = Number(pin1 + pin2 + pin3 + pin4);
@@ -78,6 +77,20 @@ const OTPInput = ({ route, navigation }) => {
   console.log("we are here", route.params.onPage || "undefined");
   console.log(route.params.onPage);
 
+  const isPinEnteredCompletly = () => {
+    if (
+      pin1 !== null &&
+      pin1 !== "" &&
+      pin2 !== null &&
+      pin2 !== "" &&
+      pin3 !== null &&
+      pin3 !== "" &&
+      pin4 !== null &&
+      pin4 !== ""
+    )
+      return true;
+    return false;
+  };
   const previousRoute = route.params.onPage;
   console.log(previousRoute);
   // function back(){
@@ -90,16 +103,37 @@ const OTPInput = ({ route, navigation }) => {
     const prevRoute = routes[routes.length - 2];
     console.log(prevRoute);
     if (previousRoute === "transfer") {
+      clearInput1();
+      clearInput2();
+      clearInput3();
+      clearInput4();
       navigation.navigate("transfer", {
         phoneNumber: route.params.phoneNumber,
         pin: pinNumber,
       });
-    } else if (route.params.onPage === "termdeposit") {
+    } else if (previousRoute === "recharge") {
+      clearInput1();
+      clearInput2();
+      clearInput3();
+      clearInput4();
+      navigation.navigate("recharge", {
+        phoneNumber: route.params.phoneNumber,
+        pin: pinNumber,
+      });
+    } else if (previousRoute === "termdeposit") {
+      clearInput1();
+      clearInput2();
+      clearInput3();
+      clearInput4();
       navigation.navigate("termdeposit", {
         phoneNumber: route.params.phoneNumber,
         pin: pinNumber,
       });
     } else if (previousRoute === "cashout2") {
+      clearInput1();
+      clearInput2();
+      clearInput3();
+      clearInput4();
       navigation.navigate("cashout2", {
         phoneNumber: route.params.phoneNumber,
         pin: pinNumber,
@@ -121,6 +155,14 @@ const OTPInput = ({ route, navigation }) => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
   }, [route.params.onPage]);
 
+  // const onFocusHandler = () => {
+  //   pin1Ref.current.focus();
+  // }
+  // setTimeout(onFocusHandler,100)
+  // useEffect(() => {
+  //       onFocusHandler();
+  // }, []);
+
   async function login() {
     console.log("Hi");
     let verifyRequest = {
@@ -129,6 +171,7 @@ const OTPInput = ({ route, navigation }) => {
     };
     console.log(verifyRequest.phoneNumber);
     console.log(route.params.pin);
+
     if (route.params.onPage === "transfer") {
       let verifyRequest = {
         requestType: "TRANSFER",
@@ -149,12 +192,14 @@ const OTPInput = ({ route, navigation }) => {
       };
       console.log(typeof pinNumber);
       console.log(verifyRequest);
+      setIsLoaded(false);
       axios
         .post(
           "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/transfer",
           verifyRequest
         )
         .then((res) => {
+          setIsLoaded(true);
           console.log("hello", res.data);
           Alert.alert("Transfer Successful", "Click Proceed to Continue", [
             {
@@ -168,10 +213,11 @@ const OTPInput = ({ route, navigation }) => {
           ]);
         })
         .catch((err) => {
+          setIsLoaded(true);
           console.log(err);
-          Alert.alert("Please check the pin", "Or check your input", [
+          Alert.alert("Transfer Unuccessful", "Click Proceed to Try Again", [
             {
-              text: "Try again",
+              text: "Proceed",
               onPress: () =>
                 navigation.navigate("transfer", {
                   phoneNumber: route.params.phoneNumber,
@@ -219,12 +265,14 @@ const OTPInput = ({ route, navigation }) => {
           };
           console.log(typeof pinNumber);
           console.log(verifyRequest);
+          setIsLoaded(false);
           axios
             .post(
               "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/transfer",
               verifyRequest
             )
             .then((res) => {
+              setIsLoaded(true);
               console.log("hello", res.data);
               Alert.alert(
                 "Term Deposit Account created successfully",
@@ -242,6 +290,7 @@ const OTPInput = ({ route, navigation }) => {
               );
             })
             .catch((err) => {
+              setIsLoaded(true);
               console.log(err);
               Alert.alert(
                 "Account creation Unuccessful",
@@ -307,9 +356,9 @@ const OTPInput = ({ route, navigation }) => {
           ]);
         })
         .catch((err) => {
-          console.log(err);
+          console.log("erro response", err.response.data);
           console.log("verifyRequest", verifyRequest);
-          Alert.alert("Please check the pin", "Or check your input", [
+          Alert.alert(err.response.data.data, [
             {
               text: "Try again",
               onPress: () =>
@@ -320,18 +369,72 @@ const OTPInput = ({ route, navigation }) => {
             },
           ]);
         });
+    } else if (route.params.onPage === "recharge") {
+      let verifyRequest = {
+        requestType: "TELCO",
+        fromAccounts: [
+          {
+            phoneNumber: route.params.phoneNumber,
+            amount: Number(route.params.amount),
+          },
+        ],
+        PIN: pinNumber,
+      };
+      axios
+        .post(
+          "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/transfer",
+          verifyRequest
+        )
+        .then((res) => {
+          console.log("hello", res);
+          Alert.alert("Recharge Successful", "Click OK to Continue", [
+            {
+              text: "OK",
+              onPress: () =>
+                navigation.navigate("home", {
+                  phoneNumber: route.params.phoneNumber,
+                  pin: pinNumber,
+                }),
+            },
+          ]);
+        })
+        .catch((err) => {
+          console.log("erro response", err.response.data);
+          console.log("verifyRequest", verifyRequest);
+          if(err.response.data.data==='Wrong PIN'){
+            Alert.alert(err.response.data.data,'Try again', [
+              {
+                text: "Try again",
+              },
+            ]);
+          }
+          else{
+            Alert.alert(err.response.data.data,'Try again', [
+              {
+                text: "Try again",
+                onPress: () =>
+                  navigation.navigate("recharge", {
+                    phoneNumber: route.params.phoneNumber,
+                    pin: pinNumber,
+                  }),
+              },
+            ]);
+          }
+        });
     } else {
       let verifyRequest1 = {
         phoneNumber: route.params.phoneNumber,
         PIN: pinNumber,
       };
       console.log(verifyRequest1);
+      setIsLoaded(false);
       axios
         .post(
           "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/validate/pin",
           verifyRequest1
         )
         .then((res) => {
+          setIsLoaded(true);
           console.log("hello", res.data);
           navigation.navigate("home", {
             phoneNumber: route.params.phoneNumber,
@@ -339,6 +442,7 @@ const OTPInput = ({ route, navigation }) => {
           });
         })
         .catch((err) => {
+          setIsLoaded(true);
           console.log(err);
           Alert.alert("Incorrect Pin", "Click Proceed to Try Again", [
             { text: "Proceed" },
@@ -363,6 +467,24 @@ const OTPInput = ({ route, navigation }) => {
   // return () => removeListener();
   // }, []);
 
+  const getLoader = () => {
+    if (isLoaded == false) {
+      console.log(
+        "The respective api is called and the data is Loading in OTPInput"
+      );
+      return (
+        <View>
+          <ActivityIndicator
+            height="100%"
+            width="100%"
+            size="large"
+            color="grey"
+          ></ActivityIndicator>
+        </View>
+      );
+    }
+  };
+
   return (
     <View>
       <View style={styles.otpContainer}>
@@ -383,18 +505,24 @@ const OTPInput = ({ route, navigation }) => {
           ref={pin1Ref}
           autoFocus={true}
           keyboardType="number-pad"
-          //   caretHidden={true}
-          onChangeText={(pin1) => {
-            setPin1(pin1);
-            if (pin1 == "") pin1Ref.current.focus();
-            if (pin1 !== null && pin1 !== "") {
-              pin2Ref.current.focus();
+          secureTextEntry={true}
+          onKeyPress={({ nativeEvent }) => {
+            if (nativeEvent.key == "Backspace") {
+              if (pin1 !== null && pin1 !== "") {
+                setPin1("");
+                pin1Ref.current.focus();
+              } else {
+                pin1Ref.current.focus();
+              }
+            } else if (nativeEvent.key >= 0 && nativeEvent.key <= 9) {
+              if (pin1 == null || pin1 == "") {
+                setPin1(nativeEvent.key);
+                pin1Ref.current.focus();
+              } else if (pin2 == null || pin2 == "") {
+                setPin2(nativeEvent.key);
+                pin2Ref.current.focus();
+              }
             }
-          }}
-          onKeyPress={() => {
-            console.log("pin1 is : ", pin1);
-            if (pin1 == "") pin1Ref.current.focus();
-            if (pin1 !== null && pin1 !== "") pin2Ref.current.focus();
           }}
           value={pin1}
           style={{
@@ -419,18 +547,27 @@ const OTPInput = ({ route, navigation }) => {
         <TextInput
           ref={pin2Ref}
           keyboardType="number-pad"
+          secureTextEntry={true}
           maxLength={1}
           //   caretHidden={true}
-          onChangeText={(pin2) => {
-            setPin2(pin2);
-            if (pin2 == "") pin1Ref.current.focus();
-            if (pin2 !== null && pin2 !== "") {
-              pin3Ref.current.focus();
+          onKeyPress={({ nativeEvent }) => {
+            if (nativeEvent.key == "Backspace") {
+              if (pin2 !== null && pin2 !== "") {
+                setPin2("");
+                pin2Ref.current.focus();
+              } else {
+                setPin1("");
+                pin1Ref.current.focus();
+              }
+            } else if (nativeEvent.key >= 0 && nativeEvent.key <= 9) {
+              if (pin2 == null || pin2 == "") {
+                setPin2(nativeEvent.key);
+                pin2Ref.current.focus();
+              } else if (pin3 == null || pin3 == "") {
+                setPin3(nativeEvent.key);
+                pin3Ref.current.focus();
+              }
             }
-          }}
-          onKeyPress={() => {
-            if (pin2 == "" || pin2 == null) pin1Ref.current.focus();
-            if (pin2 !== null && pin2 !== "") pin3Ref.current.focus();
           }}
           value={pin2}
           style={{
@@ -454,18 +591,25 @@ const OTPInput = ({ route, navigation }) => {
         <TextInput
           ref={pin3Ref}
           keyboardType="number-pad"
+          secureTextEntry={true}
           maxLength={1}
-          onChangeText={(pin3) => {
-            setPin3(pin3);
-            if (pin3 == "") pin2Ref.current.focus();
-            if (pin3 !== null && pin3 !== "") {
-              pin4Ref.current.focus();
-            }
-          }}
-          onKeyPress={() => {
-            if (pin3 == "" || pin3 == null) pin2Ref.current.focus();
-            if (pin3 !== null && pin3 !== "") {
-              pin4Ref.current.focus();
+          onKeyPress={({ nativeEvent }) => {
+            if (nativeEvent.key == "Backspace") {
+              if (pin3 !== null && pin3 !== "") {
+                setPin3("");
+                pin3Ref.current.focus();
+              } else {
+                setPin2("");
+                pin2Ref.current.focus();
+              }
+            } else if (nativeEvent.key >= 0 && nativeEvent.key <= 9) {
+              if (pin3 == null || pin3 == "") {
+                setPin3(nativeEvent.key);
+                pin3Ref.current.focus();
+              } else if (pin4 == null || pin4 == "") {
+                setPin4(nativeEvent.key);
+                pin4Ref.current.focus();
+              }
             }
           }}
           value={pin3}
@@ -490,18 +634,22 @@ const OTPInput = ({ route, navigation }) => {
         <TextInput
           ref={pin4Ref}
           keyboardType="number-pad"
+          secureTextEntry={true}
           maxLength={1}
-          onChangeText={(pin4) => {
-            setPin4(pin4);
-            if (pin4 == "") pin3Ref.current.focus();
-            if (pin4 !== null && pin4 !== "") {
-              pin1Ref.current.focus();
-            }
-          }}
-          onKeyPress={() => {
-            if (pin4 == "" || pin4 == null) pin3Ref.current.focus();
-            if (pin4 !== null && pin4 !== "") {
-              pin1Ref.current.focus();
+          onKeyPress={({ nativeEvent }) => {
+            if (nativeEvent.key == "Backspace") {
+              if (pin4 !== null && pin4 !== "") {
+                setPin4("");
+                pin4Ref.current.focus();
+              } else {
+                setPin3("");
+                pin3Ref.current.focus();
+              }
+            } else if (nativeEvent.key >= 0 && nativeEvent.key <= 9) {
+              if (pin4 == null || pin4 == "") {
+                setPin4(nativeEvent.key);
+                pin4Ref.current.focus();
+              }
             }
           }}
           value={pin4}
@@ -525,7 +673,10 @@ const OTPInput = ({ route, navigation }) => {
         />
       </View>
       {/* <View style={{position: 'absolute', marginTop: 295, marginLeft: 280}}><Text style={{color: '#79868F'}}>Resend Otp</Text></View> */}
-      <View style={styles.loginButton}>
+      <View
+        style={styles.loginButton}
+        pointerEvents={!isPinEnteredCompletly() ? "none" : "auto"}
+      >
         <PrimaryButton
           onPress={() => {
             login();
@@ -533,11 +684,13 @@ const OTPInput = ({ route, navigation }) => {
             clearInput2();
             clearInput3();
             clearInput4();
+            pin1Ref.current.focus();
           }}
         >
           Verify
         </PrimaryButton>
       </View>
+      {getLoader()}
     </View>
   );
 };

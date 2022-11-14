@@ -30,7 +30,7 @@
  * Created Date: Thursday, November 10th 2022, 12:17:34 pm                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 13th 2022, 12:48:32 pm                              *
+ * Last Modified: November 14th 2022, 3:34:30 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -65,12 +65,12 @@ import TopUpPlan from "./RechargeScreens/TopUpPlan";
 export default ({ navigation, route }) => {
   const FirstRoute = () => (
     // <View style={{ height: "50%", backgroundColor: "#ff4081" }} />
-    <TopUpPlan />
+    <TopUpPlan navigation={navigation} route={route} />
   );
 
   const SecondRoute = () => (
     // <View style={{ height: "50%", backgroundColor: "#673ab7" }} />
-    <TopUpPlan />
+    <TopUpPlan navigation={navigation} route={route} />
   );
   const renderTabBar = (props) => (
     <TabBar
@@ -146,18 +146,6 @@ export default ({ navigation, route }) => {
         onIndexChange={setIndex}
         initialLayout={{ width: layout.width }}
       />
-      {/* <PagerView style={styles.viewPager} initialPage={0}>
-        <View style={styles.page} key="1">
-          <Text>First page</Text>
-          <Text>Swipe ➡️</Text>
-        </View>
-        <View style={styles.page} key="2">
-          <Text>Second page</Text>
-        </View>
-        <View style={styles.page} key="3">
-          <Text>Third page</Text>
-        </View>
-      </PagerView> */}
     </View>
   );
 };

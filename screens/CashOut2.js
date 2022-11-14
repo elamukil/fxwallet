@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 6:12:30 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 13th 2022, 11:06:07 pm                              *
+ * Last Modified: November 14th 2022, 2:30:11 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -55,12 +55,12 @@ import {
   SafeAreaView,
   ScrollView,
   Keyboard,
-  Alert
+  Alert,
 } from "react-native";
 import Next from "../components/icons/NextIcon";
 import OTPInput from "../components/otp/OTPInput";
 import PrimaryButton from "../components/ui/PrimaryButton";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function CashOut2({ navigation, route }) {
   const [agentCode, setAgentCode] = useState(0);
@@ -83,81 +83,83 @@ export default function CashOut2({ navigation, route }) {
 
   const amountIsValid = !isNaN(amount) && amount > 0;
 
-  const validation = ()=>{
-    if (!amountIsValid) {
-        Alert.alert('Please enter a valid amount');
-        return false
+  const validation = () => {
+    if (!agentCode) {
+      Alert.alert("Please enter a valid Agent code");
+      return false;
     }
-    else{
+    else if (!amountIsValid) {
+      Alert.alert("Please enter a valid amount");
+      return false;
+    } 
+    else {
       navigation.navigate("otp", {
         phoneNumber: route.params.phoneNumber,
         amount: amount,
         pin: route.params.pin,
         description: description,
         onPage: route.name,
-      })
+      });
     }
-}
+  };
 
   return (
     <SafeAreaView style={styles.container1}>
       <KeyboardAwareScrollView>
-    <ScrollView
-      resetScrollToCoords={{ x: 0, y: 0 }}
-      behavior="padding"
-      scrollEnabled={false}
-      // contentContainerStyle={styles.container1}
-    >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          <View style={styles.headerWrap}>
-            <Text style={styles.pageTitle}>Cash Out</Text>
-          </View>
-          <View style={styles.optionsContainer}>
-            <Image
-              style={{ width: "100%", height: 200, resizeMode: "contain" }}
-              source={require("../assets/images/illCashOut.png")}
-            />
-          </View>
-          <Text style={styles.optionsTitle}>Enter Agent Short Code</Text>
-          <View style={{ padding: 12 }}>
-            <Text style={styles.optionsDesc}>
-              Please make sure the short code is correct before you initiate
-              cash out transaction. You will not get any reversal for the
-              transaction where incorrect amount and information is made.
-            </Text>
-          </View>
-          <TextInput
-            style={styles.input}
-            placeholder="Agent short code"
-            keyboardType="numeric"
-            onChangeText={(txt) => setAgentCode(txt)}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Amount"
-            keyboardType="numeric"
-            onChangeText={(amt) => setAmount(amt)}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Description"
-            onChangeText={(txt) => setDescription(txt)}
-          />
-          <View>
-            <PrimaryButton
-              onPress={validation}
-            >
-              Transfer
-            </PrimaryButton>
-          </View>
-          <View style={styles.footer}>
-            <Text style={styles.footerFaqText}>How to cash out at agent?</Text>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-    </ScrollView>
-    </KeyboardAwareScrollView>
+        <ScrollView
+          resetScrollToCoords={{ x: 0, y: 0 }}
+          behavior="padding"
+          scrollEnabled={false}
+          // contentContainerStyle={styles.container1}
+        >
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+              <View style={styles.headerWrap}>
+                <Text style={styles.pageTitle}>Cash Out</Text>
+              </View>
+              <View style={styles.optionsContainer}>
+                <Image
+                  style={{ width: "100%", height: 200, resizeMode: "contain" }}
+                  source={require("../assets/images/illCashOut.png")}
+                />
+              </View>
+              <Text style={styles.optionsTitle}>Enter Agent Short Code</Text>
+              <View style={{ padding: 12 }}>
+                <Text style={styles.optionsDesc}>
+                  Please make sure the short code is correct before you initiate
+                  cash out transaction. You will not get any reversal for the
+                  transaction where incorrect amount and information is made.
+                </Text>
+              </View>
+              <TextInput
+                style={styles.input}
+                placeholder="Agent short code"
+                keyboardType="numeric"
+                onChangeText={(txt) => setAgentCode(txt)}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Enter Amount"
+                keyboardType="numeric"
+                onChangeText={(amt) => setAmount(amt)}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Enter Description"
+                onChangeText={(txt) => setDescription(txt)}
+              />
+              <View>
+                <PrimaryButton onPress={validation}>Transfer</PrimaryButton>
+              </View>
+              <View style={styles.footer}>
+                <Text style={styles.footerFaqText}>
+                  How to cash out at agent?
+                </Text>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </ScrollView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }
@@ -165,14 +167,14 @@ export default function CashOut2({ navigation, route }) {
 const styles = StyleSheet.create({
   container1: {
     flex: 1,
-    height: "100%"
+    height: "100%",
   },
   container: {
     flex: 1,
     textColor: "#fff",
     backgroundColor: "#fff",
     alignItems: "center",
-    height: "150%"
+    height: "150%",
     // padding: 16,
   },
   input: {
