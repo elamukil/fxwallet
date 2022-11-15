@@ -19,7 +19,7 @@ import UpArrow from "../components/icons/UpArrow";
 import DownArrow from "../components/icons/DownArrow"
 
 function TransactionItem({ props }) {
-  console.log("transaction", props);
+  // console.log("transaction", props);
   return (
     <View style={styles.transactionItem}>
       {/* {...props} */}

@@ -28,14 +28,48 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 const { width, height } = Dimensions.get("window");
 function TdBalance({ props, phoneNumber, pin, navigation, route }) {
-  const [isLoaded, setIsLoaded] = useState(false);
-  console.log("props", props);
+  const [tdList, setTdList] = useState([]);
+  const [flag, setflag] = useState(false);
+  // console.log("props", props);
+  useEffect(() => {
+    const tsCall = () => {
+      axios
+        .get(
+          `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/${route.params.phoneNumber}`
+        )
+        .then((response) => {
+          setTdList(response.data.TDDetails);
+          console.log("tdList2", response.data.TDDetails);
+        })
+        .catch((error) => {
+          console.log("");
+        });
+    };
+    tsCall()
+  });
+  useEffect(() => {
+    axios
+      .get(
+        `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/${route.params.phoneNumber}`
+      )
+      .then((response) => {
+        setTdList(response.data.TDDetails);
+        console.log("tdList2", response.data.TDDetails);
+      })
+      .catch((error) => {
+        console.log("");
+      });
+  }, [flag]);
+  console.log("tdList", tdList);
   function closeAccount(principalAmount, accountId) {
     console.log("principalAmount", principalAmount);
     Alert.alert(
       "Do you really want to close account?",
       "Click OK to Continue",
       [
+        {
+          text: "Cancel",
+        },
         {
           text: "OK",
           onPress: () => {
@@ -58,7 +92,6 @@ function TdBalance({ props, phoneNumber, pin, navigation, route }) {
                 verifyRequest
               )
               .then((res) => {
-                setIsLoaded(true);
                 console.log("hello", res.data);
                 let verifyRequest1 = {
                   accountId: accountId,
@@ -68,31 +101,28 @@ function TdBalance({ props, phoneNumber, pin, navigation, route }) {
                     "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/td/status",
                     verifyRequest1
                   )
-                  .then(() => {
-                    setIsLoaded(true);
-                    console.log("deleted");
+                  .then((response) => {
+                    console.log("deleted", response.data);
                     Alert.alert(
-                      "Account deleted successfully",
+                      "Account closed successfully",
                       "Click ok to Continue",
                       [
                         {
                           text: "Ok",
-                          onPress: () =>
-                            navigation.navigate("home", {
-                              phoneNumber: route.params.phoneNumber,
-                              pin: route.params.pin,
-                            }),
+                          onPress: () => setflag(true),
+                          // navigation.navigate("refresh", {
+                          //   phoneNumber: route.params.phoneNumber,
+                          //   pin: route.params.pin,
+                          // })
                         },
                       ]
                     );
                   })
                   .catch((error) => {
-                    setIsLoaded(true);
                     console.log("not deleted");
                   });
               })
               .catch((err) => {
-                setIsLoaded(true);
                 console.log(err);
                 Alert.alert(
                   err.response.data.data,
@@ -111,15 +141,12 @@ function TdBalance({ props, phoneNumber, pin, navigation, route }) {
               });
           },
         },
-        {
-          text: "Cancel",
-        },
       ]
     );
   }
   return (
     <>
-      {props.map((v, i) => {
+      {tdList.map((v, i) => {
         return v.balance ? (
           <View style={styles.carousalView} key={i}>
             <LinearGradient
@@ -156,7 +183,7 @@ function TdBalance({ props, phoneNumber, pin, navigation, route }) {
                 </Pressable>
                 <Pressable
                   onPress={() => {
-                    closeAccount(v.principalAmount, v.accountId);
+                    closeAccount(v.balance, v.accountId);
                   }}
                 >
                   <View style={styles.historyBtn}>

@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 10:31:44 am                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 15th 2022, 12:26:59 am                              *
+ * Last Modified: November 15th 2022, 2:09:51 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -99,7 +99,6 @@ export default function HomeScreen({ route, navigation }) {
       ]);
       return true;
     };
-
     useEffect(() => {
       BackHandler.addEventListener("hardwareBackPress", backAction);
 
@@ -134,7 +133,7 @@ export default function HomeScreen({ route, navigation }) {
         (fullToDate.getUTCDate() < 9
           ? "0" + fullToDate.getUTCDate()
           : fullToDate.getUTCDate());
-        console.log("fromDate", fromDate)
+        // console.log("fromDate", fromDate)
       axios
         .get(
           `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/account/${route.params.phoneNumber}/transaction?fromDate=${fromDate}&toDate=${toDate}`
@@ -166,11 +165,11 @@ export default function HomeScreen({ route, navigation }) {
         .then((response) => {
           setIsLoaded(true);
           setTd(response.data.TDDetails);
-          console.log("td", tdBalance);
+          console.log("tdList", response);
         })
         .catch((error) => {
           setIsLoaded(true);
-          console.log(`https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/${route.params.phoneNumber}`, error);
+          // console.log(`https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts/${route.params.phoneNumber}`, error);
           // Alert.alert("error.data.data", "Backend team please check")
         });
     }
@@ -180,7 +179,7 @@ export default function HomeScreen({ route, navigation }) {
     if (loadSkeleton == true) {
       const cardWidth = "90%";
       // const skeWidth = cardWidth - 32;
-      console.log("The transactions are loading");
+      // console.log("The transactions are loading");
       return (
         <View style={styles.container}>
           {/* <Text>Open up App.js to start working on your app!</Text>
@@ -240,7 +239,7 @@ export default function HomeScreen({ route, navigation }) {
     );
   };
   if (isLoaded == false) {
-    console.log("The respective api is called and the sata is Loading");
+    // console.log("The respective api is called and the sata is Loading");
     return (
       <ActivityIndicator
         height="100%"
@@ -307,7 +306,6 @@ export default function HomeScreen({ route, navigation }) {
                   phoneNumber={route.params.phoneNumber}
                   navigation={navigation}
                   pin={route.params.pin}
-                  props={tdBalance}
                   route={route}
                 />
               )}

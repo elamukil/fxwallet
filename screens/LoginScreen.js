@@ -30,7 +30,7 @@
  * Created Date: Thursday, November 3rd 2022, 1:57:12 pm                       *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 15th 2022, 12:54:48 am                              *
+ * Last Modified: November 15th 2022, 12:03:50 pm                              *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -110,6 +110,7 @@ export default function LoginScreen({ navigation, code }) {
             },
             styles.button,
           ]}
+          // style={[styles.loginButton, {opacity:isMobNoEnteredCompletly() ? 1: 0.5}]}
         >
           Login
         </PrimaryButton>

@@ -30,7 +30,7 @@
  * Created Date: Sunday, November 6th 2022, 1:21:41 am                         *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 15th 2022, 12:58:17 am                              *
+ * Last Modified: November 15th 2022, 12:00:40 pm                              *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -695,7 +695,8 @@ const OTPInput = ({ route, navigation }) => {
       </View>
       {/* <View style={{position: 'absolute', marginTop: 295, marginLeft: 280}}><Text style={{color: '#79868F'}}>Resend Otp</Text></View> */}
       <View
-        style={styles.loginButton}
+        // style={styles.loginButton}
+        style={[styles.loginButton, {opacity:isPinEnteredCompletly() ? 1: 0.56}]}
         pointerEvents={!isPinEnteredCompletly() ? "none" : "auto"}
       >
         <PrimaryButton

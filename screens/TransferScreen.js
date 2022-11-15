@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 11:52:01 am                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 14th 2022, 8:37:44 pm                               *
+ * Last Modified: November 15th 2022, 2:33:24 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -50,7 +50,7 @@ import {
   StatusBar,
   BackHandler,
   Alert,
-  Pressable
+  Pressable,
 } from "react-native";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -66,23 +66,25 @@ const TransferScreen = ({ navigation, route }) => {
   const amountIsValid = !isNaN(amount) && amount > 0;
   const descriptionIsValid = description.trim().length > 0;
   const toPhoneNumberIsValid = toPhoneNumber.length == 10;
+  const isAllFieldsEnteredCompletly = () => {
+    if(toPhoneNumber.length < 10 || amount < 1) return true
+    return false
+  }
   const validation = () => {
     if (!toPhoneNumberIsValid) {
       Alert.alert("Please enter a valid phone number");
       return false;
-    }
-    else if (!amountIsValid) {
+    } else if (!amountIsValid) {
       Alert.alert("Please enter a valid amount");
       return false;
-    }
-    else {
+    } else {
       navigation.navigate("otp", {
         phoneNumber: route.params.phoneNumber,
         amount: amount,
         toPhoneNumber: toPhoneNumber,
         description: description,
         onPage: route.name,
-        countryCode: route.params.countryCode
+        countryCode: route.params.countryCode,
       });
     }
   };
@@ -118,7 +120,23 @@ const TransferScreen = ({ navigation, route }) => {
             Mobile Number
           </Text>
         </View>
+        <View style={styles.numberInput}>
+          <TextInput
+            maxLength={10}
+            autoFocus={true}
+            keyboardType="number-pad"
+            placeholder="Enter mobile Number"
+            placeholderTextColor="#79868F"
+            onChangeText={(newText) => setToPhoneNumber(newText)}
+            style={styles.loginTextInput}
+          />
+        </View>
         {/* <View style={styles.numberInput}>
+          <View style={styles.coutryCode}>
+            <Pressable onPress={() => setShow(true)}>
+              <Text style={styles.coutryCodeText}>{countryCode}</Text>
+            </Pressable>
+          </View>
           <TextInput
             maxLength={10}
             autoFocus={true}
@@ -129,22 +147,6 @@ const TransferScreen = ({ navigation, route }) => {
             style={styles.loginTextInput}
           />
         </View> */}
-        <View style={styles.numberInput}>
-        <View style={styles.coutryCode}>
-          <Pressable onPress={() => setShow(true)}>
-            <Text style={styles.coutryCodeText}>{countryCode}</Text>
-          </Pressable>
-        </View>
-        <TextInput
-          maxLength={10}
-          autoFocus={true}
-          keyboardType="number-pad"
-          placeholder="Enter mobile Number"
-          placeholderTextColor="#79868F"
-          onChangeText={(newText) => setToPhoneNumber(newText)}
-          style={styles.loginTextInput}
-        />
-      </View>
         <View>
           <Text
             style={{ color: "#0092A0", position: "absolute", marginTop: 80 }}
@@ -178,7 +180,7 @@ const TransferScreen = ({ navigation, route }) => {
             style={styles.loginTextInput}
           />
         </View>
-        <View style={{ marginTop: 30 }}>
+        <View style={[{ marginTop: 30 }, {opacity: isAllFieldsEnteredCompletly() ? 1: 0.5}]}>
           <PrimaryButton
             onPress={() => {
               validation();
