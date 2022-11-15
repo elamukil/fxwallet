@@ -74,6 +74,12 @@ export default function CashOut2({ navigation, route }) {
     return true;
   };
 
+  const isAllFieldsEnteredCompletly = () => {
+    if (agentCode !== '' && amount > 0)
+      return(true)
+    return(false)
+  }
+
   React.useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
 
@@ -148,7 +154,7 @@ export default function CashOut2({ navigation, route }) {
                 placeholder="Enter Description"
                 onChangeText={(txt) => setDescription(txt)}
               />
-              <View>
+              <View style={{opacity:isAllFieldsEnteredCompletly() ? 1: 0.5}} pointerEvents={!isAllFieldsEnteredCompletly() ? 'none' : 'auto'}>
                 <PrimaryButton onPress={validation}>Transfer</PrimaryButton>
               </View>
               <View style={styles.footer}>

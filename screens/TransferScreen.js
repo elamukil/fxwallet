@@ -67,8 +67,9 @@ const TransferScreen = ({ navigation, route }) => {
   const descriptionIsValid = description.trim().length > 0;
   const toPhoneNumberIsValid = toPhoneNumber.length == 10;
   const isAllFieldsEnteredCompletly = () => {
-    if(toPhoneNumber.length < 10 || amount < 1) return true
-    return false
+    if (amount > 0 && (toPhoneNumber.length >= 10 && toPhoneNumber.length <= 12))
+      return(true)
+    return(false)
   }
   const validation = () => {
     if (!toPhoneNumberIsValid) {
@@ -180,7 +181,7 @@ const TransferScreen = ({ navigation, route }) => {
             style={styles.loginTextInput}
           />
         </View>
-        <View style={[{ marginTop: 30 }, {opacity: isAllFieldsEnteredCompletly() ? 1: 0.5}]}>
+        <View style={[{ marginTop: 30 }, {opacity:isAllFieldsEnteredCompletly() ? 1: 0.5}]} pointerEvents={!isAllFieldsEnteredCompletly() ? 'none' : 'auto'}>
           <PrimaryButton
             onPress={() => {
               validation();

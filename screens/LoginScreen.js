@@ -70,6 +70,12 @@ export default function LoginScreen({ navigation, code }) {
   const [countryCode, setCountryCode] = useState("+91");
   // console.log(phoneNumber)
 
+  const isMobNoEnteredCompletly = () => {
+    if (phoneNumber.length >= 10 || phoneNumber.length <= 12)
+      return(true);
+    return(false);
+  }
+
   return (
     <View style={styles.inputContainer}>
       {/* <View style={{position: 'absolute', marginLeft: 330, marginBottom: 80}}>
@@ -99,7 +105,7 @@ export default function LoginScreen({ navigation, code }) {
           style={styles.loginTextInput}
         />
       </View>
-      <View style={styles.loginButton}>
+      <View  style={[styles.loginButton, {opacity:isMobNoEnteredCompletly() ? 1: 0.5}]}>
         <PrimaryButton
           onPress={() =>
             navigation.navigate("otp", { phoneNumber: phoneNumber , countryCode: countryCode})
