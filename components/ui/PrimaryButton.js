@@ -30,7 +30,7 @@
  * Created Date: Thursday, November 3rd 2022, 1:58:08 pm                       *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 11th 2022, 1:49:29 pm                               *
+ * Last Modified: November 15th 2022, 7:03:34 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -44,7 +44,7 @@
 import React, {useState} from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native'
 
-export default function LoginScreen({children, onPress})  {
+export default function LoginScreen({children, onPress, color})  {
     
     const [otpCode, setOTPCode] = useState("");
     const [isPinReady, setIsPinReady] = useState(false);

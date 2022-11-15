@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 10:31:44 am                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 15th 2022, 2:09:51 pm                               *
+ * Last Modified: November 15th 2022, 6:43:32 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -133,7 +133,7 @@ export default function HomeScreen({ route, navigation }) {
         (fullToDate.getUTCDate() < 9
           ? "0" + fullToDate.getUTCDate()
           : fullToDate.getUTCDate());
-        // console.log("fromDate", fromDate)
+      // console.log("fromDate", fromDate)
       axios
         .get(
           `https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/account/${route.params.phoneNumber}/transaction?fromDate=${fromDate}&toDate=${toDate}`
@@ -287,7 +287,9 @@ export default function HomeScreen({ route, navigation }) {
                     <Wallet />
                     <Text style={styles.balanceTitle}>Wallet Balance</Text>
                   </View>
-                  <Text style={styles.balanceAmount}>{parseFloat(balance).toFixed(2)} MMK</Text>
+                  <Text style={styles.balanceAmount}>
+                    {parseFloat(balance).toFixed(2)} MMK
+                  </Text>
                   <View style={styles.addWrap}>
                     <View style={styles.addMoneyBtn}>
                       <PlusIcon />
@@ -318,59 +320,65 @@ export default function HomeScreen({ route, navigation }) {
           }
         />
         <View style={styles.serviceWrap}>
-          <View style={styles.service}>
-            <View style={styles.serviceIcon}>
-              <PayBills
-                onPress={() =>
-                  navigation.navigate("recharge", {
-                    phoneNumber: route.params.phoneNumber,
-                    pin: route.params.pin,
-                  })
-                }
-                />
+          <Pressable
+            style={styles.service}
+            onPress={() =>
+              navigation.navigate("recharge", {
+                phoneNumber: route.params.phoneNumber,
+                pin: route.params.pin,
+              })
+            }
+          >
+            <View>
+              <View style={styles.serviceIcon}>
+                <PayBills />
+              </View>
+              <Text style={styles.serviceName}>Pay Bills</Text>
             </View>
-            <Text style={styles.serviceName}>Pay Bills</Text>
-          </View>
-          <View style={styles.service}>
+          </Pressable>
+          <Pressable
+            onPress={() =>
+              navigation.navigate("transfer", {
+                phoneNumber: route.params.phoneNumber,
+                pin: route.params.pin,
+                countryCode: route.params.countryCode,
+              })
+            }
+            style={styles.service}
+          >
             <View style={styles.serviceIcon}>
-              <Send
-                onPress={() =>
-                  navigation.navigate("transfer", {
-                    phoneNumber: route.params.phoneNumber,
-                    pin: route.params.pin,
-                    countryCode: route.params.countryCode
-                  })
-                }
-              />
+              <Send />
             </View>
             <Text style={styles.serviceName}>Transfers</Text>
-          </View>
-          <View style={styles.service}>
+          </Pressable>
+          <Pressable
+            style={styles.service}
+            onPress={() =>
+              navigation.navigate("cashin", {
+                phoneNumber: route.params.phoneNumber,
+                pin: route.params.pin,
+              })
+            }
+          >
             <View style={styles.serviceIcon}>
-              <CashIn
-                onPress={() =>
-                  navigation.navigate("cashin", {
-                    phoneNumber: route.params.phoneNumber,
-                    pin: route.params.pin,
-                  })
-                }
-              />
+              <CashIn />
             </View>
             <Text style={styles.serviceName}>Cash In</Text>
-          </View>
-          <View style={styles.serviceLast}>
+          </Pressable>
+          <Pressable
+            style={styles.serviceLast}
+            onPress={() =>
+              navigation.navigate("cashout", {
+                phoneNumber: route.params.phoneNumber,
+                pin: route.params.pin,
+              })
+            }
+          >
             <View style={styles.serviceIcon}>
-              <CashOut
-                onPress={() =>
-                  navigation.navigate("cashout", {
-                    phoneNumber: route.params.phoneNumber,
-                    pin: route.params.pin,
-                  })
-                }
-              />
+              <CashOut />
             </View>
             <Text style={styles.serviceName}>Cash Out</Text>
-          </View>
+          </Pressable>
         </View>
       </View>
       {getTransactionDisplComp()}
@@ -412,7 +420,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flex: 1,
     justifyContent: "center",
-    paddingTop: 8
+    paddingTop: 8,
   },
   textColor: {
     color: "#222222",
@@ -608,7 +616,7 @@ const styles = StyleSheet.create({
     // paddingBottom: 10,
     paddingRight: 16,
     paddingLeft: 16,
-    alignItems: "center"
+    alignItems: "center",
   },
   dotContainer: {
     backgroundColor: "transparent",
@@ -618,7 +626,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     alignContent: "center",
-    width: "100%"
+    width: "100%",
   },
   card: {
     backgroundColor: "#eee",

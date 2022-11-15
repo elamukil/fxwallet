@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 11:52:01 am                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 15th 2022, 2:33:24 pm                               *
+ * Last Modified: November 15th 2022, 7:04:38 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -181,8 +181,9 @@ const TransferScreen = ({ navigation, route }) => {
             style={styles.loginTextInput}
           />
         </View>
-        <View style={[{ marginTop: 30 }, {opacity:isAllFieldsEnteredCompletly() ? 1: 0.5}]} pointerEvents={!isAllFieldsEnteredCompletly() ? 'none' : 'auto'}>
-          <PrimaryButton
+        <View style={[{ marginTop: 50 }, {height: 50, opacity:isAllFieldsEnteredCompletly() ? 1 : 0.5 }]} pointerEvents={!isAllFieldsEnteredCompletly() ? 'none' : 'auto'}>
+          <PrimaryButton disable={isAllFieldsEnteredCompletly()}
+          params={isAllFieldsEnteredCompletly()}
             onPress={() => {
               validation();
             }}
