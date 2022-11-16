@@ -30,7 +30,7 @@
  * Created Date: Saturday, November 12th 2022, 9:07:07 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 13th 2022, 11:54:08 pm                              *
+ * Last Modified: November 16th 2022, 6:23:08 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -54,6 +54,7 @@ import {
 import PrimaryButton from "../components/ui/PrimaryButton";
 import { Picker } from "@react-native-picker/picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import BackArrow from "../components/icons/BackArrow"
 
 const TransferScreen = ({ navigation, route }) => {
   const [amount, setAmount] = useState(0);
@@ -99,11 +100,14 @@ const TransferScreen = ({ navigation, route }) => {
     <KeyboardAwareScrollView>
       <View style={styles.TransferContainer}>
         <View style={styles.fixedScreen}>
+        <View style={{ paddingTop: 6, paddingRight: 6 }}>
+            <BackArrow onPress={() => navigation.goBack(null)} />
+          </View>
           <Text style={styles.loginText}>Term Deposit</Text>
         </View>
         <View>
           <Text
-            style={{ color: "#0092A0", position: "absolute", marginTop: 80 }}
+            style={{ color: "#0092A0", position: "absolute", marginTop: 50 }}
           >
             Tenor
           </Text>
@@ -121,7 +125,7 @@ const TransferScreen = ({ navigation, route }) => {
         </View>
         <View>
           <Text
-            style={{ color: "#0092A0", position: "absolute", marginTop: 80 }}
+            style={{ color: "#0092A0", position: "absolute", marginTop: 50 }}
           >
             Principle Amount
           </Text>
@@ -138,7 +142,7 @@ const TransferScreen = ({ navigation, route }) => {
         </View>
         <View>
           <Text
-            style={{ color: "#0092A0", position: "absolute", marginTop: 80 }}
+            style={{ color: "#0092A0", position: "absolute", marginTop: 50 }}
           >
             Calculation type
           </Text>
@@ -183,29 +187,33 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   fixedScreen: {
-    position: "absolute",
-    flexDirection: "row-reverse",
-    justifyContent: "space-between",
-    marginBottom: -70,
+    // position: "absolute",
+    // flexDirection: "row-reverse",
+    // justifyContent: "space-between",
+    // marginBottom: -70,
+    display: "flex",
+    flexDirection: "row",
+    // marginTop: 50,
   },
   loginText: {
     textDecorationStyle: "Gilroy-Bold",
     fontSize: 25,
-    lineHeight: 48,
+    // lineHeight: 48,
     color: "#0092A0",
-    marginLeft: 15,
-    marginTop: 50,
+    // marginLeft: 15,
   },
   numberInput: {
-    height: 50,
-    // width: 350,
+    height: 40,
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
     fontSize: 32,
     borderBottomColor: "grey",
     borderBottomWidth: 1,
     color: "#lightgrey",
     marginVertical: 8,
     fontWeight: "normal",
-    marginTop: 100,
+    marginTop: 80,
     marginBottom: -10,
   },
   loginTextInput: {

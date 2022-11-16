@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 11:52:01 am                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 15th 2022, 7:04:38 pm                               *
+ * Last Modified: November 16th 2022, 8:32:10 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -55,6 +55,8 @@ import {
 import PrimaryButton from "../components/ui/PrimaryButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { CountryPicker } from "react-native-country-codes-picker";
+import BackArrow from "../components/icons/BackArrow";
+import ContactIcon from "../components/icons/ContactIcon"
 
 const TransferScreen = ({ navigation, route }) => {
   const [amount, setAmount] = useState(0);
@@ -67,10 +69,10 @@ const TransferScreen = ({ navigation, route }) => {
   const descriptionIsValid = description.trim().length > 0;
   const toPhoneNumberIsValid = toPhoneNumber.length == 10;
   const isAllFieldsEnteredCompletly = () => {
-    if (amount > 0 && (toPhoneNumber.length >= 10 && toPhoneNumber.length <= 12))
-      return(true)
-    return(false)
-  }
+    if (amount > 0 && toPhoneNumber.length >= 10 && toPhoneNumber.length <= 12)
+      return true;
+    return false;
+  };
   const validation = () => {
     if (!toPhoneNumberIsValid) {
       Alert.alert("Please enter a valid phone number");
@@ -112,11 +114,14 @@ const TransferScreen = ({ navigation, route }) => {
     <KeyboardAwareScrollView>
       <View style={styles.TransferContainer}>
         <View style={styles.fixedScreen}>
+          <View style={{ paddingTop: 6, paddingRight: 6 }}>
+            <BackArrow onPress={() => navigation.goBack(null)} />
+          </View>
           <Text style={styles.loginText}>Transfer</Text>
         </View>
         <View>
           <Text
-            style={{ color: "#0092A0", position: "absolute", marginTop: 80 }}
+            style={{ color: "#0092A0", position: "absolute", marginTop: 50 }}
           >
             Mobile Number
           </Text>
@@ -126,11 +131,12 @@ const TransferScreen = ({ navigation, route }) => {
             maxLength={10}
             autoFocus={true}
             keyboardType="number-pad"
-            placeholder="Enter mobile Number"
+            placeholder="Enter Mobile Number"
             placeholderTextColor="#79868F"
             onChangeText={(newText) => setToPhoneNumber(newText)}
             style={styles.loginTextInput}
           />
+          <ContactIcon />
         </View>
         {/* <View style={styles.numberInput}>
           <View style={styles.coutryCode}>
@@ -150,7 +156,7 @@ const TransferScreen = ({ navigation, route }) => {
         </View> */}
         <View>
           <Text
-            style={{ color: "#0092A0", position: "absolute", marginTop: 80 }}
+            style={{ color: "#0092A0", position: "absolute", marginTop: 50 }}
           >
             Amount
           </Text>
@@ -167,7 +173,7 @@ const TransferScreen = ({ navigation, route }) => {
         </View>
         <View>
           <Text
-            style={{ color: "#0092A0", position: "absolute", marginTop: 80 }}
+            style={{ color: "#0092A0", position: "absolute", marginTop: 50 }}
           >
             Description
           </Text>
@@ -175,15 +181,22 @@ const TransferScreen = ({ navigation, route }) => {
         <View style={styles.numberInput}>
           <TextInput
             // autoFocus={true}
-            placeholder="what this transfer for?"
+            placeholder="Add note"
             placeholderTextColor="#79868F"
             onChangeText={(newText) => setDescription(newText)}
             style={styles.loginTextInput}
           />
         </View>
-        <View style={[{ marginTop: 50 }, {height: 50, opacity:isAllFieldsEnteredCompletly() ? 1 : 0.5 }]} pointerEvents={!isAllFieldsEnteredCompletly() ? 'none' : 'auto'}>
-          <PrimaryButton disable={isAllFieldsEnteredCompletly()}
-          params={isAllFieldsEnteredCompletly()}
+        <View
+          style={[
+            { marginTop: 50 },
+            { height: 50, opacity: isAllFieldsEnteredCompletly() ? 1 : 0.5 },
+          ]}
+          pointerEvents={!isAllFieldsEnteredCompletly() ? "none" : "auto"}
+        >
+          <PrimaryButton
+            disable={isAllFieldsEnteredCompletly()}
+            params={isAllFieldsEnteredCompletly()}
             onPress={() => {
               validation();
             }}
@@ -218,18 +231,20 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   fixedScreen: {
-    position: "absolute",
-    flexDirection: "row-reverse",
-    justifyContent: "space-between",
-    marginBottom: -70,
+    // position: "absolute",
+    // flexDirection: "row-reverse",
+    // justifyContent: "space-between",
+    // marginBottom: -70,
+    display: "flex",
+    flexDirection: "row",
+    // marginTop: 50,
   },
   loginText: {
     textDecorationStyle: "Gilroy-Bold",
     fontSize: 25,
-    lineHeight: 48,
+    // lineHeight: 48,
     color: "#0092A0",
-    marginLeft: 15,
-    marginTop: 50,
+    // marginLeft: 15,
   },
   // numberInput: {
   //   height: 50,
@@ -244,7 +259,7 @@ const styles = StyleSheet.create({
   //   marginBottom: -10,
   // },
   numberInput: {
-    height: 50,
+    height: 40,
     display: "flex",
     flexDirection: "row",
     width: "100%",
@@ -254,12 +269,13 @@ const styles = StyleSheet.create({
     color: "#lightgrey",
     marginVertical: 8,
     fontWeight: "normal",
-    marginTop: 100,
+    marginTop: 80,
     marginBottom: -10,
   },
   loginTextInput: {
     color: "#333",
     marginTop: 20,
+    flex: 1
   },
   coutryCode: {
     // borderBottomColor: "grey",

@@ -30,7 +30,7 @@
  * Created Date: Thursday, November 10th 2022, 8:59:54 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 14th 2022, 3:41:58 pm                               *
+ * Last Modified: November 16th 2022, 5:20:25 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -51,11 +51,11 @@ function TopUpPlan({ navigation, route }) {
     <ScrollView>
       <View style={styles.container}>
         <PlanDetail amount={1000} navigation={ navigation } route={ route } />
-        <PlanDetail amount={2000} navigation={ navigation } route={ route } />
-        <PlanDetail amount={400} navigation={ navigation } route={ route } />
         <PlanDetail amount={700} navigation={ navigation } route={ route } />
+        {/* <PlanDetail amount={400} navigation={ navigation } route={ route } />
+        <PlanDetail amount={2000} navigation={ navigation } route={ route } />
         <PlanDetail amount={3000} navigation={ navigation } route={ route } />
-        <PlanDetail amount={600} navigation={ navigation } route={ route } />
+        <PlanDetail amount={600} navigation={ navigation } route={ route } /> */}
       </View>
     </ScrollView>
   );

@@ -25,12 +25,12 @@
  * CONTENTS, OR TO MANUFACTURE, USE, OR SELL ANYTHING THAT IT MAY DESCRIBE,    *
  * IN WHOLE OR IN PART.                                                        *
  *                                                                             *
- * File: \screens\TermDepositTransactions.js                                   *
+ * File: \screens\Notification.js                                              *
  * Project: kbxwallet                                                          *
- * Created Date: Sunday, November 13th 2022, 11:49:24 am                       *
+ * Created Date: Wednesday, November 16th 2022, 2:12:07 pm                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 16th 2022, 6:54:49 pm                               *
+ * Last Modified: November 16th 2022, 2:49:30 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -58,7 +58,6 @@ import {
 } from "react-native";
 import TransactionItem from "../components/TransactionItem";
 import axios from "axios";
-import BackArrow from "../components/icons/BackArrow"
 
 function TermDepositTransactions({ props, navigation, route }) {
   const [tdTransaction, setTransaction] = useState([]);
@@ -121,11 +120,10 @@ function TermDepositTransactions({ props, navigation, route }) {
       <View style={styles.transactionWrap}>
         <View style={styles.transactionHeader}>
           <View style={styles.transactionHeaderLeft}>
-            <BackArrow style={{ marginRight: 8 }} onPress={() => navigation.goBack(null)} />
             <Text style={styles.recentText}>Recent</Text>
             <Text style={styles.transactionText}>Transaction</Text>
           </View>
-          {/* <Text style={styles.transactionSeeAllBtn}>See all</Text> */}
+          <Text style={styles.transactionSeeAllBtn}>See all</Text>
         </View>
         <ScrollView overScrollMode="never" showsVerticalScrollIndicator={false}>
           {tdTransaction.map((v, i) => {
@@ -140,11 +138,10 @@ function TermDepositTransactions({ props, navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     // height: "80%",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   transactionWrap: {
     width: "100%",
-    // height: "100%",
+    height: "100%",
     alignSelf: "stretch",
     backgroundColor: "#fff",
     padding: 16,
@@ -162,7 +159,6 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   recentText: {
-    // color: "#0092A0",
     color: "#333333",
     fontSize: 16,
     fontWeight: "bold",

@@ -30,7 +30,7 @@
  * Created Date: Thursday, November 10th 2022, 12:17:34 pm                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 14th 2022, 3:34:30 pm                               *
+ * Last Modified: November 16th 2022, 5:58:47 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -121,7 +121,7 @@ export default ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.headers}>
-        <BackArrow />
+        <BackArrow onPress={() => navigation.goBack(null)} />
         <View>
           <Text style={styles.headerTitle}>Recharge</Text>
         </View>
@@ -153,7 +153,7 @@ export default ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   headers: {
     display: "flex",

@@ -79,6 +79,8 @@ const styles = StyleSheet.create({
     shadowColor: "#171717",
     shadowOpacity: 0.2,
     shadowRadius: 3,
+    height: 150,
+    justifyContent: "center"
   },
   balanceTitleWrap: {
     display: "flex",

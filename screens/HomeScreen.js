@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 10:31:44 am                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 15th 2022, 6:43:32 pm                               *
+ * Last Modified: November 16th 2022, 6:25:15 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -226,13 +226,13 @@ export default function HomeScreen({ route, navigation }) {
         <View style={styles.transactionHeader}>
           <View style={styles.transactionHeaderLeft}>
             <Text style={styles.recentText}>Recent</Text>
-            <Text style={styles.transactionText}>Transaction</Text>
+            <Text style={styles.transactionText}>Transactions</Text>
           </View>
           {/* <Text style={styles.transactionSeeAllBtn}>See all</Text> */}
         </View>
-        <ScrollView overScrollMode="never" showsVerticalScrollIndicator={false}>
-          {transaction.map((v, i) => {
-            return <TransactionItem key={i} props={v} />;
+        <ScrollView overScrollMode="never" persistentScrollbar={true}>
+          {transaction.map((value, index) => {
+            return <TransactionItem key={index} props={value} />;
           })}
         </ScrollView>
       </View>
@@ -291,13 +291,13 @@ export default function HomeScreen({ route, navigation }) {
                     {parseFloat(balance).toFixed(2)} MMK
                   </Text>
                   <View style={styles.addWrap}>
-                    <View style={styles.addMoneyBtn}>
+                    {/* <View style={styles.addMoneyBtn}>
                       <PlusIcon />
                       <Text style={styles.addMoneyText}>Add Money</Text>
                     </View>
                     <View style={styles.historyBtn}>
                       <HistoryW />
-                    </View>
+                    </View> */}
                   </View>
                 </LinearGradient>
               </View>
@@ -329,12 +329,10 @@ export default function HomeScreen({ route, navigation }) {
               })
             }
           >
-            <View>
               <View style={styles.serviceIcon}>
                 <PayBills />
               </View>
-              <Text style={styles.serviceName}>Pay Bills</Text>
-            </View>
+              <Text style={styles.serviceName}>Top Up</Text>
           </Pressable>
           <Pressable
             onPress={() =>
@@ -394,7 +392,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "#011627",
     backgroundColor: "#fff",
     alignItems: "center",
-    // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     // padding: 16,
   },
   headerWrap: {
@@ -449,6 +447,8 @@ const styles = StyleSheet.create({
     shadowColor: "#171717",
     shadowOpacity: 0.2,
     shadowRadius: 3,
+    height: 150,
+    justifyContent: "center"
   },
   balanceTitleWrap: {
     display: "flex",
@@ -524,10 +524,11 @@ const styles = StyleSheet.create({
   },
   transactionWrap: {
     width: "100%",
-    height: "55%",
+    // height: "55%",
     alignSelf: "stretch",
     backgroundColor: "#fff",
     padding: 16,
+    flex: 1
   },
   transactionHeader: {
     display: "flex",
@@ -548,7 +549,8 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   transactionText: {
-    color: "#333333",
+    // color: "#333333",
+    color: "#0092A0",
     fontSize: 16,
     fontWeight: "bold",
   },

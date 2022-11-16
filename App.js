@@ -30,7 +30,7 @@
  * Created Date: Thursday, November 3rd 2022, 12:51:23 pm                      *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----
- * Last Modified: November 15th 2022, 11:50:30 am                              *
+ * Last Modified: November 16th 2022, 6:16:51 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -42,68 +42,129 @@
  */
 
 // import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import LoginScreen from './screens/LoginScreen';
-import SignUPScreen from './screens/SignUPScreen';
-import HomeScreen from './screens/HomeScreen'
-import OTPInput from './components/otp/OTPInput';
-import TransferScreen from './screens/TransferScreen';
-import Walletimg from './assets/walletimg';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CashIn from './screens/CashIn';
-import CashIn2 from './screens/CashIn2';
-import CashOut from './screens/CashOut';
-import CashOut2 from './screens/CashOut2';
-import CashIn3 from './screens/CashIn3';
-import Recharge from './screens/Recharge';
-import TermDeposit from './screens/TermDeposit'
-import TdBalance from './screens/HomeComponents/TdBalance';
-import TermDepositTransactions from './screens/TermDepositTransactions';
-import Refresh from './screens/Refresh';
+import React, { useState } from "react";
+import { StyleSheet, View, Text, StatusBar } from "react-native";
+import LoginScreen from "./screens/LoginScreen";
+import SignUPScreen from "./screens/SignUPScreen";
+import HomeScreen from "./screens/HomeScreen";
+import OTPInput from "./components/otp/OTPInput";
+import TransferScreen from "./screens/TransferScreen";
+import Walletimg from "./assets/walletimg";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import CashIn from "./screens/CashIn";
+import CashIn2 from "./screens/CashIn2";
+import CashOut from "./screens/CashOut";
+import CashOut2 from "./screens/CashOut2";
+import CashIn3 from "./screens/CashIn3";
+import Recharge from "./screens/Recharge";
+import TermDeposit from "./screens/TermDeposit";
+import TdBalance from "./screens/HomeComponents/TdBalance";
+import TermDepositTransactions from "./screens/TermDepositTransactions";
+import Refresh from "./screens/Refresh";
 
-const stack = createNativeStackNavigator()
+const stack = createNativeStackNavigator();
 
 export default function App() {
-  
   return (
-    
-      <View style={{ flex: 1, backgroundColor: '#fff' }}>
-        <NavigationContainer>
-        <stack.Navigator initialRouteName="Login"
-        screenOptions={{
-          headerShown: false,
-          header: () => null,
-          contentStyle: { backgroundColor: '#fff' },
-        }}>
-          <stack.Screen name="login" component={LoginScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="otp" component={OTPInput}/>
-          <stack.Screen name="signup" component={SignUPScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="home" component={HomeScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="cashin" component={CashIn} options={{ headerShown: false }}/>
-          <stack.Screen name="cashin2" component={CashIn2} options={{ headerShown: false }}/>
-          <stack.Screen name="cashin3" component={CashIn3} options={{ headerShown: false }}/>
-          <stack.Screen name="cashout" component={CashOut} options={{ headerShown: false }}/>
-          <stack.Screen name="cashout2" component={CashOut2} options={{ headerShown: false }}/>
-          <stack.Screen name="transfer" component={TransferScreen} options={{ headerShown: false }}/>
-          <stack.Screen name="recharge" component={ Recharge } options={{ headerShown: false }}/>
-          <stack.Screen name="termdeposit" component={ TermDeposit } options={{ headerShown: false }}/>
-          <stack.Screen name="tdbalance" component={ TdBalance } options={{ headerShown: false }}/>
-          <stack.Screen name="termdeposittransaction" component={ TermDepositTransactions } options={{ headerShown: false }}/>
-          <stack.Screen name="refresh" component={ Refresh } options={{ headerShown: false }}/>
+    <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      <NavigationContainer>
+        <stack.Navigator
+          initialRouteName="Login"
+          screenOptions={{
+            headerShown: false,
+            header: () => null,
+            contentStyle: { backgroundColor: "#fff" },
+          }}
+        >
+          <stack.Screen
+            name="login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen name="otp" component={OTPInput} />
+          <stack.Screen
+            name="signup"
+            component={SignUPScreen}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen
+            name="home"
+            component={HomeScreen}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen
+            name="cashin"
+            component={CashIn}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen
+            name="cashin2"
+            component={CashIn2}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen
+            name="cashin3"
+            component={CashIn3}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen
+            name="cashout"
+            component={CashOut}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen
+            name="cashout2"
+            component={CashOut2}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen
+            name="transfer"
+            component={TransferScreen}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen
+            name="recharge"
+            component={Recharge}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen
+            name="termdeposit"
+            component={TermDeposit}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen
+            name="tdbalance"
+            component={TdBalance}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen
+            name="termdeposittransaction"
+            component={TermDepositTransactions}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen
+            name="refresh"
+            component={Refresh}
+            options={{ headerShown: false }}
+          />
         </stack.Navigator>
       </NavigationContainer>
-      </View>
-      
+      <StatusBar
+        // backgroundColor="#0092A0"
+        backgroundColor="#FFF"
+        barStyle="dark-content"
+        hidden={false}
+        translucent={true}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
-    backgroundColor: '#fff',
-    flexDirection: 'row-reverse',
-},
-
+    backgroundColor: "#fff",
+    flexDirection: "row-reverse",
+  },
 });

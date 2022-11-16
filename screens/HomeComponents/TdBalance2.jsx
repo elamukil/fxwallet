@@ -46,7 +46,7 @@ function TdBalance({ props, phoneNumber, pin, navigation, route }) {
         });
     };
     tsCall()
-  });
+  }, []);
   useEffect(() => {
     axios
       .get(
@@ -155,10 +155,10 @@ function TdBalance({ props, phoneNumber, pin, navigation, route }) {
               end={{ x: 1, y: 0.5 }}
               style={styles.balanceContainer}
             >
-              <View style={styles.balanceTitleWrap}>
+              {/* <View style={styles.balanceTitleWrap}>
                 <Wallet />
                 <Text style={styles.balanceTitle}>Term Deposit</Text>
-              </View>
+              </View> */}
               <View style={styles.balanceTitleWrap}>
                 <Text style={[styles.tenorTitle, { flex: 1 }]}>
                   Account ID: {v.accountId}
@@ -221,6 +221,7 @@ const styles = StyleSheet.create({
     shadowColor: "#171717",
     shadowOpacity: 0.2,
     shadowRadius: 3,
+    minHeight: 150
   },
   balanceTitleWrap: {
     display: "flex",
