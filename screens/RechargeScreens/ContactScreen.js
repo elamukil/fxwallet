@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 16th 2022, 4:51:09 pm                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 17th 2022, 4:15:23 pm                               *
+ * Last Modified: November 17th 2022, 4:34:30 pm                               *
  * Modified By: Hari Prasad
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -90,6 +90,7 @@ const ContactScreen = ({ navigation, route }) => {
           onPress={() => {
             navigation.navigate("transfer", {
               selectedContact: value.pk,
+              selectedName: value.accountHolderName,
               phoneNumber: route.params.phoneNumber,
             });
           }}

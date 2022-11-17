@@ -99,7 +99,7 @@ function TransactionItem({ props }) {
               {/* {(props.transactionType === "CREDIT") ? props.optionalFields.transactionDetails.DEBIT : props.optionalFields.transactionDetails.CREDIT} */}
           </Text>
           <Text style={styles.transactionItemId}>
-            ID:{" "}
+            TXN Ref:{" "}
             {props.transactionId.length > 20
               ? props.transactionId.slice(0, 6)
               : props.transactionId}

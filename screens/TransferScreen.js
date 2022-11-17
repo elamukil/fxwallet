@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 9th 2022, 11:52:01 am                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 17th 2022, 3:37:16 pm                               *
- * Modified By: Tamil Elamukil                                                 *
+ * Last Modified: November 17th 2022, 4:38:32 pm                               *
+ * Modified By: Hari Prasad
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -69,8 +69,6 @@ const TransferScreen = ({ navigation, route }) => {
 
   let contactPerson = route.params.selectedContact
   let contactName = route.params.selectedName
-
-  console.log('contact Name',contactName)
   // console.log(countryCode)
 
   const amountIsValid = !isNaN(amount) && amount > 0;

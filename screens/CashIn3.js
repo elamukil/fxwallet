@@ -30,7 +30,7 @@
  * Created Date: Sunday, November 13th 2022, 9:30:30 am                        *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 17th 2022, 4:02:58 pm                               *
+ * Last Modified: November 17th 2022, 4:47:08 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -64,17 +64,23 @@ const CashIn3 = ({ navigation, route }) => {
   const amountIsValid = !isNaN(amount) && amount > 0;
   const agentIsValid = agent.trim().length > 0;
   const getAgentComp = () => {
-    if (agent !== '') {
-     return (
-        <View style={{flexDirection:'row', marginTop: 50}}>  
-            <Text style={{marginLeft: 16, marginTop: 12}}>Requested agent code: </Text>
-            <Text style = {{color: '#0092A0', marginTop: 12}}> {agent}</Text>
-        </View>
-     )
-     } else {
-        return(<View></View>);
-     }
-}
+    if (agent !== "") {
+      return (
+        <>
+          <View style={{ flexDirection: "row", marginTop: 30 }}>
+            <Text style={{ marginLeft: 16, marginTop: 12 }}>Cash In Request OTP: </Text>
+            <Text style={{ color: "#0092A0", marginTop: 12 }}> {agent}</Text>
+          </View>
+          <View style={{ flexDirection: "column", marginTop: 12 }}>
+            <Text style={{ marginLeft: 16 }}>Please share this OTP with Arasu & Team</Text>
+            <Text style={{ marginLeft: 16, color: "#0092A0", marginTop: 12 }}>corebankingchennai@kbxdigital.com</Text>
+          </View>
+        </>
+      );
+    } else {
+      return <View></View>;
+    }
+  };
   const backAction = () => {
     navigation.navigate("home", { phoneNumber: route.params.phoneNumber });
     return true;
@@ -194,6 +200,7 @@ const CashIn3 = ({ navigation, route }) => {
         {/* onPress={() => navigation.navigate('cashout',{phoneNumber:route.params.phoneNumber, pin: route.params.pin})} */}
       </View>
       {getAgentComp()}
+
       <DailogBox />
     </View>
   );

@@ -30,7 +30,7 @@
  * Created Date: Saturday, November 12th 2022, 9:07:07 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 17th 2022, 11:46:10 am                              *
+ * Last Modified: November 17th 2022, 7:40:34 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -113,7 +113,7 @@ const TransferScreen = ({ navigation, route }) => {
           </Text>
         </View>
         <View style={styles.numberInput}>
-          <TextInput
+          {/* <TextInput
             maxLength={10}
             autoFocus={true}
             keyboardType="number-pad"
@@ -121,7 +121,21 @@ const TransferScreen = ({ navigation, route }) => {
             placeholderTextColor="#79868F"
             onChangeText={(newText) => setTenor(newText)}
             style={styles.loginTextInput}
-          />
+          /> */}
+          <Picker
+            selectedValue={selectedValue}
+            style={{ height: 50, width: "100%" }}
+            onValueChange={(itemValue, itemIndex) =>
+              setTenor(itemValue)
+            }
+          >
+            <Picker.Item label="5" value="5" />
+            <Picker.Item label="10" value="10" />
+            <Picker.Item label="20" value="20" />
+            <Picker.Item label="30" value="30" />
+            <Picker.Item label="40" value="40" />
+            {/* <Picker.Item label="JavaScript" value="js" /> */}
+          </Picker>
         </View>
         <View>
           <Text
@@ -219,6 +233,7 @@ const styles = StyleSheet.create({
   loginTextInput: {
     color: "#333",
     marginTop: 20,
+    flex: 1
   },
 });
 
