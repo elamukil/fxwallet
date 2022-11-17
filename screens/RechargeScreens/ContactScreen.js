@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 16th 2022, 4:51:09 pm                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 17th 2022, 4:10:58 pm                               *
+ * Last Modified: November 17th 2022, 4:15:23 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -100,7 +100,7 @@ const ContactScreen = ({ navigation, route }) => {
                 source={{uri:value.profileurl}}
               ></Image>:<Image style={styles.image} source={require('../../assets/images/user.png')}/>}
               
-              {/* <ImageBackground style={styles.imgBackground}
+              {/* <ImageBackground style={styles.imgBackgroud}
                 source={value.profileurl}
                 resizeMode='cover'
               ></ImageBackground> */}
