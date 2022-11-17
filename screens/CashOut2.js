@@ -124,42 +124,7 @@ export default function CashOut2({ navigation, route }) {
               <View style={styles.headerWrap}>
                 <Text style={styles.pageTitle}>Cash Out</Text>
               </View>
-              {/* <View style={styles.optionsContainer}>
-                <Image
-                  style={{ width: "100%", height: 200, resizeMode: "contain" }}
-                  source={require("../assets/images/illCashOut.png")}
-                />
-              </View>
-              <Text style={styles.optionsTitle}>Enter Agent Short Code</Text>
-              <View style={{ padding: 12 }}>
-                <Text style={styles.optionsDesc}>
-                  Please make sure the short code is correct before you initiate
-                  cash out transaction. You will not get any reversal for the
-                  transaction where incorrect amount and information is made.
-                </Text>
-              </View> */}
-              {/* <TextInput
-                style={styles.input}
-                placeholder="Agent short code"
-                // keyboardType="numeric"
-                onChangeText={(txt) => setAgentCode(txt)}
-              /> */}
-              {/* <Text style={styles.agentCodeSelect}>                  Agent Code</Text>
-              <View style={styles.input}>
-                <Picker
-                  agentCode={agentCode}
-                  style={{ height: 50, width: "100%", marginTop: '-6%'}}
-                  onValueChange={(itemValue, itemIndex) =>
-                    setAgentCode(itemValue)
-                  }
-                >
-                  <Picker.Item label="kbxAgent 1" value="kbxagent1" />
-                  <Picker.Item label="kbxAgent 2" value="kbxagent2" />
-                  <Picker.Item label="kbxAgent 3" value="kbxagent3" />
-                  <Picker.Item label="JavaScript" value="js" />
-               </Picker>
-              </View> */}
-              <Text></Text>
+              {/* <Text></Text> */}
               <Text style={styles.agentCodeSelect}>            Amount</Text>
               <TextInput
                 style={styles.input}
@@ -217,6 +182,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     height: "150%",
+    top: '-7%',
     // padding: 16,
   },
   input: {
@@ -232,7 +198,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    backgroundColor: "#0092A0",
+    backgroundColor: "white",
     width: "100%",
     padding: 16,
     paddingTop: 10,
@@ -241,8 +207,8 @@ const styles = StyleSheet.create({
   },
   pageTitle: {
     // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    color: "#fff",
-    fontSize: 20,
+    fontcolor: "Black",
+    fontSize: 26,
     fontWeight: "bold",
   },
   optionsContainer: {

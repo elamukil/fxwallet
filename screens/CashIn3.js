@@ -42,8 +42,21 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import { TextInput, View, StyleSheet,Text, StatusBar, BackHandler,Alert } from 'react-native';
+import {   View,
+    StyleSheet,
+    StatusBar,
+    Text,
+    Image,
+    TextInput,
+    BackHandler,
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback,
+    SafeAreaView,
+    ScrollView,
+    Keyboard,
+    Alert, } from 'react-native';
 import PrimaryButton from '../components/ui/PrimaryButton';
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import axios from 'axios'
 import DailogBox from '../components/ui/DailogBox';
 
@@ -69,6 +82,12 @@ const CashIn3 = ({navigation, route, phoneNumber}) => {
     //     BackHandler.removeEventListener("hardwareBackPress", backAction);
     // }, []);
 
+    const isAllFieldsEnteredCompletly = () => {
+        if (amount > 0)
+      return(true)
+    return(false)
+    }
+
     function requestCashIn() {
 
         let verifyRequest = {
@@ -88,20 +107,20 @@ const CashIn3 = ({navigation, route, phoneNumber}) => {
             .then((res) => {
               console.log("hello", res.data);
               setAgent(res.data.data)
-              Alert.alert(
-                "Copy agent code!",
-                res.data.data,
-                [
-                   { text: "OK",
-                      onPress: () =>
-                      navigation.navigate("home", {
-                        phoneNumber: route.params.phoneNumber,
-                        pin: route.params.pin,
-                      })
-                   }
-                ],
-                { cancelable: false }
-             );
+            //   Alert.alert(
+            //     "Copy agent code!",
+            //     res.data.data,
+            //     [
+            //        { text: "OK",
+            //           onPress: () =>
+            //           navigation.navigate("home", {
+            //             phoneNumber: route.params.phoneNumber,
+            //             pin: route.params.pin,
+            //           })
+            //        }
+            //     ],
+            //     { cancelable: false }
+            //  );
               
             })
             .catch((err) => {
@@ -124,8 +143,8 @@ const CashIn3 = ({navigation, route, phoneNumber}) => {
         if (agent !== '') {
          return (
             <View style={{flexDirection:'row'}}>  
-                <Text style = {{color: 'black', position: 'absolute', marginTop:40, marginLeft: -60, width: '200%'}}>The agent code is </Text>
-                <Text style = {{color: '#0092A0', position: 'absolute', marginTop:40, marginLeft: 60}}>{agent}</Text>
+                <Text style={{marginLeft: -40, marginTop: 12}}>Requested agent code: </Text>
+                <Text style = {{color: '#0092A0', position: 'absolute', marginLeft: 110, marginTop: 12}}> {agent}</Text>
             </View>
          )
          } else {
@@ -133,128 +152,153 @@ const CashIn3 = ({navigation, route, phoneNumber}) => {
          }
     }
 
-    return (
-        <View style={styles.TransferContainer}>
-            <View style={styles.fixedScreen}>
-                <Text style={styles.loginText}>Cash In</Text>
+return (
+    <SafeAreaView style={styles.container1}>
+      <KeyboardAwareScrollView>
+        <ScrollView
+          resetScrollToCoords={{ x: 0, y: 0 }}
+          behavior="padding"
+          scrollEnabled={false}
+          // contentContainerStyle={styles.container1}
+        >
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+              <View style={styles.headerWrap}>
+                <Text style={styles.pageTitle}>Cash In</Text>
+              </View>
+              {/* <Text></Text> */}
+              <Text style={styles.agentCodeSelect}>                Amount</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter Amount"
+                keyboardType="numeric"
+                onChangeText={(amt) => setAmount(amt)}
+              />
+              {/* <Text style={styles.agentCodeSelect}>                 Description</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter details of the transaction "
+                onChangeText={(txt) => setDescription(txt)}
+              /> */}
+              <View style={{opacity:isAllFieldsEnteredCompletly() ? 1: 0.5}} pointerEvents={!isAllFieldsEnteredCompletly() ? 'none' : 'auto'}>
+                <PrimaryButton onPress={validation}>Request Cash In</PrimaryButton>
+              </View>
+              {/* <View style={styles.footer}>
+                <Text style={styles.footerFaqText}>
+                  How to cash out at agent?
+                </Text>
+              </View> */}
+               {getAgentComp()}
             </View>
-            {/* <View>
-                    <Text style = {{color: '#0092A0', position: 'absolute', marginTop:80}}>Agent Short Code</Text>
-            </View>
-            <View style={styles.numberInput}>
-                <TextInput 
-                    autoFocus={true}
-                    autoCapitalize='none'
-                    placeholder='Enter Agent Code' 
-                    placeholderTextColor="#79868F"
-                    onChangeText={newText => setAgent(newText)} 
-                    style={styles.loginTextInput}/>
-            </View>
-            <View>
-                    <Text style = {{color: '#0092A0', position: 'absolute', marginTop:80}}>Mobile Number</Text>
-            </View>
-            <View style={styles.numberInput}>
-                <TextInput  
-                    // autoFocus={true}
-                    keyboardType="number-pad" 
-                    placeholder={toPhoneNumber}
-                    editable={false}
-                    placeholderTextColor="#79868F"
-                    // onChangeText={phone => setToPhoneNumber(phone)} 
-                    style={styles.loginTextInput}/>
-            </View> */}
-            {/* <View>
-                    <Text style = {{color: '#0092A0', position: 'absolute', marginTop:80}}>Amount</Text>
-            </View> */}
-            <View>
-                    <Text style = {{color: 'black', position: 'absolute', marginTop:100, width: '100%'}}>CashIn Amount</Text>
-            </View>
-            <View style={styles.numberInput}>
-                <TextInput  
-                    autoFocus={true}
-                    keyboardType="number-pad" 
-                    placeholder='Enter amount' 
-                    placeholderTextColor="#79868F"
-                    onChangeText={amt => setAmount(amt)} 
-                    />
-            </View>
-            
-            <View style={{ marginTop: 30}}>
-                <PrimaryButton onPress={validation}> Request CashIn</PrimaryButton>
-                {/* onPress={() => navigation.navigate('cashout',{phoneNumber:route.params.phoneNumber, pin: route.params.pin})} */}
-            </View>
-            {getAgentComp()}
-            {/* <DailogBox/> */}
-        </View>
-    );
+          </TouchableWithoutFeedback>
+        </ScrollView>
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
-    TransferContainer:{
-        top: -60,
-        // padding: 20,
-        // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight + 10 : 0,
-    },
-    amountInp: {
-        height: 40,
-        width: "90%",
-        margin: 12,
-        borderWidth: 1,
-        borderColor: "#DDDDDD",
-        borderRadius: 8,
-        padding: 10,
-        marginLeft: 2,
-        top: -50,
-    },
-mobileStyle: {
-    position: 'absolute',
-    marginTop: 100,
-    width: 100,
-    padding: 15,
-},
-fixedScreen: {
-    position: 'absolute',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    width: '132%',
-    marginLeft: '-38%',
-    backgroundColor: '#0092A0',
-    height: '24%',
-    marginBottom: -70,
-    marginTop: 24,
-    borderRadius: 6
-},
-loginText: {
-    textDecorationStyle: 'Gilroy-Bold',
-    fontSize: 25,
-    lineHeight: 48,
-    color: 'white',
-    marginLeft: 15,
-    marginTop: 10
-},
-numberInput: {
+  container1: {
+    flex: 1,
+    height: "100%",
+  },
+  agentCodeSelect: {
+    marginLeft: -200,
+    // color: "#fff",
+    fontSize: 15,
+    fontWeight: "bold",
+    marginTop: '10%'
+  },
+  agentInput : {
     height: 50,
     // width: 350,
     fontSize: 32,
-    // borderBottomColor: 'grey',
-    // borderBottomWidth: 1,
-    // color: '#lightgrey',
-    marginVertical: 6,
-    // fontWeight: 'normal',
-    marginTop: 140,
-    marginBottom: -10,
+    borderBottomColor: "grey",
+    borderBottomWidth: 1,
+    color: "#lightgrey",
+    // marginVertical: 8,
+    fontWeight: "normal",
+    margin: 12,
+  },
+  container: {
+    flex: 1,
+    textColor: "#fff",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    height: "150%",
+    // padding: 16,
+  },
+  input: {
     height: 40,
-    width: "220%",
-    margin: 0,
+    width: "90%",
+    margin: 12,
     borderWidth: 1,
     borderColor: "#DDDDDD",
     borderRadius: 8,
     padding: 10,
-},
-loginTextInput: {
-    color: '#333',
-    marginTop:20,
-},
-})
+  },
+  headerWrap: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    backgroundColor: "white",
+    width: "140%",
+    padding: 16,
+    paddingTop: 10,
+    paddingBottom: 10,
+    borderRadius: 3,
+  },
+  pageTitle: {
+    // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    color: "black",
+    fontSize: 26,
+    fontWeight: "bold",
+  },
+  optionsContainer: {
+    // padding: 16,
+    width: "100%",
+  },
+  optionsTitle: {
+    color: "#333",
+    fontSize: 16,
+    fontWeight: "bold",
+    alignItems: "center",
+    marginTop: 8,
+  },
+  optionsDesc: {
+    color: "#333",
+    fontSize: 16,
+    alignItems: "center",
+    marginTop: 8,
+  },
+  footerBtn: {
+    padding: 8,
+    backgroundColor: "#0092A0",
+    width: "90%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 8,
+  },
+  footerText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  footer: {
+    // position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 16,
+  },
+  footerFaqText: {
+    color: "#0092A0",
+    fontSize: 16,
+  },
+});
 
 export default CashIn3;
