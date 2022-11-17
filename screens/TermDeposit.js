@@ -30,7 +30,7 @@
  * Created Date: Saturday, November 12th 2022, 9:07:07 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 16th 2022, 6:23:08 pm                               *
+ * Last Modified: November 17th 2022, 11:46:10 am                              *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -66,7 +66,7 @@ const TransferScreen = ({ navigation, route }) => {
 
   const validation = () => {
     if (!tenorIsValid) {
-      Alert.alert("Please enter a valid Tenor");
+      Alert.alert("Please enter a valid Tenure");
       return false;
     } else if (!amountIsValid) {
       Alert.alert("PLease enter a valid Amount");
@@ -109,7 +109,7 @@ const TransferScreen = ({ navigation, route }) => {
           <Text
             style={{ color: "#0092A0", position: "absolute", marginTop: 50 }}
           >
-            Tenor
+            Tenure
           </Text>
         </View>
         <View style={styles.numberInput}>
@@ -117,7 +117,7 @@ const TransferScreen = ({ navigation, route }) => {
             maxLength={10}
             autoFocus={true}
             keyboardType="number-pad"
-            placeholder="Enter tenor"
+            placeholder="Enter tenure"
             placeholderTextColor="#79868F"
             onChangeText={(newText) => setTenor(newText)}
             style={styles.loginTextInput}
