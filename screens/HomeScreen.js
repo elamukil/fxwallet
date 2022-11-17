@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 9th 2022, 10:31:44 am                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 17th 2022, 10:02:44 am                              *
- * Modified By: Hari Prasad                                                    *
+ * Last Modified: November 17th 2022, 11:35:54 am                              *
+ * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -54,6 +54,7 @@ import {
   Dimensions,
   Alert,
   ActivityIndicator,
+  Modal
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Notification from "../components/icons/NotificationButton";
@@ -80,6 +81,8 @@ import TdBalance2 from "./HomeComponents/TdBalance2";
 const { width, height } = Dimensions.get("window");
 import axios from "axios";
 import Skeleton from "../components/Skeleton";
+import CashIn3 from "./CashIn3";
+import CashOut2 from "./CashOut2";
 
 export default function HomeScreen({ route, navigation }) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -87,6 +90,67 @@ export default function HomeScreen({ route, navigation }) {
   const [transaction, setTransaction] = useState([]);
   const [balance, setBalance] = useState(0);
   const [tdBalance, setTd] = useState([]);
+
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [cashtype, setCashtype] = useState("CashIn");
+  const cashInModal = () => {
+    console.log("Open Model type is: ", cashtype);
+    if (cashtype == "CashIn") {
+      return(
+        <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            // Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <CashIn3 navigation={navigation} route={route} phoneNumber={route.params.phoneNumber}/>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.textStyle}>Close</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+      </View>
+      )
+    }
+    else
+    return(
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            // Alert.alert("Modal has been closed.");
+            setCashtype("CashIn");
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <CashOut2 navigation={navigation} route={route} phoneNumber={route.params.phoneNumber}/>
+              <Pressable
+                style={[styles.button, styles.buttonCloseCashout]}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.textStyle}>Close</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+      </View>
+    )
+  }
+  
   if (route.name === "home") {
     const backAction = () => {
       Alert.alert("Hold on!", "Are you sure you want to exit?", [
@@ -349,7 +413,7 @@ export default function HomeScreen({ route, navigation }) {
             </View>
             <Text style={styles.serviceName}>Send money</Text>
           </Pressable>
-          <Pressable
+          {/* <Pressable
             style={styles.service}
             onPress={() =>
               navigation.navigate("cashin3", {
@@ -362,8 +426,17 @@ export default function HomeScreen({ route, navigation }) {
               <CashIn />
             </View>
             <Text style={styles.serviceName}>Cash In</Text>
-          </Pressable>
+          </Pressable> */}
           <Pressable
+            style={styles.service}
+            onPress={() => {setModalVisible(true), setCashtype("CashIn")}}
+          >
+            <View style={styles.serviceIcon}>
+              <CashIn />
+            </View>
+            <Text style={styles.serviceName}>Cash In</Text>
+          </Pressable>
+          {/* <Pressable
             style={styles.serviceLast}
             onPress={() =>
               navigation.navigate("cashout2", {
@@ -376,11 +449,21 @@ export default function HomeScreen({ route, navigation }) {
               <CashOut />
             </View>
             <Text style={styles.serviceName}>Cash Out</Text>
+          </Pressable> */}
+          <Pressable
+            style={styles.service}
+            onPress={() => {setModalVisible(true), setCashtype("CashOut")}}
+          >
+            <View style={styles.serviceIcon}>
+              <CashOut />
+            </View>
+            <Text style={styles.serviceName}>Cash Out</Text>
           </Pressable>
         </View>
       </View>
       {getTransactionDisplComp()}
       {/* <BottomNavBar /> */}
+      {cashInModal()}
     </View>
   );
 }
@@ -638,4 +721,93 @@ const styles = StyleSheet.create({
     height: "80%",
     borderRadius: 15,
   },
+  centeredView: {
+    justifyContent: "center",
+    // marginTop: 12,
+    // alignItems: "center",
+    // marginTop: 42
+  },
+  blur: {
+    position: "absolute",
+    backgroundColor: "systemGray6",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+},
+  modalView: {
+    margin: 20,
+    marginTop: "20%",
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    height:'70%',
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#0092A0",
+    borderRadius: 2,
+    top: '20%',
+    marginLeft: '-5%',
+    borderRadius: 1,
+    // alignItems: 'center',
+    justifyContent: 'center',
+    height: '10%',
+    width: '100%',
+  },
+  buttonCloseCashout: {
+    backgroundColor: "#0092A0",
+    borderRadius: 2,
+    top: '-0%',
+    marginLeft: '-4%',
+    borderRadius: 1,
+    // alignItems: 'center',
+    justifyContent: 'center',
+    height: '10%',
+    width: '100%',
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  },
+  modalFooterStyle: {
+    alignItems: "center",
+    justifyContent: "flex-end",
+    marginTop: "-10%",
+  },
+  modalFooterVertical: {
+    flexDirection: "column",
+  },
+  modalButtonSeparatorHorizontal: {
+    height: "100%",
+    // backgroundColor: PlatformColor("separator"),
+    width: 2,
+    flexDirection: 'row',
+  },
+  modalButtonSeparatorVertical: {
+      width: "100%",
+      // backgroundColor: PlatformColor("separator"),
+      height: 2,
+  }
 });

@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 9th 2022, 6:12:30 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 17th 2022, 11:05:00 am                              *
- * Modified By: Hari Prasad                                                    *
+ * Last Modified: November 17th 2022, 11:34:47 am                              *
+ * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -61,14 +61,14 @@ import Next from "../components/icons/NextIcon";
 import OTPInput from "../components/otp/OTPInput";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import BackArrow from "../components/icons/BackArrowWhite";
+import { Picker } from "@react-native-picker/picker";
 
 export default function CashOut2({ navigation, route }) {
   const [agentCode, setAgentCode] = useState(0);
   const [amount, setAmount] = useState(0);
   const [description, setDescription] = useState(0);
   const backAction = () => {
-    navigation.navigate("home", {
+    navigation.navigate("cashout", {
       phoneNumber: route.params.phoneNumber,
       pin: route.params.pin,
     });
@@ -76,9 +76,10 @@ export default function CashOut2({ navigation, route }) {
   };
 
   const isAllFieldsEnteredCompletly = () => {
-    if (agentCode !== "" && amount > 0) return true;
-    return false;
-  };
+    if (agentCode !== '' && amount > 0)
+      return(true)
+    return(false)
+  }
 
   React.useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
@@ -93,10 +94,12 @@ export default function CashOut2({ navigation, route }) {
     if (!agentCode) {
       Alert.alert("Please enter a valid Agent code");
       return false;
-    } else if (!amountIsValid) {
+    }
+    else if (!amountIsValid) {
       Alert.alert("Please enter a valid amount");
       return false;
-    } else {
+    } 
+    else {
       navigation.navigate("otp", {
         phoneNumber: route.params.phoneNumber,
         amount: amount,
@@ -119,20 +122,7 @@ export default function CashOut2({ navigation, route }) {
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
               <View style={styles.headerWrap}>
-                <View style={{ flex: 1 }}>
-                  <BackArrow
-                    onPress={() => {
-                      navigation.navigate("home", {
-                        phoneNumber: route.params.phoneNumber,
-                        pin: route.params.pin,
-                      });
-                    }}
-                  />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.pageTitle}>Cash Out</Text>
-                </View>
-                <View style={{ flex: 1 }}></View>
+                <Text style={styles.pageTitle}>Cash Out</Text>
               </View>
               {/* <View style={styles.optionsContainer}>
                 <Image
@@ -148,34 +138,49 @@ export default function CashOut2({ navigation, route }) {
                   transaction where incorrect amount and information is made.
                 </Text>
               </View> */}
-              <TextInput
+              {/* <TextInput
                 style={styles.input}
                 placeholder="Agent short code"
                 // keyboardType="numeric"
                 onChangeText={(txt) => setAgentCode(txt)}
-              />
+              /> */}
+              {/* <Text style={styles.agentCodeSelect}>                  Agent Code</Text>
+              <View style={styles.input}>
+                <Picker
+                  agentCode={agentCode}
+                  style={{ height: 50, width: "100%", marginTop: '-6%'}}
+                  onValueChange={(itemValue, itemIndex) =>
+                    setAgentCode(itemValue)
+                  }
+                >
+                  <Picker.Item label="kbxAgent 1" value="kbxagent1" />
+                  <Picker.Item label="kbxAgent 2" value="kbxagent2" />
+                  <Picker.Item label="kbxAgent 3" value="kbxagent3" />
+                  <Picker.Item label="JavaScript" value="js" />
+               </Picker>
+              </View> */}
+              <Text></Text>
+              <Text style={styles.agentCodeSelect}>            Amount</Text>
               <TextInput
                 style={styles.input}
                 placeholder="Enter Amount"
                 keyboardType="numeric"
                 onChangeText={(amt) => setAmount(amt)}
               />
+              <Text style={styles.agentCodeSelect}>                 Description</Text>
               <TextInput
                 style={styles.input}
-                placeholder="Enter Description"
+                placeholder="Enter details of the transaction "
                 onChangeText={(txt) => setDescription(txt)}
               />
-              <View
-                style={{ opacity: isAllFieldsEnteredCompletly() ? 1 : 0.5 }}
-                pointerEvents={!isAllFieldsEnteredCompletly() ? "none" : "auto"}
-              >
-                <PrimaryButton onPress={validation}>Cash out</PrimaryButton>
+              <View style={{opacity:isAllFieldsEnteredCompletly() ? 1: 0.5}} pointerEvents={!isAllFieldsEnteredCompletly() ? 'none' : 'auto'}>
+                <PrimaryButton onPress={validation}>Cash Out</PrimaryButton>
               </View>
-              <View style={styles.footer}>
-                {/* <Text style={styles.footerFaqText}>
+              {/* <View style={styles.footer}>
+                <Text style={styles.footerFaqText}>
                   How to cash out at agent?
-                </Text> */}
-              </View>
+                </Text>
+              </View> */}
             </View>
           </TouchableWithoutFeedback>
         </ScrollView>
@@ -188,7 +193,23 @@ const styles = StyleSheet.create({
   container1: {
     flex: 1,
     height: "100%",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  },
+  agentCodeSelect: {
+    marginLeft: -200,
+    // color: "#fff",
+    fontSize: 15,
+    fontWeight: "bold",
+  },
+  agentInput : {
+    height: 50,
+    // width: 350,
+    fontSize: 32,
+    borderBottomColor: "grey",
+    borderBottomWidth: 1,
+    color: "#lightgrey",
+    // marginVertical: 8,
+    fontWeight: "normal",
+    margin: 12,
   },
   container: {
     flex: 1,
@@ -216,6 +237,7 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingTop: 10,
     paddingBottom: 10,
+    borderRadius: 3,
   },
   pageTitle: {
     // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
