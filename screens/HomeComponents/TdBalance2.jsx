@@ -163,7 +163,7 @@ function TdBalance({ props, phoneNumber, pin, navigation, route }) {
                 <Text style={[styles.tenorTitle, { flex: 1 }]}>
                   Account ID: {v.accountId}
                 </Text>
-                <Text style={styles.tenorTitle}>Tenor: {v.tenor}</Text>
+                <Text style={styles.tenorTitle}>Tenure: {v.tenor}</Text>
               </View>
               <Text style={styles.balanceAmount}>{v.balance} MMK</Text>
               <View style={styles.addWrap}>
@@ -178,7 +178,7 @@ function TdBalance({ props, phoneNumber, pin, navigation, route }) {
                   style={{ flex: 1 }}
                 >
                   <View style={styles.addMoneyBtn}>
-                    <Text style={styles.addMoneyText}>See transactions</Text>
+                    <Text style={styles.addMoneyText}>Transactions</Text>
                   </View>
                 </Pressable>
                 <Pressable
@@ -187,7 +187,7 @@ function TdBalance({ props, phoneNumber, pin, navigation, route }) {
                   }}
                 >
                   <View style={styles.historyBtn}>
-                    <Text style={styles.historyBtnText}>Close</Text>
+                    <Text style={styles.historyBtnText}>Close deposit</Text>
                   </View>
                 </Pressable>
               </View>
@@ -251,13 +251,16 @@ const styles = StyleSheet.create({
   },
   addMoneyBtn: {
     padding: 8,
-    display: "flex",
-    flexDirection: "row",
+    // display: "flex",
+    // flexDirection: "row",
     backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
+    // justifyContent: "center",
+    // alignItems: "center",
     width: "50%",
     borderRadius: 8,
+    paddingTop: 10,
+    paddingBottom: 10
+    // height: 
   },
   addMoneyText: {
     color: "#0092A0",

@@ -30,8 +30,8 @@
  * Created Date: Thursday, November 10th 2022, 12:17:34 pm                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 17th 2022, 7:04:57 am                               *
- * Modified By: Tamil Elamukil                                                 *
+ * Last Modified: November 17th 2022, 12:05:32 pm                              *
+ * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -137,7 +137,7 @@ export default ({ navigation, route }) => {
             </Text> */}
           </View>
         </View>
-        <EditIcon />
+        {/* <EditIcon /> */}
       </View>
       <TabView
         renderTabBar={renderTabBar}
