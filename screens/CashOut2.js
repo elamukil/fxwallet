@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 6:12:30 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 14th 2022, 4:36:30 pm                               *
+ * Last Modified: November 17th 2022, 11:05:00 am                              *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -61,13 +61,14 @@ import Next from "../components/icons/NextIcon";
 import OTPInput from "../components/otp/OTPInput";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import BackArrow from "../components/icons/BackArrowWhite";
 
 export default function CashOut2({ navigation, route }) {
   const [agentCode, setAgentCode] = useState(0);
   const [amount, setAmount] = useState(0);
   const [description, setDescription] = useState(0);
   const backAction = () => {
-    navigation.navigate("cashout", {
+    navigation.navigate("home", {
       phoneNumber: route.params.phoneNumber,
       pin: route.params.pin,
     });
@@ -75,10 +76,9 @@ export default function CashOut2({ navigation, route }) {
   };
 
   const isAllFieldsEnteredCompletly = () => {
-    if (agentCode !== '' && amount > 0)
-      return(true)
-    return(false)
-  }
+    if (agentCode !== "" && amount > 0) return true;
+    return false;
+  };
 
   React.useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
@@ -93,12 +93,10 @@ export default function CashOut2({ navigation, route }) {
     if (!agentCode) {
       Alert.alert("Please enter a valid Agent code");
       return false;
-    }
-    else if (!amountIsValid) {
+    } else if (!amountIsValid) {
       Alert.alert("Please enter a valid amount");
       return false;
-    } 
-    else {
+    } else {
       navigation.navigate("otp", {
         phoneNumber: route.params.phoneNumber,
         amount: amount,
@@ -121,9 +119,22 @@ export default function CashOut2({ navigation, route }) {
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
               <View style={styles.headerWrap}>
-                <Text style={styles.pageTitle}>Cash Out</Text>
+                <View style={{ flex: 1 }}>
+                  <BackArrow
+                    onPress={() => {
+                      navigation.navigate("home", {
+                        phoneNumber: route.params.phoneNumber,
+                        pin: route.params.pin,
+                      });
+                    }}
+                  />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.pageTitle}>Cash Out</Text>
+                </View>
+                <View style={{ flex: 1 }}></View>
               </View>
-              <View style={styles.optionsContainer}>
+              {/* <View style={styles.optionsContainer}>
                 <Image
                   style={{ width: "100%", height: 200, resizeMode: "contain" }}
                   source={require("../assets/images/illCashOut.png")}
@@ -136,7 +147,7 @@ export default function CashOut2({ navigation, route }) {
                   cash out transaction. You will not get any reversal for the
                   transaction where incorrect amount and information is made.
                 </Text>
-              </View>
+              </View> */}
               <TextInput
                 style={styles.input}
                 placeholder="Agent short code"
@@ -154,13 +165,16 @@ export default function CashOut2({ navigation, route }) {
                 placeholder="Enter Description"
                 onChangeText={(txt) => setDescription(txt)}
               />
-              <View style={{opacity:isAllFieldsEnteredCompletly() ? 1: 0.5}} pointerEvents={!isAllFieldsEnteredCompletly() ? 'none' : 'auto'}>
-                <PrimaryButton onPress={validation}>Transfer</PrimaryButton>
+              <View
+                style={{ opacity: isAllFieldsEnteredCompletly() ? 1 : 0.5 }}
+                pointerEvents={!isAllFieldsEnteredCompletly() ? "none" : "auto"}
+              >
+                <PrimaryButton onPress={validation}>Cash out</PrimaryButton>
               </View>
               <View style={styles.footer}>
-                <Text style={styles.footerFaqText}>
+                {/* <Text style={styles.footerFaqText}>
                   How to cash out at agent?
-                </Text>
+                </Text> */}
               </View>
             </View>
           </TouchableWithoutFeedback>
@@ -174,6 +188,7 @@ const styles = StyleSheet.create({
   container1: {
     flex: 1,
     height: "100%",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   container: {
     flex: 1,

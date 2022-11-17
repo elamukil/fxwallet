@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 9th 2022, 11:52:01 am                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 17th 2022, 7:02:46 am                               *
- * Modified By: Tamil Elamukil                                                 *
+ * Last Modified: November 17th 2022, 7:56:08 am                               *
+ * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -120,7 +120,6 @@ const TransferScreen = ({ navigation, route }) => {
     }, ["transfer"]);
   }
 
-
   function showContactList(){
     axios
       .get(
@@ -142,15 +141,12 @@ const TransferScreen = ({ navigation, route }) => {
       });
   }
 
-
-  
-
   return (
     <KeyboardAwareScrollView>
       <View style={styles.TransferContainer}>
         <View style={styles.fixedScreen}>
           <View style={{ paddingTop: 6, paddingRight: 6 }}>
-            <BackArrow onPress={() => {navigation.navigate('home',{phoneNumber: route.params.phoneNumber})}} />
+            <BackArrow onPress={() => {navigation.navigate('home',{phoneNumber: route.params.phoneNumber, pin: route.params.pin})}} />
           </View>
           <Text style={styles.loginText}>Transfer</Text>
         </View>

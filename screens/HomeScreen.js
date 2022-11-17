@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 10:31:44 am                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 16th 2022, 6:25:15 pm                               *
+ * Last Modified: November 17th 2022, 10:02:44 am                              *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -347,12 +347,12 @@ export default function HomeScreen({ route, navigation }) {
             <View style={styles.serviceIcon}>
               <Send />
             </View>
-            <Text style={styles.serviceName}>Transfers</Text>
+            <Text style={styles.serviceName}>Send money</Text>
           </Pressable>
           <Pressable
             style={styles.service}
             onPress={() =>
-              navigation.navigate("cashin", {
+              navigation.navigate("cashin3", {
                 phoneNumber: route.params.phoneNumber,
                 pin: route.params.pin,
               })
@@ -366,7 +366,7 @@ export default function HomeScreen({ route, navigation }) {
           <Pressable
             style={styles.serviceLast}
             onPress={() =>
-              navigation.navigate("cashout", {
+              navigation.navigate("cashout2", {
                 phoneNumber: route.params.phoneNumber,
                 pin: route.params.pin,
               })

@@ -42,12 +42,15 @@ function PlanDetail({ props, navigation, route, amount }) {
       </View>
       <View style={styles.detailsWrap}>
         <Text style={styles.detailsText}>
+          JIO Diwali Celebration Offer - 75GB data
+        </Text>
+        {/* <Text style={styles.detailsText}>
           JIO Diwali Celebration Offer - 75GB data + Coupons from Reliance
           Digital, AJIO, ixigo, Ferns N Petals,Urban Ladder & Zoomin
-        </Text>
+        </Text> */}
       </View>
       <View style={styles.seeWrap}>
-        <Text style={styles.seeText}>See Details</Text>
+        {/* <Text style={styles.seeText}>See Details</Text> */}
       </View>
     </View>
   );
@@ -55,7 +58,7 @@ function PlanDetail({ props, navigation, route, amount }) {
 
 const styles = StyleSheet.create({
   container: {
-    height: 150,
+    height: 120,
     width: "100%",
     padding: 16,
     borderRadius: 8,
@@ -94,6 +97,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "400",
     color: "#888888",
+    fontWeight: "bold"
   },
   seeWrap: {
     paddingTop: 8,
