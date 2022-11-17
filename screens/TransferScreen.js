@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 11:52:01 am                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 17th 2022, 7:56:08 am                               *
+ * Last Modified: November 17th 2022, 4:38:32 pm                               *
  * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -68,7 +68,7 @@ const TransferScreen = ({ navigation, route }) => {
   const [show, setShow] = useState(false);
 
   let contactPerson = route.params.selectedContact
-
+  let contactName = route.params.selectedName
   console.log(contactPerson)
   // console.log(countryCode)
 
@@ -181,6 +181,7 @@ const TransferScreen = ({ navigation, route }) => {
             <ContactIcon />
           </Pressable>
         </View>
+        <Text style={{color: '#FFCF00', marginTop: 8, marginBottom: -8}}>{contactName}</Text>
         {/* <View style={styles.numberInput}>
           <View style={styles.coutryCode}>
             <Pressable onPress={() => setShow(true)}>
