@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 9th 2022, 10:31:44 am                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 17th 2022, 1:53:46 pm                               *
- * Modified By: Tamil Elamukil                                                 *
+ * Last Modified: November 17th 2022, 3:21:07 pm                               *
+ * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -240,7 +240,7 @@ export default function HomeScreen({ route, navigation }) {
         });
     }
     getTransaction();
-  }, []);
+  }, [balance]);
   const getTransactionDisplComp = () => {
     if (loadSkeleton == true) {
       const cardWidth = "90%";
@@ -417,7 +417,7 @@ export default function HomeScreen({ route, navigation }) {
             </View>
             <Text style={styles.serviceName}>Send money</Text>
           </Pressable>
-          {/* <Pressable
+          <Pressable
             style={styles.service}
             onPress={() =>
               navigation.navigate("cashin3", {
@@ -430,8 +430,8 @@ export default function HomeScreen({ route, navigation }) {
               <CashIn />
             </View>
             <Text style={styles.serviceName}>Cash In</Text>
-          </Pressable> */}
-          <Pressable
+          </Pressable>
+          {/* <Pressable
             style={styles.service}
             onPress={() => { setModalVisible(true), setCashtype("CashIn") }}
           >
@@ -439,8 +439,8 @@ export default function HomeScreen({ route, navigation }) {
               <CashIn />
             </View>
             <Text style={styles.serviceName}>Cash In</Text>
-          </Pressable>
-          {/* <Pressable
+          </Pressable> */}
+          <Pressable
             style={styles.serviceLast}
             onPress={() =>
               navigation.navigate("cashout2", {
@@ -453,8 +453,8 @@ export default function HomeScreen({ route, navigation }) {
               <CashOut />
             </View>
             <Text style={styles.serviceName}>Cash Out</Text>
-          </Pressable> */}
-          <Pressable
+          </Pressable>
+          {/* <Pressable
             style={styles.service}
             onPress={() => { setModalVisible(true), setCashtype("CashOut") }}
           >
@@ -464,10 +464,14 @@ export default function HomeScreen({ route, navigation }) {
             <Text style={styles.serviceName}>Cash Out</Text>
           </Pressable>
         </View>
+      <//View> */}
+      
+      {/* <BottomNavBar /> */}
+      {/* {cashInModal()} */}
+      </View>
+      
       </View>
       {getTransactionDisplComp()}
-      {/* <BottomNavBar /> */}
-      {cashInModal()}
     </View>
   );
 }
@@ -795,8 +799,10 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
-    fontSize: 12,
-    top: -4
+    fontSize: 16,
+    top: -4,
+    marginTop: 2
+    // padding: 8
   },
   modalText: {
     marginBottom: 15,
