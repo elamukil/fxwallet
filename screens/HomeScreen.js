@@ -30,7 +30,7 @@
  * Created Date: Wednesday, November 9th 2022, 10:31:44 am                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 17th 2022, 11:35:54 am                              *
+ * Last Modified: November 17th 2022, 1:53:46 pm                               *
  * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
@@ -90,6 +90,7 @@ export default function HomeScreen({ route, navigation }) {
   const [transaction, setTransaction] = useState([]);
   const [balance, setBalance] = useState(0);
   const [tdBalance, setTd] = useState([]);
+  const [profileUrl, setProfileUrl] = useState("")
 
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -97,60 +98,60 @@ export default function HomeScreen({ route, navigation }) {
   const cashInModal = () => {
     console.log("Open Model type is: ", cashtype);
     if (cashtype == "CashIn") {
-      return(
+      return (
         <View style={styles.centeredView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            // Alert.alert("Modal has been closed.");
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <CashIn3 navigation={navigation} route={route} phoneNumber={route.params.phoneNumber}/>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={styles.textStyle}>Close</Text>
-              </Pressable>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              // Alert.alert("Modal has been closed.");
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <CashIn3 navigation={navigation} route={route} phoneNumber={route.params.phoneNumber} />
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Text style={styles.textStyle}>Close</Text>
+                </Pressable>
+              </View>
             </View>
-          </View>
-        </Modal>
-      </View>
+          </Modal>
+        </View>
       )
     }
     else
-    return(
-      <View style={styles.centeredView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            // Alert.alert("Modal has been closed.");
-            setCashtype("CashIn");
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <CashOut2 navigation={navigation} route={route} phoneNumber={route.params.phoneNumber}/>
-              <Pressable
-                style={[styles.button, styles.buttonCloseCashout]}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={styles.textStyle}>Close</Text>
-              </Pressable>
+      return (
+        <View style={styles.centeredView}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              // Alert.alert("Modal has been closed.");
+              setCashtype("CashIn");
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <CashOut2 navigation={navigation} route={route} phoneNumber={route.params.phoneNumber} />
+                <Pressable
+                  style={[styles.button, styles.buttonCloseCashout]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Text style={styles.textStyle}>Close</Text>
+                </Pressable>
+              </View>
             </View>
-          </View>
-        </Modal>
-      </View>
-    )
+          </Modal>
+        </View>
+      )
   }
-  
+
   if (route.name === "home") {
     const backAction = () => {
       Alert.alert("Hold on!", "Are you sure you want to exit?", [
@@ -229,7 +230,8 @@ export default function HomeScreen({ route, navigation }) {
         .then((response) => {
           setIsLoaded(true);
           setTd(response.data.TDDetails);
-          console.log("tdList", response);
+          setProfileUrl(response.data.data.profileurl)
+          console.log("accountResponse", response.data.data.profileurl);
         })
         .catch((error) => {
           setIsLoaded(true);
@@ -285,6 +287,7 @@ export default function HomeScreen({ route, navigation }) {
         </View>
       );
     }
+
     return (
       <View style={styles.transactionWrap}>
         <View style={styles.transactionHeader}>
@@ -314,11 +317,12 @@ export default function HomeScreen({ route, navigation }) {
       ></ActivityIndicator>
     );
   }
+  console.log("profileUrl", profileUrl)
   return (
     <View style={styles.container}>
       <View style={styles.headerWrap}>
         <View style={styles.profilePicture}>
-          <Profile />
+          <Image style={{ flex: 1, width: 30, borderRadius: 50 }} source={{ uri: profileUrl }}></Image>
         </View>
         <View style={styles.titleWrap}>
           <Kbx />
@@ -393,10 +397,10 @@ export default function HomeScreen({ route, navigation }) {
               })
             }
           >
-              <View style={styles.serviceIcon}>
-                <PayBills />
-              </View>
-              <Text style={styles.serviceName}>Top Up</Text>
+            <View style={styles.serviceIcon}>
+              <PayBills />
+            </View>
+            <Text style={styles.serviceName}>Top Up</Text>
           </Pressable>
           <Pressable
             onPress={() =>
@@ -429,7 +433,7 @@ export default function HomeScreen({ route, navigation }) {
           </Pressable> */}
           <Pressable
             style={styles.service}
-            onPress={() => {setModalVisible(true), setCashtype("CashIn")}}
+            onPress={() => { setModalVisible(true), setCashtype("CashIn") }}
           >
             <View style={styles.serviceIcon}>
               <CashIn />
@@ -452,7 +456,7 @@ export default function HomeScreen({ route, navigation }) {
           </Pressable> */}
           <Pressable
             style={styles.service}
-            onPress={() => {setModalVisible(true), setCashtype("CashOut")}}
+            onPress={() => { setModalVisible(true), setCashtype("CashOut") }}
           >
             <View style={styles.serviceIcon}>
               <CashOut />
@@ -488,7 +492,12 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   profilePicture: {
-    paddingLeft: 8,
+    marginLeft: 8,
+    marginTop: 4,
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
+    borderRadius: 50
   },
   logoText: {
     color: "#60D675",
@@ -734,7 +743,7 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
-},
+  },
   modalView: {
     margin: 20,
     marginTop: "20%",
@@ -750,7 +759,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    height:'70%',
+    height: '70%',
   },
   button: {
     borderRadius: 20,
@@ -806,8 +815,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   modalButtonSeparatorVertical: {
-      width: "100%",
-      // backgroundColor: PlatformColor("separator"),
-      height: 2,
+    width: "100%",
+    // backgroundColor: PlatformColor("separator"),
+    height: 2,
   }
 });

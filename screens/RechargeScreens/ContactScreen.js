@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 16th 2022, 4:51:09 pm                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 17th 2022, 10:20:27 am                              *
- * Modified By: Hari Prasad                                                    *
+ * Last Modified: November 17th 2022, 2:13:35 pm                               *
+ * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -54,6 +54,7 @@ import {
   Image,
   Dimensions,
   BackHandler,
+  ImageBackground
 } from "react-native";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import BackArrow from "../../components/icons/BackArrow";
@@ -96,9 +97,15 @@ const ContactScreen = ({ navigation, route }) => {
               >
                 <View style={styles.transactionItemLeft}>
                   <View style={styles.transactionItemProfile}>
-                    <Image
-                      source={require("../../assets/images/profile.png")}
-                    ></Image>
+                    {value.profileurl?<Image style={styles.image}
+                      source={{uri:value.profileurl}}
+                    ></Image>:<Image style={styles.image} source={require('../../assets/images/user.png')}/>}
+                    
+                    {/* <ImageBackground style={styles.imgBackground}
+                      source={value.profileurl}
+                      resizeMode='cover'
+                    ></ImageBackground> */}
+                    {/* <Image source={require('../../assets/images/profile.png')}/> */}
                   </View>
                   <View style={styles.namePhoneNumberContainer}>
                     <Text style={styles.transactionItemName} key={index}>
@@ -136,6 +143,8 @@ const styles = StyleSheet.create({
   transactionItemProfile: {
     marginRight: 10,
     padding: 8,
+    height: 40,
+    width: 40
   },
   namePhoneNumberContainer: {
     marginTop: 5.3,
@@ -168,7 +177,20 @@ const styles = StyleSheet.create({
   headerWrap: {
     width: width,
     // backgroundColor:"red"
-  }
+  },
+  imgBackground: {
+    width: '100%',
+    height: '100%',
+    flex: 1 
+},
+image: {
+  flex: 1,
+  width: 25,
+  height: 30,
+  resizeMode: 'contain',
+  borderRadius: 50
+}
+
 });
 
 export default ContactScreen;
