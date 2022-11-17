@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 9th 2022, 11:52:01 am                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 16th 2022, 8:32:10 pm                               *
- * Modified By: Hari Prasad                                                    *
+ * Last Modified: November 17th 2022, 7:02:46 am                               *
+ * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -51,12 +51,14 @@ import {
   BackHandler,
   Alert,
   Pressable,
+  NativeAppEventEmitter,
 } from "react-native";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { CountryPicker } from "react-native-country-codes-picker";
 import BackArrow from "../components/icons/BackArrow";
 import ContactIcon from "../components/icons/ContactIcon"
+import axios from 'axios'
 
 const TransferScreen = ({ navigation, route }) => {
   const [amount, setAmount] = useState(0);
@@ -65,16 +67,23 @@ const TransferScreen = ({ navigation, route }) => {
   const [countryCode, setCountryCode] = useState(route.params.countryCode);
   const [show, setShow] = useState(false);
 
+  let contactPerson = route.params.selectedContact
+
+  console.log(contactPerson)
+  // console.log(countryCode)
+
   const amountIsValid = !isNaN(amount) && amount > 0;
   const descriptionIsValid = description.trim().length > 0;
   const toPhoneNumberIsValid = toPhoneNumber.length == 10;
+
+
   const isAllFieldsEnteredCompletly = () => {
-    if (amount > 0 && toPhoneNumber.length >= 10 && toPhoneNumber.length <= 12)
+    if ((amount > 0 && toPhoneNumber.length >= 10 && toPhoneNumber.length <= 12)|| (contactPerson && amount > 0))
       return true;
     return false;
   };
   const validation = () => {
-    if (!toPhoneNumberIsValid) {
+    if (!toPhoneNumberIsValid && !contactPerson) {
       Alert.alert("Please enter a valid phone number");
       return false;
     } else if (!amountIsValid) {
@@ -85,6 +94,7 @@ const TransferScreen = ({ navigation, route }) => {
         phoneNumber: route.params.phoneNumber,
         amount: amount,
         toPhoneNumber: toPhoneNumber,
+        contactPerson: contactPerson,
         description: description,
         onPage: route.name,
         countryCode: route.params.countryCode,
@@ -110,12 +120,37 @@ const TransferScreen = ({ navigation, route }) => {
     }, ["transfer"]);
   }
 
+
+  function showContactList(){
+    axios
+      .get(
+        "https://4iehnbxhnk.execute-api.ap-southeast-1.amazonaws.com/dev/api/v1/accounts"
+      )
+      .then((res) => {
+          console.log(res.data.data)
+          navigation.navigate('contacts',{contacts: res.data.data, phoneNumber: route.params.phoneNumber})
+      })
+      .catch((err) => {
+        // console.log("erro response", err.response.data);
+        // console.log("verifyRequest", verifyRequest);
+        Alert.alert('Uh oh!, We cannot process your request at this time', "Try again", [
+          {
+            text: "Try again",
+          },
+
+        ]);
+      });
+  }
+
+
+  
+
   return (
     <KeyboardAwareScrollView>
       <View style={styles.TransferContainer}>
         <View style={styles.fixedScreen}>
           <View style={{ paddingTop: 6, paddingRight: 6 }}>
-            <BackArrow onPress={() => navigation.goBack(null)} />
+            <BackArrow onPress={() => {navigation.navigate('home',{phoneNumber: route.params.phoneNumber})}} />
           </View>
           <Text style={styles.loginText}>Transfer</Text>
         </View>
@@ -133,10 +168,22 @@ const TransferScreen = ({ navigation, route }) => {
             keyboardType="number-pad"
             placeholder="Enter Mobile Number"
             placeholderTextColor="#79868F"
-            onChangeText={(newText) => setToPhoneNumber(newText)}
+            onChangeText={(phno) => setToPhoneNumber(phno)}
+            // onKeyPress={({ nativeEvent }) => {
+            //   if (nativeEvent.key == "Backspace") {
+            //     contactPerson.length-1
+            //   }
+            // }}
             style={styles.loginTextInput}
+            value={contactPerson}
           />
-          <ContactIcon />
+          <Pressable style={({ pressed }) => [
+              { opacity: pressed ? 0.5 : 1.0 }
+              ]} onPress={() => {
+                showContactList();
+              }}>
+            <ContactIcon />
+          </Pressable>
         </View>
         {/* <View style={styles.numberInput}>
           <View style={styles.coutryCode}>

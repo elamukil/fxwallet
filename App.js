@@ -30,8 +30,8 @@
  * Created Date: Thursday, November 3rd 2022, 12:51:23 pm                      *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----
- * Last Modified: November 16th 2022, 6:16:51 pm                               *
- * Modified By: Hari Prasad                                                    *
+ * Last Modified: November 16th 2022, 11:50:46 pm                              *
+ * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -62,6 +62,7 @@ import TermDeposit from "./screens/TermDeposit";
 import TdBalance from "./screens/HomeComponents/TdBalance";
 import TermDepositTransactions from "./screens/TermDepositTransactions";
 import Refresh from "./screens/Refresh";
+import ContactScreen from "./screens/RechargeScreens/ContactScreen";
 
 const stack = createNativeStackNavigator();
 
@@ -146,6 +147,11 @@ export default function App() {
           <stack.Screen
             name="refresh"
             component={Refresh}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen
+            name="contacts"
+            component={ContactScreen}
             options={{ headerShown: false }}
           />
         </stack.Navigator>

@@ -30,8 +30,8 @@
  * Created Date: Thursday, November 10th 2022, 12:17:34 pm                     *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 16th 2022, 5:58:47 pm                               *
- * Modified By: Hari Prasad                                                    *
+ * Last Modified: November 17th 2022, 7:04:57 am                               *
+ * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -121,7 +121,7 @@ export default ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.headers}>
-        <BackArrow onPress={() => navigation.goBack(null)} />
+        <BackArrow onPress={() => {navigation.navigate('home',{phoneNumber: route.params.phoneNumber})}} />
         <View>
           <Text style={styles.headerTitle}>Recharge</Text>
         </View>

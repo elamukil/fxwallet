@@ -76,13 +76,13 @@ function TransactionItem({ props }) {
         <View>
           <Text style={styles.transactionItemName}>
             {props.transactionDescription.length > 15
-              ? props.transactionDescription.slice(0, 15) + "..."
+              ? props.transactionDescription.slice(0, 16) + "..."
               : props.transactionDescription}
           </Text>
           <Text style={styles.transactionItemId}>
             ID:{" "}
             {props.transactionId.length > 20
-              ? props.transactionId.slice(0, 20) + "..."
+              ? props.transactionId.slice(0, 6)
               : props.transactionId}
           </Text>
         </View>

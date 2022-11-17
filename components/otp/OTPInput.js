@@ -30,8 +30,8 @@
  * Created Date: Sunday, November 6th 2022, 1:21:41 am                         *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 15th 2022, 12:00:40 pm                              *
- * Modified By: Hari Prasad                                                    *
+ * Last Modified: November 17th 2022, 7:10:21 am                               *
+ * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -53,7 +53,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import PrimaryButton from "../../components/ui/PrimaryButton";
-import HomeScreen from "../../screens/HomeScreen";
+import BackArrow from '../../components/icons/BackArrow'
 import axios from "axios";
 
 const OTPInput = ({ route, navigation }) => {
@@ -108,9 +108,8 @@ const OTPInput = ({ route, navigation }) => {
   //     }
   // }
   const backAction = () => {
-    const routes = navigation.getState()?.routes;
-    const prevRoute = routes[routes.length - 2];
-    console.log(prevRoute);
+    
+    // console.log(prevRoute);
     if (previousRoute === "transfer") {
       clearInput1();
       clearInput2();
@@ -180,6 +179,55 @@ const OTPInput = ({ route, navigation }) => {
   //       onFocusHandler();
   // }, []);
 
+  function goBackFromArrow(){
+    
+    if (previousRoute === "transfer") {
+      clearInput1();
+      clearInput2();
+      clearInput3();
+      clearInput4();
+      navigation.navigate('transfer',{ phoneNumber: route.params.phoneNumber,
+        pin: pinNumber});
+    } else if (previousRoute === "recharge") {
+      clearInput1();
+      clearInput2();
+      clearInput3();
+      clearInput4();
+      navigation.navigate("recharge", {
+        phoneNumber: route.params.phoneNumber,
+        pin: pinNumber,
+        countryCode: route.params.countryCode,
+      });
+    } else if (previousRoute === "termdeposit") {
+      clearInput1();
+      clearInput2();
+      clearInput3();
+      clearInput4();
+      navigation.navigate("termdeposit", {
+        phoneNumber: route.params.phoneNumber,
+        pin: pinNumber,
+        countryCode: route.params.countryCode,
+      });
+    } else if (previousRoute === "cashout2") {
+      clearInput1();
+      clearInput2();
+      clearInput3();
+      clearInput4();
+      navigation.navigate("cashout2", {
+        phoneNumber: route.params.phoneNumber,
+        pin: pinNumber,
+        countryCode: route.params.countryCode,
+      });
+    } else {
+      console.log("loginotp");
+      navigation.navigate("login", {
+        phoneNumber: route.params.phoneNumber,
+        pin: pinNumber,
+        countryCode: route.params.countryCode,
+      });
+    }
+  }
+
   async function login() {
     console.log("Hi");
     let verifyRequest = {
@@ -190,6 +238,12 @@ const OTPInput = ({ route, navigation }) => {
     console.log(route.params.pin);
 
     if (route.params.onPage === "transfer") {
+      let requestedPhoneNumber = 0
+      if(route.params.toPhoneNumber){
+        requestedPhoneNumber = route.params.toPhoneNumber
+      }else if(route.params.contactPerson){
+        requestedPhoneNumber = route.params.contactPerson
+      }
       let verifyRequest = {
         requestType: "TRANSFER",
         fromAccounts: [
@@ -200,7 +254,7 @@ const OTPInput = ({ route, navigation }) => {
         ],
         toAccounts: [
           {
-            phoneNumber: route.params.toPhoneNumber,
+            phoneNumber: requestedPhoneNumber,
             amount: Number(route.params.amount),
           },
         ],
@@ -508,6 +562,9 @@ const OTPInput = ({ route, navigation }) => {
   return (
     <View>
       <View style={styles.otpContainer}>
+      <View style={{ paddingTop: 6, paddingRight: 10, paddingLeft: 10}}>
+            <BackArrow onPress={goBackFromArrow} />
+          </View>
         <Text style={styles.otpText}>PIN</Text>
         <Text style={{ color: "white", padding: 5, marginLeft: 10 }}>
           Enter your 4 digit PIN<Text style={{ color: "green" }}></Text>
