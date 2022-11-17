@@ -116,7 +116,7 @@ export default function HomeScreen({ route, navigation }) {
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}
                 >
-                  <Text style={styles.textStyle}>Close</Text>
+                  <Text style={styles.textStyle}>X</Text>
                 </Pressable>
               </View>
             </View>
@@ -143,7 +143,7 @@ export default function HomeScreen({ route, navigation }) {
                   style={[styles.button, styles.buttonCloseCashout]}
                   onPress={() => setModalVisible(!modalVisible)}
                 >
-                  <Text style={styles.textStyle}>Close</Text>
+                  <Text style={styles.textStyle}>X</Text>
                 </Pressable>
               </View>
             </View>
@@ -759,7 +759,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    height: '70%',
+    height: '62%',
   },
   button: {
     borderRadius: 20,
@@ -772,29 +772,31 @@ const styles = StyleSheet.create({
   buttonClose: {
     backgroundColor: "#0092A0",
     borderRadius: 2,
-    top: '20%',
-    marginLeft: '-5%',
-    borderRadius: 1,
+    top: '-94%',
+    marginRight: '-90%',
+    borderRadius: 25,
     // alignItems: 'center',
     justifyContent: 'center',
-    height: '10%',
-    width: '100%',
+    height: '12%',
+    width: '14%',
   },
   buttonCloseCashout: {
     backgroundColor: "#0092A0",
     borderRadius: 2,
-    top: '-0%',
-    marginLeft: '-4%',
-    borderRadius: 1,
+    top: '-94%',
+    marginRight: '-90%',
+    borderRadius: 20,
     // alignItems: 'center',
     justifyContent: 'center',
-    height: '10%',
-    width: '100%',
+    height: '12%',
+    width: '14%',
   },
   textStyle: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
+    fontSize: 12,
+    top: -4
   },
   modalText: {
     marginBottom: 15,
