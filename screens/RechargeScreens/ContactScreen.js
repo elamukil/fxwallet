@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 16th 2022, 4:51:09 pm                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 17th 2022, 3:42:16 pm                               *
- * Modified By: Tamil Elamukil                                                 *
+ * Last Modified: November 17th 2022, 4:15:23 pm                               *
+ * Modified By: Hari Prasad
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -86,39 +86,37 @@ const ContactScreen = ({ navigation, route }) => {
       </View>
       <ScrollView overScrollMode="never" persistentScrollbar={true}>
         {route.params.contacts.map((value, index) => {
-          return (
-              <Pressable style={styles.headerWrap} key={index}
-                onPress={() => {
-                  navigation.navigate("transfer", {
-                    selectedContact: value.pk,
-                    selectedName: value.accountHolderName,
-                    phoneNumber: route.params.phoneNumber,
-                  });
-                }}
-              >
-                <View style={styles.transactionItemLeft}>
-                  <View style={styles.transactionItemProfile}>
-                    {value.profileurl?<Image style={styles.image}
-                      source={{uri:value.profileurl}}
-                    ></Image>:<Image style={styles.image} source={require('../../assets/images/user.png')}/>}
-                    
-                    {/* <ImageBackground style={styles.imgBackground}
-                      source={value.profileurl}
-                      resizeMode='cover'
-                    ></ImageBackground> */}
-                    {/* <Image source={require('../../assets/images/profile.png')}/> */}
-                  </View>
-                  <View style={styles.namePhoneNumberContainer}>
-                    <Text style={styles.transactionItemName} key={index}>
-                      {value.accountHolderName}
-                    </Text>
-                    <Text style={styles.transactionItemId} key={value.pk}>
-                      {value.pk}
-                    </Text>
-                  </View>
-                </View>
-              </Pressable>
-          );
+          let render = <Pressable style={styles.headerWrap} key={index}
+          onPress={() => {
+            navigation.navigate("transfer", {
+              selectedContact: value.pk,
+              phoneNumber: route.params.phoneNumber,
+            });
+          }}
+        >
+          <View style={styles.transactionItemLeft}>
+            <View style={styles.transactionItemProfile}>
+              {value.profileurl?<Image style={styles.image}
+                source={{uri:value.profileurl}}
+              ></Image>:<Image style={styles.image} source={require('../../assets/images/user.png')}/>}
+              
+              {/* <ImageBackground style={styles.imgBackgroud}
+                source={value.profileurl}
+                resizeMode='cover'
+              ></ImageBackground> */}
+              {/* <Image source={require('../../assets/images/profile.png')}/> */}
+            </View>
+            <View style={styles.namePhoneNumberContainer}>
+              <Text style={styles.transactionItemName} key={index}>
+                {value.accountHolderName}
+              </Text>
+              <Text style={styles.transactionItemId} key={value.pk}>
+                {value.pk}
+              </Text>
+            </View>
+          </View>
+        </Pressable>
+          return (route.params.phoneNumber === value.pk) ? "" : render
         })}
       </ScrollView>
     </View>

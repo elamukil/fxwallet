@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 9th 2022, 6:12:30 pm                      *
  * Author: Hari Prasad <hari@kbxdigital.com>                                   *
  * -----                                                                       *
- * Last Modified: November 17th 2022, 11:34:47 am                              *
- * Modified By: Tamil Elamukil                                                 *
+ * Last Modified: November 17th 2022, 3:54:07 pm                               *
+ * Modified By: Hari Prasad                                                    *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -61,14 +61,14 @@ import Next from "../components/icons/NextIcon";
 import OTPInput from "../components/otp/OTPInput";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Picker } from "@react-native-picker/picker";
+import BackArrow from "../components/icons/BackArrowWhite";
 
 export default function CashOut2({ navigation, route }) {
-  const [agentCode, setAgentCode] = useState(0);
+  const [agentCode, setAgentCode] = useState("kbxAgent");
   const [amount, setAmount] = useState(0);
   const [description, setDescription] = useState(0);
   const backAction = () => {
-    navigation.navigate("cashout", {
+    navigation.navigate("home", {
       phoneNumber: route.params.phoneNumber,
       pin: route.params.pin,
     });
@@ -76,10 +76,9 @@ export default function CashOut2({ navigation, route }) {
   };
 
   const isAllFieldsEnteredCompletly = () => {
-    if (agentCode !== '' && amount > 0)
-      return(true)
-    return(false)
-  }
+    if (agentCode !== "" && amount > 0) return true;
+    return false;
+  };
 
   React.useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
@@ -94,12 +93,10 @@ export default function CashOut2({ navigation, route }) {
     if (!agentCode) {
       Alert.alert("Please enter a valid Agent code");
       return false;
-    }
-    else if (!amountIsValid) {
+    } else if (!amountIsValid) {
       Alert.alert("Please enter a valid amount");
       return false;
-    } 
-    else {
+    } else {
       navigation.navigate("otp", {
         phoneNumber: route.params.phoneNumber,
         amount: amount,
@@ -122,23 +119,42 @@ export default function CashOut2({ navigation, route }) {
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
               <View style={styles.headerWrap}>
-                <Text style={styles.pageTitle}>Cash Out</Text>
+                <View style={{ padding: 8, flex: 1 }}>
+                  <BackArrow
+                    onPress={() => {
+                      navigation.navigate("home", {
+                        phoneNumber: route.params.phoneNumber,
+                        pin: route.params.pin,
+                      });
+                    }}
+                  />
+                </View>
+                <View style={{ flex: 1, paddingTop: 6 }}>
+                  <Text style={styles.pageTitle}>Cash Out</Text>
+                </View>
+                <View style={{ flex: 1 }}></View>
               </View>
-              {/* <Text></Text> */}
-              <Text style={styles.agentCodeSelect}>            Amount</Text>
+              <View style={{width: "100%", padding:8, marginLeft: 20, marginTop: 8}}>
+              <Text style={styles.agentCodeSelect}>Amount</Text>
+              </View>
               <TextInput
                 style={styles.input}
                 placeholder="Enter Amount"
                 keyboardType="numeric"
                 onChangeText={(amt) => setAmount(amt)}
               />
-              <Text style={styles.agentCodeSelect}>                 Description</Text>
+              <View style={{width: "100%", padding:8, marginLeft: 20, marginTop: 8}}>
+              <Text style={styles.agentCodeSelect}>Description</Text>
+              </View>
               <TextInput
                 style={styles.input}
-                placeholder="Enter details of the transaction "
+                placeholder="Enter Description"
                 onChangeText={(txt) => setDescription(txt)}
               />
-              <View style={{opacity:isAllFieldsEnteredCompletly() ? 1: 0.5}} pointerEvents={!isAllFieldsEnteredCompletly() ? 'none' : 'auto'}>
+              <View
+                style={{ opacity: isAllFieldsEnteredCompletly() ? 1 : 0.5 }}
+                pointerEvents={!isAllFieldsEnteredCompletly() ? "none" : "auto"}
+              >
                 <PrimaryButton onPress={validation}>Cash Out</PrimaryButton>
               </View>
               {/* <View style={styles.footer}>
@@ -158,23 +174,7 @@ const styles = StyleSheet.create({
   container1: {
     flex: 1,
     height: "100%",
-  },
-  agentCodeSelect: {
-    marginLeft: -200,
-    // color: "#fff",
-    fontSize: 15,
-    fontWeight: "bold",
-  },
-  agentInput : {
-    height: 50,
-    // width: 350,
-    fontSize: 32,
-    borderBottomColor: "grey",
-    borderBottomWidth: 1,
-    color: "#lightgrey",
-    // marginVertical: 8,
-    fontWeight: "normal",
-    margin: 12,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   container: {
     flex: 1,
@@ -182,7 +182,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     height: "150%",
-    top: '-7%',
     // padding: 16,
   },
   input: {
@@ -198,17 +197,16 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    backgroundColor: "white",
+    backgroundColor: "#0092A0",
     width: "100%",
     padding: 16,
     paddingTop: 10,
     paddingBottom: 10,
-    borderRadius: 3,
   },
   pageTitle: {
     // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    fontcolor: "Black",
-    fontSize: 26,
+    color: "#fff",
+    fontSize: 20,
     fontWeight: "bold",
   },
   optionsContainer: {

@@ -67,12 +67,14 @@ function TransactionItem({ props }) {
   };
   const fromAndTo = () => {
     if (props.optionalFields.hasOwnProperty("transactionDetails")) {
-      let response = (props.transactionType === "CREDIT") ? props.optionalFields.transactionDetails.DEBIT : props.optionalFields.transactionDetails.CREDIT
-      let splitted = response.split(" ")
-      splitted.splice(1, 0, ":")
-      splitted.join(" . ")
-      console.log("splitted", splitted)
-      return splitted.join(" ")
+      if(props.optionalFields.transactionDetails.hasOwnProperty("DEBIT")) {
+        let response = (props.transactionType === "CREDIT") ? props.optionalFields.transactionDetails.DEBIT : props.optionalFields.transactionDetails.CREDIT
+        let splitted = response.split(" ")
+        splitted.splice(1, 0, ":")
+        console.log("splitted", splitted)
+        return splitted.join(" ")
+      }
+      return props.transactionDescription
     }
     else {
       return props.transactionDescription
@@ -88,8 +90,8 @@ function TransactionItem({ props }) {
         </View>
         <View>
           <Text style={styles.transactionItemName}>
-            {fromAndTo().length > 15
-              ? fromAndTo().slice(0, 16) + "..."
+            {fromAndTo().length > 30
+              ? fromAndTo().slice(0, 30) + "..."
               : fromAndTo()}
             {/* {props.transactionDescription.length > 15
               ? props.transactionDescription.slice(0, 16) + "..."
