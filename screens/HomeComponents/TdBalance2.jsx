@@ -255,8 +255,8 @@ const styles = StyleSheet.create({
     // flexDirection: "row",
     backgroundColor: "#fff",
     // justifyContent: "center",
-    // alignItems: "center",
-    width: "50%",
+    alignItems: "center",
+    width: "auto",
     borderRadius: 8,
     paddingTop: 10,
     paddingBottom: 10
