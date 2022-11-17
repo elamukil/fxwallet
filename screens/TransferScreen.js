@@ -30,8 +30,8 @@
  * Created Date: Wednesday, November 9th 2022, 11:52:01 am                     *
  * Author: Tamil Elamukil <tamil@kbxdigital.com>                               *
  * -----                                                                       *
- * Last Modified: November 17th 2022, 7:56:08 am                               *
- * Modified By: Hari Prasad                                                    *
+ * Last Modified: November 17th 2022, 3:37:16 pm                               *
+ * Modified By: Tamil Elamukil                                                 *
  * -----                                                                       *
  * Any app that can be written in JavaScript,                                  *
  *     will eventually be written in JavaScript !!                             *
@@ -68,8 +68,9 @@ const TransferScreen = ({ navigation, route }) => {
   const [show, setShow] = useState(false);
 
   let contactPerson = route.params.selectedContact
+  let contactName = route.params.selectedName
 
-  console.log(contactPerson)
+  console.log('contact Name',contactName)
   // console.log(countryCode)
 
   const amountIsValid = !isNaN(amount) && amount > 0;
@@ -181,6 +182,7 @@ const TransferScreen = ({ navigation, route }) => {
             <ContactIcon />
           </Pressable>
         </View>
+        <Text style={{color: '#FFCF00', marginTop: 8, marginBottom: -8}}>{contactName}</Text>
         {/* <View style={styles.numberInput}>
           <View style={styles.coutryCode}>
             <Pressable onPress={() => setShow(true)}>
